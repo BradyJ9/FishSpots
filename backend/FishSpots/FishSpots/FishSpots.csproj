@@ -6,7 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+	    <Exec Command="
+			  cd ../../../database
+			  bash init-dev-db.sh
+			  " />
+    </Target>
+
+	<ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
   </ItemGroup>
 
