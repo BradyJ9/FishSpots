@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Map, LatLng, marker, LayerGroup, layerGroup, popup } from 'leaflet';
-import { PopupService } from './popup.service';
+import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, popup, Popup } from 'leaflet';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +8,13 @@ export class MarkerService {
 
   constructor() {
     this.currMarker = layerGroup();
-    this.popupService = new PopupService();
   }
 
   private currMarker: LayerGroup;
-  private popupService: PopupService;
 
   public addMarker(map: Map, latlng: LatLng): void {
     const m = marker([latlng.lat, latlng.lng]);
-    this.popupService.addPopupToMarker(m);
+    this.addPopupToMarker(m);
     this.clearCurrMarker();
     this.currMarker.addLayer(m);
 
@@ -26,5 +23,11 @@ export class MarkerService {
 
   private clearCurrMarker(): void {
     this.currMarker.clearLayers();
+  }
+
+  private addPopupToMarker(m:Marker): void {
+    m.bindPopup("<button class=\"add-button\">Add</>").on('add', function () {
+      m.openPopup();
+    });
   }
 }
