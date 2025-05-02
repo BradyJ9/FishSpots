@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-body {
-    height: 100%;
-}
-
-html {
-    height: 100%;
+body { 
+    /* I added this so the body will actually take up the whole screen, 
+        but it's unnecessary atm.*/
+    min-height: 100vh;
 }

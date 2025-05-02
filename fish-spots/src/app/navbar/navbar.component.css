@@ -1,0 +1,22 @@
+.navbar {
+    padding: 0;
+}
+
+.homepage-nav {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    padding-left:20px;
+}
+
+.navbar-brand {
+    font-size: x-large;
+}
+
+.navbar-logo {
+    width: 50px;
+    margin-right: 15px;
+    object-fit: cover;
+}
