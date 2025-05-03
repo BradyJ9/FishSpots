@@ -1,3 +1,5 @@
+using FishSpots.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Dependency Injection
-
+builder.Services.AddSingleton<DatabaseFactory>();
 
 var app = builder.Build();
 
