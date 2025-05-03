@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, popup, Popup } from 'leaflet';
+
+// declare global {
+//   interface Window {
+//      goToAddPage: (data: any) => void;
+//   }
+// }
 
 @Injectable({
   providedIn: 'root'
 })
-export class MarkerService {
 
-  constructor() {
+export class MarkerService {
+  constructor(private router: Router) {
     this.currMarker = layerGroup();
   }
 
@@ -26,8 +33,20 @@ export class MarkerService {
   }
 
   private addPopupToMarker(m:Marker): void {
-    m.bindPopup("<button class=\"add-button\">Add</>").on('add', function () {
+    this.attachOnClickGlobalFunction();
+    
+    const latlng = m.getLatLng();
+    m.bindPopup(`<button class="add-button" onclick="window.goToAddPage({ lat: ${latlng.lat}, lng: ${latlng.lng} })">Add</>`)
+    .on('add', function () {
       m.openPopup();
     });
+  }
+
+  private attachOnClickGlobalFunction(): void {
+      // Leaflet doesn't have access to the Angular component contexts
+      // so we have to attach to global 'window' scope
+      (window as any).goToAddPage = (data: any) => {
+        this.router.navigate(['/add'], { queryParams: { lat: data.lat, lng: data.lng } });
+      };
   }
 }
