@@ -1,4 +1,6 @@
 using FishSpots.Infrastructure;
+using FishSpots.Logic.LocationLogic;
+using FishSpots.Repository.LocationRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddSwaggerGen();
 
 //Dependency Injection
 builder.Services.AddSingleton<DatabaseFactory>();
+
+builder.Services.AddScoped<ILocationLogic, LocationLogic>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 
 var app = builder.Build();
 

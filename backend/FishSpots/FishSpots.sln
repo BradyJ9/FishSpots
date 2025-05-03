@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishSpots", "FishSpots\FishSpots.csproj", "{3D7EAEE1-377F-4A54-A253-31DB636C0FFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishSpots.Logic", "FishSpots.Logic\FishSpots.Logic.csproj", "{BE6B0BBB-B58F-496D-923E-6F6C113ABD9D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{752E310C-7325-434A-A097-AB93D0C803CB} = {752E310C-7325-434A-A097-AB93D0C803CB}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishSpots.Repository", "FishSpots.Repository\FishSpots.Repository.csproj", "{0B00B4E0-2744-47FE-968D-3544DDD2F97C}"
 EndProject

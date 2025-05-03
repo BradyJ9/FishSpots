@@ -10,4 +10,9 @@
     <PackageReference Include="Dapper" Version="2.1.66" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FishSpots.Domain\FishSpots.Domain.csproj" />
+    <ProjectReference Include="..\FishSpots.Infrastructure\FishSpots.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

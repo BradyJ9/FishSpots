@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FishSpots.Domain\FishSpots.Domain.csproj" />
+    <ProjectReference Include="..\FishSpots.Repository\FishSpots.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

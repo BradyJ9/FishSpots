@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,10 +7,7 @@
   </PropertyGroup>
 
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-	    <Exec Command="
-			  cd ../../../database
-			  bash init-dev-db.sh
-			  " />
+	    <Exec Command="&#xD;&#xA;			  cd ../../../database&#xD;&#xA;			  bash init-dev-db.sh&#xD;&#xA;			  " />
     </Target>
 
 	<ItemGroup>
@@ -19,6 +16,8 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\FishSpots.Infrastructure\FishSpots.Infrastructure.csproj" />
+	  <ProjectReference Include="..\FishSpots.Logic\FishSpots.Logic.csproj" />
+	  <ProjectReference Include="..\FishSpots.Repository\FishSpots.Repository.csproj" />
 	</ItemGroup>
 
 </Project>

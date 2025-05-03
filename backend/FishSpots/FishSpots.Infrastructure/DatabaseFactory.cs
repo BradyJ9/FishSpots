@@ -22,7 +22,9 @@ namespace FishSpots.Infrastructure
             if (_hostEnvironment.IsDevelopment() || _hostEnvironment.IsEnvironment("Debug"))
             {
                 var connString = _configuration.GetConnectionString("PostgresqlConnection");
-                return new NpgsqlConnection(connString);
+                var conn = new NpgsqlConnection(connString);
+                conn.Open();
+                return conn;
             }
 
             throw new InvalidOperationException("Error identifying dev environment");
