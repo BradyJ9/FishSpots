@@ -14,5 +14,20 @@ namespace FishSpots.Repository.LocationRepository
 
             return (await connection.QueryAsync<Location>(sql)).ToList();
         }
+
+        public async Task<Location> GetLocationByIdAsync(int locationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> InsertLocationAsync(Location location)
+        {
+            using var connection = databaseFactory.CreateDbConnection();
+
+            var sql = "INSERT INTO Location (LocationName, Lat, Long)" +
+                "VALUES (@LocationName, @Lat, @Long)";
+
+            return await connection.ExecuteAsync(sql, location);
+        }
     }
 }
