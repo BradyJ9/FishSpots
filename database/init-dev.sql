@@ -27,4 +27,13 @@ CREATE TABLE IF NOT EXISTS Catch (
 	CatchWeight NUMERIC(5,2),
 	CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+DELETE FROM Location;
+DELETE FROM Outing;
+DELETE FROM Catch;
+
+INSERT INTO Location (LocationName, Lat, Long)
+VALUES ('Trial Lake', '40.6830051', '-110.9545998'),
+('Lake Powell','36.9333','-111.4833'),
+('Bear Lake','40.8461246','-110.3990331');
