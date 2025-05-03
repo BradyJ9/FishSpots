@@ -2,12 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, popup, Popup } from 'leaflet';
 
-// declare global {
-//   interface Window {
-//      goToAddPage: (data: any) => void;
-//   }
-// }
-
 @Injectable({
   providedIn: 'root'
 })
