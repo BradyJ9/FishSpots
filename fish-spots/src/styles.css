@@ -1,8 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+<<<<<<< HEAD
+body { 
+    /* I added this so the body will actually take up the whole screen, 
+        but it's unnecessary atm.*/
+    min-height: 100vh;
+=======
 body {
     height: 100%;
 }
 
 html {
     height: 100%;
+>>>>>>> ff5dd1528a9c831aa9fde1d2b9f976eae29597e9
 }
