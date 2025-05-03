@@ -21,7 +21,6 @@ export class AddLocationPageComponent {
     this.route.queryParams.subscribe(params => {
       this.newLat = params["lat"];
       this.newLng = params["lng"];
-      console.log('Coords: ' + this.newLat + ' ' + this.newLng);
     });
   }
 
