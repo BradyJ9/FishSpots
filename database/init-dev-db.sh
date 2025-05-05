@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Database credentials
-DB_NAME="FishSpots"
+DB_NAME="fishspots"
 DB_USER="postgres"
 DB_PWD="fishspots"
 DB_HOST=localhost
