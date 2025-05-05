@@ -6,8 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-	    <Exec Command="&#xD;&#xA;			  cd ../../../database&#xD;&#xA;			  bash init-dev-db.sh&#xD;&#xA;			  " />
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">"<Exec Command="&#xD;&#xA;			  cd ../../../database&#xD;&#xA;			  bash init-dev-db.sh&#xD;&#xA;			  " />
     </Target>
 
 	<ItemGroup>
