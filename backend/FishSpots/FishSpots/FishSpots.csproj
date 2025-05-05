@@ -10,7 +10,7 @@
 		<Exec Command="&quot;C:\Program Files\Git\bin\sh.exe&quot; init-dev-db.sh" WorkingDirectory="$(ProjectDir)..\..\..\database" />
 	</Target>
 
-	<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
   </ItemGroup>
 

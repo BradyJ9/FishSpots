@@ -1,10 +1,23 @@
+DROP TABLE IF EXISTS Catch;
+DROP TABLE IF EXISTS Outing;
+DROP TABLE IF EXISTS LocationImages;
+DROP TABLE IF EXISTS Location;
+
 CREATE TABLE IF NOT EXISTS Location (
 	LocationID SERIAL PRIMARY KEY,
 	LocationName VARCHAR(255) NOT NULL,
+	LocationDescription VARCHAR(1000),
 	Lat VARCHAR(50) NOT NULL,
 	Long VARCHAR(50) NOT NULL,
 	CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS LocationImages (
+	ImageID SERIAL PRIMARY KEY,
+	LocationID INT NOT NULL,
+	FOREIGN KEY (LocationID) REFERENCES Location (LocationID),
+	StoragePath VARCHAR(1024) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Outing (
@@ -33,7 +46,7 @@ DELETE FROM Location;
 DELETE FROM Outing;
 DELETE FROM Catch;
 
-INSERT INTO Location (LocationName, Lat, Long)
-VALUES ('Trial Lake', '40.6830051', '-110.9545998'),
-('Lake Powell','36.9333','-111.4833'),
-('Bear Lake','40.8461246','-110.3990331');
+INSERT INTO Location (LocationName, Lat, Long, LocationDescription)
+VALUES ('Trial Lake', '40.6830051', '-110.9545998', 'Lovely Uinta Mountain Lake'),
+('Lake Powell','36.9333','-111.4833','Gets real warm down here'),
+('Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here');
