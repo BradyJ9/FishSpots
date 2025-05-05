@@ -6,10 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">"<Exec Command="&#xD;&#xA;			  cd ../../../database&#xD;&#xA;			  bash init-dev-db.sh&#xD;&#xA;			  " />
-    </Target>
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+		<Exec Command="&#xD;&#xA;			  cd ../../../database&#xD;&#xA;			  bash init-dev-db.sh&#xD;&#xA;" />
+	</Target>
 
-	<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
   </ItemGroup>
 
