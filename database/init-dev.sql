@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS CatchImages (
 	CatchID INT NOT NULL,
 	FOREIGN KEY (CatchID) REFERENCES Catch (CatchID),
 	StoragePath VARCHAR(1024) NOT NULL
-)
+);
 
 DELETE FROM Location;
 DELETE FROM Outing;
