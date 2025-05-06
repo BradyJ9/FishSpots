@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
 using FishSpots.Repository.LocationRepository;
 
@@ -23,6 +24,26 @@ namespace FishSpots.Logic.LocationLogic
             if (success != 1)
             {
                 throw new Exception("Error: row not inserted");
+            }
+        }
+
+        public async Task DeleteLocationByIdAsync(int locationId)
+        {
+            int success = await locationRepository.DeleteLocationByIdAsync(locationId);
+
+            if (success != 1)
+            {
+                throw new ResourceNotFoundException($"Location with id {locationId} not found");
+            }
+        }
+
+        public async Task UpdateLocationByIdAsync(Location location, int locationId)
+        {
+            int success = await locationRepository.UpdateLocationByIdAsync(location, locationId);
+
+            if (success != 1)
+            {
+                throw new ResourceNotFoundException($"Location with id {locationId} not found");
             }
         }
     }
