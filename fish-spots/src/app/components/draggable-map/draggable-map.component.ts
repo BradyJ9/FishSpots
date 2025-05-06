@@ -29,9 +29,11 @@ export class DraggableMapComponent implements AfterViewInit {
 
   constructor(private markerService: MarkerService) { }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
     this.initMap();
-    this.map.on('click', this.onMapClick)
+    this.map.on('click', this.onMapClick);
+
+    await this.markerService.plotAllLocations(this.map); //WATCH ASYNCS
   }
 
   private onMapClick = (e: L.LeafletMouseEvent): void => {

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DraggableMapComponent } from "./components/draggable-map/draggable-map.component";
 import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({

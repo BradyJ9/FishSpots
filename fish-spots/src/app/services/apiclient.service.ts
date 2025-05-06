@@ -11,7 +11,7 @@ export class ApiClientService {
     private baseUrl = environment.apiUrl;
 
     constructor(private httpClient: HttpClient) {
-
+        
     }
 
     get<T>(endpoint: string): Observable<T> {
