@@ -33,7 +33,7 @@ export class DraggableMapComponent implements AfterViewInit {
     this.initMap();
     this.map.on('click', this.onMapClick);
 
-    await this.markerService.plotAllLocations(this.map); //WATCH ASYNCS
+    await this.markerService.plotAllLocations(this.map);
   }
 
   private onMapClick = (e: L.LeafletMouseEvent): void => {
