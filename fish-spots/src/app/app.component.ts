@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DraggableMapComponent } from "./draggable-map/draggable-map.component";
-import { NavbarComponent } from './navbar/navbar.component';
+import { DraggableMapComponent } from "./components/draggable-map/draggable-map.component";
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',

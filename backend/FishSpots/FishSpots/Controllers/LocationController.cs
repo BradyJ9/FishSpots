@@ -1,3 +1,4 @@
+using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
 using FishSpots.Logic.LocationLogic;
 using Microsoft.AspNetCore.Mvc;
@@ -5,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FishSpots.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LocationController(ILocationLogic locationLogic, ILogger<LocationController> logger) : ControllerBase
     {
 
@@ -16,7 +17,7 @@ namespace FishSpots.Controllers
             {
                 var locations = await locationLogic.GetAllLocationsAsync();
 
-                return Ok(new { 
+                return Ok(new {
                     locations
                 });
             }
@@ -37,7 +38,42 @@ namespace FishSpots.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError("Error in InsertLocation: ${}", ex.Message);
+                logger.LogError("Error in InsertLocation: ${msg}", ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(Name = "Location/{locationId}")]
+        public async Task<IActionResult> UpdateLocationById(Location location, int locationId)
+        {
+            try
+            {
+                await locationLogic.UpdateLocationByIdAsync(location, locationId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error in UpdateLocationById: ${msg}", ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete(Name = "Location/{locationId}")]
+        public async Task<IActionResult> DeleteLocationById(int locationId)
+        {
+            try
+            {
+                await locationLogic.DeleteLocationByIdAsync(locationId);
+                return Ok();
+            }
+            catch (ResourceNotFoundException ex)
+            {
+                logger.LogError("Error in DeleteLocationById: ${msg}", ex.Message);
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error in InsertLocation: ${msg}", ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }
