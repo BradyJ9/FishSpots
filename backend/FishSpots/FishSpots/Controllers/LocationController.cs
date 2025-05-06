@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FishSpots.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LocationController(ILocationLogic locationLogic, ILogger<LocationController> logger) : ControllerBase
     {
 
