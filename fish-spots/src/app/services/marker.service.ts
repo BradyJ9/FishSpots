@@ -4,7 +4,6 @@ import { Map, LatLng, marker, Marker, LayerGroup, layerGroup } from 'leaflet';
 import { IDaoFactory } from '../dao/IDaoFactory';
 import { DaoFactory } from '../dao/DaoFactory';
 import { ApiClientService } from './apiclient.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

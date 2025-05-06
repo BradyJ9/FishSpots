@@ -33,6 +33,7 @@ export class DraggableMapComponent implements AfterViewInit {
     this.initMap();
     this.map.on('click', this.onMapClick);
 
+    //TODO: This works on refresh, but using the back button skips this step; markers do not appear.
     await this.markerService.plotAllLocations(this.map);
   }
 
