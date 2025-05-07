@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Map, LatLng, marker, Marker, LayerGroup, layerGroup } from 'leaflet';
-import { IDaoFactory } from '../dao/IDaoFactory';
-import { DaoFactory } from '../dao/DaoFactory';
 import { ApiClientService } from './apiclient.service';
+import { Observable, map as rxjsMap} from 'rxjs';
+import { LocationDto } from '../../../model/dto/LocationDto';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class MarkerService {
-  private daoFactory:IDaoFactory = new DaoFactory();
   constructor(
     private router: Router, 
     private apiClient: ApiClientService) {
@@ -30,8 +29,17 @@ export class MarkerService {
     this.currMarker.addTo(map);
   }
 
-  public async plotAllLocations(map:Map):Promise<void> {
-    this.daoFactory.createLocationDao(this.apiClient).getLocations().subscribe(locations => {
+  public clearAllMarkers(): void {
+    this.currMarker.clearLayers();
+    this.locationMarkers.clearLayers();
+  }
+
+  public plotAllLocations(map:Map):void {
+    this.locationMarkers.clearLayers();
+    let locationsObs:Observable<LocationDto[]> = this.apiClient.get<{ locations: LocationDto[] }>("Location").pipe(
+      rxjsMap(response => response.locations)  // Extract 'locations' array from nested reponse
+    );
+    locationsObs.subscribe(locations => {
       locations.forEach(location => {
         const locLatLng:LatLng = new LatLng(Number(location.lat),Number(location.long));
         const m = marker([locLatLng.lat,locLatLng.lng]);
@@ -69,7 +77,6 @@ export class MarkerService {
         <button class="location-button">${locName}</button>
       <div/>
       `
-      
     );
   }
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { MarkerService } from '../../services/marker.service';
 
@@ -23,18 +23,25 @@ L.Marker.prototype.options.icon = iconDefault;
   templateUrl: './draggable-map.component.html',
   styleUrls: ['./draggable-map.component.css']
 })
-export class DraggableMapComponent implements AfterViewInit {
+export class DraggableMapComponent implements OnInit, OnDestroy {
 
   private map!: L.Map;
 
   constructor(private markerService: MarkerService) { }
 
-  async ngAfterViewInit(): Promise<void> {
+  ngOnInit(): void {
     this.initMap();
     this.map.on('click', this.onMapClick);
+    this.markerService.plotAllLocations(this.map);  
+  }
 
-    //TODO: This works on refresh, but using the back button skips this step; markers do not appear.
-    await this.markerService.plotAllLocations(this.map);
+  ngOnDestroy(): void {
+    if (this.map) {
+      this.map.off(); // remove all event listeners
+      this.map.remove(); // remove the map from DOM and memory
+    }
+  
+    this.markerService.clearAllMarkers(); // Optional cleanup in the service
   }
 
   private onMapClick = (e: L.LeafletMouseEvent): void => {
