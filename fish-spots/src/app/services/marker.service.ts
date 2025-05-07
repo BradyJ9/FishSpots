@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Map, LatLng, marker, Marker, LayerGroup, layerGroup } from 'leaflet';
 import { ApiClientService } from './apiclient.service';
 import { Observable, map as rxjsMap} from 'rxjs';
-import { LocationDto } from '../../../model/dto/LocationDto';
+import { LocationDto } from '../../model/dto/LocationDto';
 
 @Injectable({
   providedIn: 'root'
