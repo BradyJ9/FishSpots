@@ -4,3 +4,20 @@ body {
         but it's unnecessary atm.*/
     min-height: 100vh;
 }
+
+/* Ensures all popups are centered bc idk where else to put this css*/
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+    img {
+        display:block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        height: auto;
+    }
+
+    button {
+        display:block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
