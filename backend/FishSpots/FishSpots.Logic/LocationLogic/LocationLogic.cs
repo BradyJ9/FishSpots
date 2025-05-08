@@ -14,7 +14,9 @@ namespace FishSpots.Logic.LocationLogic
 
         public async Task<Location> GetLocationByIdAsync(int locationId)
         {
-            throw new NotImplementedException();
+            var location = await locationRepository.GetLocationByIdAsync(locationId);
+            return location == null ? 
+                throw new Exception("Error: location with id " + locationId + " not found.") : location;
         }
 
         public async Task InsertLocationAsync(Location location)
@@ -23,7 +25,7 @@ namespace FishSpots.Logic.LocationLogic
 
             if (success != 1)
             {
-                throw new Exception("Error: row not inserted");
+                throw new ResourceNotFoundException("Error: row not inserted");
             }
         }
 
