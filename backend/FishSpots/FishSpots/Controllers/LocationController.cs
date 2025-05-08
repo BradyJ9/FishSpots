@@ -40,6 +40,11 @@ namespace FishSpots.Controllers
                     location
                 });
             }
+            catch (ResourceNotFoundException ex)
+            {
+                logger.LogError("Error in GetLocationById: ${msg}", ex.Message);
+                return StatusCode(404, ex.Message);
+            }
             catch (Exception ex)
             {
                 logger.LogError("Error in GetLocationsById: ${msg}", ex.Message);
@@ -92,7 +97,7 @@ namespace FishSpots.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError("Error in InsertLocation: ${msg}", ex.Message);
+                logger.LogError("Error in DeleteLocation: ${msg}", ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }
