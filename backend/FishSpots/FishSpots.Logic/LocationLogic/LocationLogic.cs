@@ -14,7 +14,7 @@ namespace FishSpots.Logic.LocationLogic
 
         public async Task<Location> GetLocationByIdAsync(int locationId)
         {
-            throw new NotImplementedException();
+            return await locationRepository.GetLocationByIdAsync(locationId);
         }
 
         public async Task InsertLocationAsync(Location location)

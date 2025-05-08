@@ -28,6 +28,25 @@ namespace FishSpots.Controllers
             }
         }
 
+        [HttpGet("{locationId}",Name = "GetLocationById")]
+        public async Task<IActionResult> GetLocationById(int locationId)
+        {
+            try
+            {
+                Location location = await locationLogic.GetLocationByIdAsync(locationId);
+
+                return Ok(new
+                {
+                    location
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error in GetLocationsById: ${msg}", ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(Name = "Location")]
         public async Task<IActionResult> InsertLocation(Location location)
         {

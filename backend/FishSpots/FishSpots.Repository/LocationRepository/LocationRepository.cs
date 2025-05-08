@@ -17,7 +17,11 @@ namespace FishSpots.Repository.LocationRepository
 
         public async Task<Location> GetLocationByIdAsync(int locationId)
         {
-            throw new NotImplementedException();
+            using var connection = databaseFactory.CreateDbConnection();
+
+            var sql = "SELECT * FROM Location WHERE LocationID = @ locationId;";
+
+            return (await connection.QueryAsync<Location>(sql)).ToList()[0];
         }
 
         public async Task<int> InsertLocationAsync(Location location)
