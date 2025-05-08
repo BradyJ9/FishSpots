@@ -11,11 +11,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
-    provideHttpClient(),
-    {
-      provide: LocationDao,
-      useFactory: DaoFactory,
-      deps: [ApiClientService] // dependencies injected into the factory
-    }
+    provideHttpClient()
   ]
 };
