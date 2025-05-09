@@ -1,0 +1,40 @@
+<button 
+  class="btn btn-primary position-fixed top-0 end-0 m-3 toggle-button"
+  (click)="toggleSidebar()">
+  ☰
+</button>
+
+<div 
+  class="sidebar bg-light position-fixed top-0 end-0 h-100 border-start shadow"
+  [ngClass]="{'translate-end': !isSidebarOpen, 'translate-none': isSidebarOpen}"
+>
+  <div class="sidebar-container p-3">
+    <h1>Hot Catches</h1>
+    <div class="sidebar-content overflow-scroll-y">
+      <div class="row d-flex justify-content-center g-2">
+        <div class="card col-5" *ngFor="let catch of catches">
+          <div class="card-upper">
+            <h3>{{catch.species}}</h3>
+            <div class="catch-measurements">
+              <div>Length: {{catch.catchLength}}
+                Weight: {{catch.catchWeight}}
+              </div>
+            </div>
+          </div>
+          <img [src]="'../../../assets/bigahhtrout.jpg'" class="img-fluid rounded" alt="Image" />
+          <div class="likes">
+            <!--TODO: add onclick animation to like button-->
+            <img class='like-button' src="../../../assets/hearticon.png" 
+              onmouseover="this.style.cursor='pointer'"/>
+            <div class="likes-count">{{catch.likes}} likes</div>
+          </div>
+          <div class="catch-description scroll-shadows">
+            <p>THIS IS A DESCRIPTION. THIS IS A REALLY LONG DESCRIPTION. IT KEEPS GOING AND GOING AND GOING</p>
+          </div>
+            <div class="spacer"></div> <!-- Pushes everything below down -->
+          <div class="catch-date">{{getFormattedDate(catch.createdAt)}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
