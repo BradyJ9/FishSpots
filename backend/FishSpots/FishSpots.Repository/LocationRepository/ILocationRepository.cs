@@ -6,7 +6,7 @@ namespace FishSpots.Repository.LocationRepository
     {
         Task<int> DeleteLocationByIdAsync(int locationId);
         Task<List<Location>> GetAllLocationsAsync();
-        Task<Location> GetLocationByIdAsync(int locationId);
+        Task<Location?> GetLocationByIdAsync(int locationId);
         Task<int> UpdateLocationByIdAsync(Location location, int locationId);
         Task<int> InsertLocationAsync(Location location);
     }
