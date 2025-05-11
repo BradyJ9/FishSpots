@@ -43,7 +43,7 @@ export class MarkerService {
       locations.forEach(location => {
         const locLatLng:LatLng = new LatLng(Number(location.lat),Number(location.long));
         const m = marker([locLatLng.lat,locLatLng.lng]);
-        this.addLocationPopup(m,location.locationName);
+        this.addLocationPopup(m,location);
         this.locationMarkers.addLayer(m);
       });
       this.locationMarkers.addTo(map);
@@ -54,9 +54,7 @@ export class MarkerService {
     this.currMarker.clearLayers();
   }
 
-  private addButtonPopup(m:Marker): void {
-    this.attachOnClickGlobalFunction();
-    
+  private addButtonPopup(m:Marker): void {    
     const latlng = m.getLatLng();
     m.bindPopup(`<button class="add-button" onclick="window.goToAddPage({ lat: ${latlng.lat}, lng: ${latlng.lng} })">Add</>`)
     .on('add', function () {
@@ -64,27 +62,37 @@ export class MarkerService {
     });
   }
 
-  private addLocationPopup(m: Marker,locName:string) {
+  private addLocationPopup(m: Marker, location:LocationDto) {
     //TODO: Add onClick behavior
 
+
     const latlng = m.getLatLng();
-    m.bindPopup(
-      //TODO: Replace placeholder location.png image with locationImage
-      `
+    m.bindPopup(`
       <div class="location-preview">
-        <img src="../assets/location.png"/ width=40px>
-        <div><div/>
-        <button class="location-button">${locName}</button>
-      <div/>
-      `
-    );
+        <img src="../assets/location.png" width="40px" />
+        <div>
+          <button class="location-button" onclick='window.goToLocationPage(${JSON.stringify(location)})'>
+          ${location.locationName}
+          </button>
+        </div>
+      </div>
+    `);
+    
   }
 
-  private attachOnClickGlobalFunction(): void {
+  public attachOnClickGlobalFunction(): void {
+    console.log("attaching globals");
       // Leaflet doesn't have access to the Angular component contexts
       // so we have to attach to global 'window' scope
       (window as any).goToAddPage = (data: any) => {
         this.router.navigate(['/add'], { queryParams: { lat: data.lat, lng: data.lng } });
       };
+
+      (window as any).goToLocationPage = (location: any) => {
+        this.router.navigate(['/location', location.locationId], { state: location});
+      };
+
+      console.log("attaching globals end");
+
   }
 }
