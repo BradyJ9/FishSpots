@@ -13,7 +13,7 @@ import { map, Observable } from 'rxjs';
 })
 export class SidebarComponent {
   constructor(private apiClient:ApiClientService){}
-  isSidebarOpen = true;
+  isSidebarOpen = false;
 
   //TODO: Retrieve catches data from backend & SORT BY RECENT
   public getCatches():Observable<CatchDto[]>{
