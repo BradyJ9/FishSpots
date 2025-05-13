@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using FishSpots.Domain.Models;
 using FishSpots.Infrastructure;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FishSpots.Repository.OutingRepository
 {
@@ -54,7 +53,6 @@ namespace FishSpots.Repository.OutingRepository
             using var connection = databaseFactory.CreateDbConnection();
 
             var sql = "SELECT * FROM Outing WHERE LocationID = @LocationId;";
-            //return (await connection.QueryAsync<Outing>(sql)).ToList()
             return (await connection.QueryAsync<Outing>(sql, new
             {
                 LocationId = locationId
