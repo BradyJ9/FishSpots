@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Map, LatLng, marker, Marker, LayerGroup, layerGroup } from 'leaflet';
+import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOptions } from 'leaflet';
 import { ApiClientService } from './apiclient.service';
 import { Observable, map as rxjsMap} from 'rxjs';
 import { LocationDto } from '../../model/dto/LocationDto';
@@ -35,14 +35,28 @@ export class MarkerService {
   }
 
   public plotAllLocations(map:Map):void {
+    const iconExisting = new Icon({
+      iconUrl: '../assets/marker-colors/marker-icon-2x-red.png',
+      shadowUrl: 'assets/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
+    });
+    const options:MarkerOptions = {
+      icon:iconExisting
+    }
+
     this.locationMarkers.clearLayers();
     let locationsObs:Observable<LocationDto[]> = this.apiClient.get<{ locations: LocationDto[] }>("Location").pipe(
       rxjsMap(response => response.locations)  // Extract 'locations' array from nested reponse
     );
     locationsObs.subscribe(locations => {
+      
       locations.forEach(location => {
         const locLatLng:LatLng = new LatLng(Number(location.lat),Number(location.long));
-        const m = marker([locLatLng.lat,locLatLng.lng]);
+        const m = marker([locLatLng.lat,locLatLng.lng],options);
         this.addLocationPopup(m,location.locationName);
         this.locationMarkers.addLayer(m);
       });
