@@ -1,6 +1,8 @@
 using FishSpots.Infrastructure;
+using FishSpots.Logic.CatchLogic;
 using FishSpots.Logic.LocationLogic;
 using FishSpots.Logic.OutingLogic;
+using FishSpots.Repository.CatchRepository;
 using FishSpots.Repository.LocationRepository;
 using FishSpots.Repository.OutingRepository;
 
@@ -24,9 +26,10 @@ builder.Services.AddSingleton<DatabaseFactory>();
 
 builder.Services.AddScoped<ILocationLogic, LocationLogic>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
-
 builder.Services.AddScoped<IOutingLogic, OutingLogic>();
 builder.Services.AddScoped<IOutingRepository, OutingRepository>();
+builder.Services.AddScoped<ICatchLogic, CatchLogic>();
+builder.Services.AddScoped<ICatchRepository, CatchRepository>();
 
 var app = builder.Build();
 
