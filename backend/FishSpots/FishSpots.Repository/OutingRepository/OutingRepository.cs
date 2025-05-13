@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FishSpots.Domain.Models;
 using FishSpots.Infrastructure;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FishSpots.Repository.OutingRepository
 {
@@ -36,14 +37,28 @@ namespace FishSpots.Repository.OutingRepository
             });
         }
 
-        public async Task<List<Outing>> GetOutingsByDateAsync(DateTime date)
+        public async Task<List<Outing>?> GetOutingsByDateAsync(DateTime date)
         {
-            throw new NotImplementedException();
+            using var connection = databaseFactory.CreateDbConnection();
+
+            var sql = "SELECT * FROM Outing WHERE OutingDate = @OutingDate;";
+
+            return (await connection.QueryAsync<Outing>(sql, new
+            {
+                OutingDate = date
+            })).ToList();
         }
 
-        public async Task<List<Outing>> GetOutingsByLocationAsync(int locationId)
+        public async Task<List<Outing>?> GetOutingsByLocationAsync(int locationId)
         {
-            throw new NotImplementedException();
+            using var connection = databaseFactory.CreateDbConnection();
+
+            var sql = "SELECT * FROM Outing WHERE LocationID = @LocationId;";
+            //return (await connection.QueryAsync<Outing>(sql)).ToList()
+            return (await connection.QueryAsync<Outing>(sql, new
+            {
+                LocationId = locationId
+            })).ToList();
         }
 
         public async Task<int> InsertOutingAsync(Outing outing)

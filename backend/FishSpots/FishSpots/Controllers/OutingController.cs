@@ -101,5 +101,53 @@ namespace FishSpots.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("/date/{date}", Name = "GetOutingsByDate")]
+        public async Task<IActionResult> GetOutingsByDate(DateTime date)
+        {
+            try
+            {
+                List<Outing> outings = await outingLogic.GetOutingsByDateAsync(date);
+
+                return Ok(new
+                {
+                    outings
+                });
+            }
+            catch (ResourceNotFoundException ex)
+            {
+                logger.LogError("Error in GetOutingsByDate: ${msg}", ex.Message);
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error in GetOutingsByDate: ${msg}", ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("/location/{locationId}", Name = "GetOutingsByLocation")]
+        public async Task<IActionResult> GetOutingsByLocation(int locationId)
+        {
+            try
+            {
+                List<Outing> outings = await outingLogic.GetOutingsByLocationAsync(locationId);
+
+                return Ok(new
+                {
+                    outings
+                });
+            }
+            catch (ResourceNotFoundException ex)
+            {
+                logger.LogError("Error in GetOutingsByLocation: ${msg}", ex.Message);
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error in GetOutingsByLocation: ${msg}", ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

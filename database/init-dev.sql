@@ -59,11 +59,11 @@ DELETE FROM LocationImages;
 DELETE FROM Location;
 
 -- Reset sequences (optional in dev)
-ALTER SEQUENCE location_locationid_seq RESTART WITH 1;
-ALTER SEQUENCE outing_outingid_seq RESTART WITH 1;
-ALTER SEQUENCE catch_catchid_seq RESTART WITH 1;
-ALTER SEQUENCE locationimages_imageid_seq RESTART WITH 1;
-ALTER SEQUENCE catchimages_imageid_seq RESTART WITH 1;
+-- ALTER SEQUENCE location_locationid_seq RESTART WITH 1;
+-- ALTER SEQUENCE outing_outingid_seq RESTART WITH 1;
+-- ALTER SEQUENCE catch_catchid_seq RESTART WITH 1;
+-- ALTER SEQUENCE locationimages_imageid_seq RESTART WITH 1;
+-- ALTER SEQUENCE catchimages_imageid_seq RESTART WITH 1;
 
 -- Insert Locations and capture their IDs
 WITH inserted_locations AS (
@@ -85,8 +85,8 @@ inserted_outings AS (
         d.EndTime
     FROM inserted_locations l
     JOIN (VALUES
-        ('Trial Lake', '2024-07-10', '06:00:00', '10:00:00'),
-        ('Lake Powell', '2024-08-15', '07:30:00', '11:30:00')
+        ('Trial Lake', CAST('2024-07-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Lake Powell', CAST('2024-08-15' AS DATE), CAST('07:30:00' AS TIME), CAST('11:30:00' AS TIME))
     ) AS d(LocationName, OutingDate, StartTime, EndTime)
     ON l.LocationName = d.LocationName
     RETURNING OutingId, LocationId, OutingDate
@@ -105,4 +105,4 @@ JOIN (VALUES
     ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00),
     ('2024-08-15', 'Channel Catfish', 25.75, 4.10)
 ) AS c(OutingDate, Species, CatchLength, CatchWeight)
-ON o.OutingDate = c.OutingDate;
+ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE);
