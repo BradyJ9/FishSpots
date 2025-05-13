@@ -1,2 +1,13 @@
-<p>add-location-page works!</p>
-<p>New Location at {{ newLat }}, {{ newLng }}</p>
+<h1>Add Location</h1>
+
+<form class = "add-location-info" #locationForm="ngForm">
+  <label for="locName">Location name:</label><br>
+  <input type="text" id="locName" name="locName" required [(ngModel)]="locName"><br>
+
+  <label for="locDesc">Location description:</label><br>
+  <input type="text" id="locDesc" name="locDesc" required [(ngModel)]="locDesc">
+</form>
+
+<button (click)="addLocation()" [disabled]="!locName || !locDesc">
+  Add Location
+</button>

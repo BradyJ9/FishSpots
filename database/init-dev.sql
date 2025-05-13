@@ -57,7 +57,22 @@ DELETE FROM Catch;
 DELETE FROM LocationImages;
 DELETE FROM CatchImages;
 
-INSERT INTO Location (LocationName, Lat, Long, LocationDescription)
-VALUES ('Trial Lake', '40.6830051', '-110.9545998', 'Lovely Uinta Mountain Lake'),
-('Lake Powell','36.9333','-111.4833','Gets real warm down here'),
-('Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here');
+-- Insert dummy data into location with explicit IDs
+INSERT INTO Location (LocationId, LocationName, Lat, Long, LocationDescription)
+VALUES
+(1,'Trial Lake', '40.6830051', '-110.9545998', 'Lovely Uinta Mountain Lake'),
+(2,'Lake Powell','36.9333','-111.4833','Gets real warm down here'),
+(3,'Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here');
+
+-- Insert dummy data into outing, referencing valid location IDs
+INSERT INTO Outing (OutingId, LocationId, OutingDate, StartTime, EndTime)
+VALUES
+(1, 1, '2024-07-10', '06:00:00', '10:00:00'),
+(2, 2, '2024-08-15', '07:30:00', '11:30:00');
+
+-- Insert dummy data into catch, referencing valid outing IDs
+INSERT INTO Catch (CatchId, OutingId, Species, CatchLength, CatchWeight)
+VALUES
+(1, 1, 'Rainbow Trout', 18.50, 2.30),
+(2, 1, 'Smallmouth Bass', 16.00, 2.00),
+(3, 2, 'Channel Catfish', 25.75, 4.10);

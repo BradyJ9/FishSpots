@@ -31,8 +31,8 @@ namespace FishSpots.Repository.LocationRepository
         {
             using var connection = databaseFactory.CreateDbConnection();
 
-            var sql = "INSERT INTO Location (LocationName, Lat, Long)" +
-                "VALUES (@LocationName, @Lat, @Long)";
+            var sql = "INSERT INTO Location (LocationName, Lat, Long, LocationDescription)" +
+                "VALUES (@LocationName, @Lat, @Long, @LocationDescription)";
 
             return await connection.ExecuteAsync(sql, location);
         }
