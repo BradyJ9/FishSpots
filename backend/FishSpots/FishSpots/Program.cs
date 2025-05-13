@@ -1,6 +1,8 @@
 using FishSpots.Infrastructure;
 using FishSpots.Logic.LocationLogic;
+using FishSpots.Logic.OutingLogic;
 using FishSpots.Repository.LocationRepository;
+using FishSpots.Repository.OutingRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,9 @@ builder.Services.AddSingleton<DatabaseFactory>();
 
 builder.Services.AddScoped<ILocationLogic, LocationLogic>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+
+builder.Services.AddScoped<IOutingLogic, OutingLogic>();
+builder.Services.AddScoped<IOutingRepository, OutingRepository>();
 
 var app = builder.Build();
 
