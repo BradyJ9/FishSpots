@@ -93,16 +93,17 @@ inserted_outings AS (
 )
 
 -- Insert Catch records and reference inserted OutingIds
-INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight)
+INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, Likes)
 SELECT
     o.OutingId,
     c.Species,
     c.CatchLength,
-    c.CatchWeight
+    c.CatchWeight,
+    c.Likes
 FROM inserted_outings o
 JOIN (VALUES
-    ('2024-07-10', 'Rainbow Trout', 18.50, 2.30),
-    ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00),
-    ('2024-08-15', 'Channel Catfish', 25.75, 4.10)
-) AS c(OutingDate, Species, CatchLength, CatchWeight)
+    ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2),
+    ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23),
+    ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000)
+) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes)
 ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE);
