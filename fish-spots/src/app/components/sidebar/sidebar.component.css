@@ -15,6 +15,26 @@ h1 {
   color:white;
 }
 
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  display:flex;
+  flex-direction: column;
+  flex: 0 1 calc(50% - 20px);
+  box-sizing: border-box;
+  /* Admittedly, I got no idea how this is gonna scale yet */
+  height: 100%;
+  max-height:500px;
+  min-height:350px;
+  padding:10px;
+  background-color: #C5D86D;
+}
+
 img {
   #your-img {
     height: auto; 
@@ -49,27 +69,13 @@ img {
   z-index: 1050; /* Higher than sidebar */
 }
 
-.card {
-  display:flex;
-  flex-direction: column;
-  /* Admittedly, I got no idea how this is gonna scale yet */
-  height: 100%;
-  max-height:500px;
-  min-height:350px;
-  margin: 10px;
-  padding:10px;
-  background-color: #C5D86D;
+.species-name {
+  text-align: center;
 }
 
-.card-upper {
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
+.catch-measurements {
+  text-align: center;
   margin-bottom:5px;
-
-  .catch-measurements {
-    text-align: right;
-  }
 }
 
 .likes {

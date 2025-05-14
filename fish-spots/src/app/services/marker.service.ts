@@ -53,7 +53,6 @@ export class MarkerService {
       rxjsMap(response => response.locations)  // Extract 'locations' array from nested reponse
     );
     locationsObs.subscribe(locations => {
-      
       locations.forEach(location => {
         const locLatLng:LatLng = new LatLng(Number(location.lat),Number(location.long));
         const m = marker([locLatLng.lat,locLatLng.lng],options);
