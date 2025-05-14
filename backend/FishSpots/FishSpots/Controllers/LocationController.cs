@@ -97,7 +97,7 @@ namespace FishSpots.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError("Error in DeleteLocation: ${msg}", ex.Message);
+                logger.LogError("Error in DeleteLocationById: ${msg}", ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }
