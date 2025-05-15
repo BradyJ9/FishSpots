@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiClientService } from '../../services/apiclient.service';
 import { FormsModule } from '@angular/forms';
-import { MiniMapComponent } from './mini-map.component';
+import { MiniMapComponent } from '../../components/minimap/mini-map.component';
 
 @Component({
   selector: 'app-add-location-page',
