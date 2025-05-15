@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOptions, Popup, popup } from 'leaflet';
-import { ApiClientService } from './apiclient.service';
-import { Observable, map as rxjsMap} from 'rxjs';
+import { Observable } from 'rxjs';
 import { LocationDto } from '../../model/dto/LocationDto';
+import { LocationService } from './location.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { LocationDto } from '../../model/dto/LocationDto';
 export class MarkerService {
   constructor(
     private router: Router, 
-    private apiClient: ApiClientService) {
+    private locationService: LocationService) {
     this.currMarker = layerGroup();
     this.locationMarkers = layerGroup();
   }
@@ -58,9 +58,7 @@ export class MarkerService {
     }
 
     this.locationMarkers.clearLayers();
-    let locationsObs:Observable<LocationDto[]> = this.apiClient.get<{ locations: LocationDto[] }>("Location").pipe(
-      rxjsMap(response => response.locations)  // Extract 'locations' array from nested reponse
-    );
+    let locationsObs:Observable<LocationDto[]> = this.locationService.getAllLocations();
     locationsObs.subscribe(locations => {
       locations.forEach(location => {
         const locLatLng:LatLng = new LatLng(Number(location.lat),Number(location.long));

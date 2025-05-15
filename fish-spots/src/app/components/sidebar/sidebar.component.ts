@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ApiClientService } from '../../services/apiclient.service';
 import { CatchDto } from '../../../model/dto/CatchDto';
-import { OutingDto } from '../../../model/dto/OutingDto';
 import { map, Observable } from 'rxjs';
+import { CatchService } from '../../services/catch.service';
 
 @Component({
   selector: 'sidebar',
@@ -20,10 +19,11 @@ export class SidebarComponent implements OnInit {
       { id:2, url: '../../../assets/location.png'}
   ];
 
-  constructor(private apiClient:ApiClientService){}
+  constructor(private catchService:CatchService){}
 
+  //TODO: Sort catches by recent (if they aren't already)
   ngOnInit(): void {
-    this.getAllCatches().subscribe({
+    this.catchService.getAllCatches().subscribe({
       next: (data) => {
         this.catches = data;
       },
@@ -32,36 +32,7 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
-
-  //TODO: SORT BY RECENT
-  private getAllCatches():Observable<CatchDto[]> {
-    let catchesObs:Observable<CatchDto[]> = this.apiClient.get<{ catches: CatchDto[] }>("catch").pipe(
-      map(response => response.catches)
-    );
-    return catchesObs;
-  }
-
-  // outings:OutingDto[] = [
-  //   {
-  //     // readonly id: number;
-  //     // readonly locId: number;
-  //     // readonly date: Date;
-  //     // readonly startTime: Date;
-  //     // readonly endTime: Date;
-  //     // readonly createdAt: Date;
-  //     // readonly updatedAt: Date;
-  //   },
-  //   {
-  //     // readonly id: number;
-  //     // readonly locId: number;
-  //     // readonly date: Date;
-  //     // readonly startTime: Date;
-  //     // readonly endTime: Date;
-  //     // readonly createdAt: Date;
-  //     // readonly updatedAt: Date;
-  //   }
-  // ]
-
+  
   public toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }

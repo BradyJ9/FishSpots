@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiClientService } from '../../services/apiclient.service';
 import { FormsModule } from '@angular/forms';
 import { MiniMapComponent } from '../../components/minimap/mini-map.component';
+import { LocationService } from '../../services/location.service';
+import { LocationDto } from '../../../model/dto/LocationDto';
 
 @Component({
   selector: 'app-add-location-page',
@@ -18,7 +19,7 @@ export class AddLocationPageComponent {
   public locDesc: string = '';
   public locImage: File | null = null;
 
-  constructor(private router:Router, private route: ActivatedRoute, private apiClient:ApiClientService) { }
+  constructor(private router:Router, private route: ActivatedRoute, private locationService:LocationService) { }
 
   //TODO: Don't return to homepage until the new marker is visible
 
@@ -42,13 +43,13 @@ export class AddLocationPageComponent {
 
   public addLocation(): void {
     //TODO: Implement image uploads
-    const newLocation = {
+    const newLocation:LocationDto = {
       locationName:this.locName,
       lat:this.newLat,
       long:this.newLng,
       locationDescription:this.locDesc
     }
-    this.apiClient.post<number>("location",newLocation).subscribe(); //'number' might not be right here, but I THINK the backend returns an int
+    this.locationService.insertLocation(newLocation).subscribe();
     this.returnToHomepage();
   }
 
