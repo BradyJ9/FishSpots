@@ -13,10 +13,10 @@ export class PhotoScrollerComponent {
 
     ngOnInit(): void {
       this.images = [
-        'assets/location.png',
-        'assets/logo.png'
+        // 'assets/location.png',
+        // 'assets/logo.png'
       ];
-      console.log(this.images.length);
+      //console.log(this.images.length);
     }
   
     prevImage() {

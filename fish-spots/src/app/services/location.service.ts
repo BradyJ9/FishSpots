@@ -10,7 +10,10 @@ import { Observable } from 'rxjs';
 export class LocationService {
     constructor(private apiClientService: ApiClientService) {}
 
+    private readonly locationUrl = 'Location/';
+
     public getLocationById(id: string): Observable<LocationDto> {
-        this.apiClientService.get("")
+        console.log("getting " + id);
+        return this.apiClientService.get(this.locationUrl + id);
     }
 }

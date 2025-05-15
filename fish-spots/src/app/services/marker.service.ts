@@ -76,7 +76,9 @@ export class MarkerService {
     this.currMarker.clearLayers();
   }
 
-  private addButtonPopup(m:Marker): void {    
+  private addButtonPopup(m:Marker): void {
+    this.attachOnClickGlobalFunction();
+    
     const latlng = m.getLatLng();
     m.bindPopup(`<button class="add-button" onclick="window.goToAddPage({ lat: ${latlng.lat}, lng: ${latlng.lng} })">Add Location</>`)
     .on('add', function () {
@@ -84,22 +86,19 @@ export class MarkerService {
     });
   }
 
-  private addLocationPopup(m: Marker, location:LocationDto) {
+  private addLocationPopup(m: Marker,locName:string) {
     //TODO: Add onClick behavior
 
     m.bindPopup(
       //TODO: Replace placeholder location.png image with locationImage
       `
       <div class="location-preview">
-        <img src="../assets/location.png" width="40px" />
-        <div>
-          <button class="location-button" onclick='window.goToLocationPage(${JSON.stringify(location)})'>
-          ${location.locationName}
-          </button>
-        </div>
-      </div>
-    `);
-    
+        <img src="../assets/location.png"/ width=40px>
+        <div><div/>
+        <button class="location-button">${locName}</button>
+      <div/>
+      `
+    );
   }
 
   // private addPreviewPopup(m:Marker,map:Map){
@@ -129,7 +128,7 @@ export class MarkerService {
     pop.setLatLng(m.getLatLng()).openOn(map);
   }
 
-  private attachOnClickGlobalFunction(): void {
+  public attachOnClickGlobalFunction(): void {
       // Leaflet doesn't have access to the Angular component contexts
       // so we have to attach to global 'window' scope
       (window as any).goToAddPage = (data: any) => {
@@ -141,6 +140,5 @@ export class MarkerService {
       };
 
       console.log("attaching globals end");
-
   }
 }

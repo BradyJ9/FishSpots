@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LocationDto } from '../../../model/dto/LocationDto';
 import { PhotoScrollerComponent } from "../../components/photo-scroller/photo-scroller.component";
+import { LocationService } from '../../services/location.service';
+import { ApiClientService } from '../../services/apiclient.service';
 
 @Component({
   selector: 'app-location-page',
@@ -12,20 +14,35 @@ import { PhotoScrollerComponent } from "../../components/photo-scroller/photo-sc
 
 export class LocationPageComponent {
   location: LocationDto | null = null;
+  title: string = "Loading";
 
-  constructor(private route: ActivatedRoute) {}
+  private readonly locationUrl = 'Location/';
+
+
+  constructor(private route: ActivatedRoute, private locationService: LocationService, private apiClientService: ApiClientService) {}
   
-  ngOnInit() {
+  ngOnInit(): void {
     const navState = history.state.locationData;
-    console.log("navstate");
-    console.log(navState);
     if (navState) {
       this.location = navState;
     } else {
       const id = this.route.snapshot.paramMap.get('id');
-      //this.locationService.getLocationWithDetails(id).subscribe(data => {
-      //this.location = data;
-      //});
+      if (id) {
+        this.apiClientService.get<LocationDto>(this.locationUrl + id).subscribe((response: LocationDto) => {
+          console.log(response);
+          console.log("locname " + response.locationName)
+          this.title = "LOADED";
+          this.title = response.locationName;
+          this.location = {...response};
+          console.log(this.location);
+        });
+
+        // this.locationService.getLocationById(id).subscribe((response: LocationDto) => {
+        //   this.title = response.locationName;
+        //   this.location = {...response};
+        //   console.log(this.location);
+        // });
+      }
     }
   }
   
