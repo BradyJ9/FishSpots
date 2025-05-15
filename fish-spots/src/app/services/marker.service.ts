@@ -36,7 +36,7 @@ export class MarkerService {
 
   public plotAllLocations(map:Map):void {
     const iconExisting = new Icon({
-      iconUrl: '../assets/marker-colors/marker-icon-2x-red.png',
+      iconUrl: '../assets/marker-colors/marker-icon-2x-green.png',
       shadowUrl: 'assets/marker-shadow.png',
       iconSize: [25, 41],
       iconAnchor: [12, 41],
@@ -71,7 +71,7 @@ export class MarkerService {
     this.attachOnClickGlobalFunction();
     
     const latlng = m.getLatLng();
-    m.bindPopup(`<button class="add-button" onclick="window.goToAddPage({ lat: ${latlng.lat}, lng: ${latlng.lng} })">Add</>`)
+    m.bindPopup(`<button class="add-button" onclick="window.goToAddPage({ lat: ${latlng.lat}, lng: ${latlng.lng} })">Add Location</>`)
     .on('add', function () {
       m.openPopup();
     });
