@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOptions } from 'leaflet';
+import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOptions, Popup, popup } from 'leaflet';
 import { ApiClientService } from './apiclient.service';
 import { Observable, map as rxjsMap} from 'rxjs';
 import { LocationDto } from '../../model/dto/LocationDto';
@@ -23,6 +23,15 @@ export class MarkerService {
   public addMarker(map: Map, latlng: LatLng): void {
     const m = marker([latlng.lat, latlng.lng]);
     this.addButtonPopup(m);
+    this.clearCurrMarker();
+    this.currMarker.addLayer(m);
+
+    this.currMarker.addTo(map);
+  }
+
+  public addPreviewMarker(map:Map,latlng:LatLng):void {
+    const m = marker([latlng.lat, latlng.lng]);
+    this.addPreviewPopup(m,map);
     this.clearCurrMarker();
     this.currMarker.addLayer(m);
 
@@ -80,7 +89,6 @@ export class MarkerService {
   private addLocationPopup(m: Marker,locName:string) {
     //TODO: Add onClick behavior
 
-    const latlng = m.getLatLng();
     m.bindPopup(
       //TODO: Replace placeholder location.png image with locationImage
       `
@@ -91,6 +99,33 @@ export class MarkerService {
       <div/>
       `
     );
+  }
+
+  // private addPreviewPopup(m:Marker,map:Map){
+  //   var pop:Popup = popup({content:
+  //     `
+  //     <div class="location-preview">
+  //       <img src="../assets/location.png"/ width=40px>
+  //       <div><div/>
+  //       <button class="location-button">[Location Name]</button>
+  //     <div/>
+  //     `
+  //   });
+  //   m.bindPopup(pop);
+  //   pop.setLatLng(m.getLatLng()).openOn(map);
+  // }
+
+  private addPreviewPopup(m: Marker, map: Map): void {
+    const content = `
+      <div class="location-preview">
+        <img src="../assets/location.png" width="40px" id="popupImage" />
+        <div class="name-preview" id="popupName">[Location Name]</div>
+      </div>
+    `;
+
+    const pop = popup({ content });
+    m.bindPopup(pop);
+    pop.setLatLng(m.getLatLng()).openOn(map);
   }
 
   private attachOnClickGlobalFunction(): void {
