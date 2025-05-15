@@ -90,20 +90,37 @@ inserted_outings AS (
     ) AS d(LocationName, OutingDate, StartTime, EndTime)
     ON l.LocationName = d.LocationName
     RETURNING OutingId, LocationId, OutingDate
-)
+),
 
--- Insert Catch records and reference inserted OutingIds
-INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, Likes)
+inserted_catches AS(  
+    INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, Likes)
+    SELECT
+        o.OutingId,
+        c.Species,
+        c.CatchLength,
+        c.CatchWeight,
+        c.Likes
+    FROM inserted_outings o
+    JOIN (VALUES
+        ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2),
+        ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23),
+        ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000)
+    ) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes)
+    ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE)
+),
+
+INSERT INTO LocationImages (LocationID, StoragePath)
 SELECT
-    o.OutingId,
-    c.Species,
-    c.CatchLength,
-    c.CatchWeight,
-    c.Likes
-FROM inserted_outings o
+    l.LocationId,
+    li.StoragePath
+FROM inserted_locations l
 JOIN (VALUES
-    ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2),
-    ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23),
-    ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000)
-) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes)
-ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE);
+('Trial Lake', './src/assets/location-test-images/triallake.jpg'),
+('Lake Powell', './src/assets/location-test-images/powell.jpg'),
+('Bear Lake', './src/assets/location-test-images/bearlake.jpg')
+) AS li(LocationName, StoragePath)
+ON l.LocationName = li.LocationName;
+
+-- INSERT INTO CatchImages (CatchID, StoragePath)
+-- VALUES
+-- (1, 1, './src/assets/catch-test-images/bigahhtrout.jpg');

@@ -32,6 +32,7 @@ export class DraggableMapComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initMap();
     this.map.on('click', this.onMapClick);
+    this.markerService.attachOnClickGlobalFunction();
     this.markerService.plotAllLocations(this.map);  
   }
 

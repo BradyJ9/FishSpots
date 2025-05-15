@@ -1,0 +1,8 @@
+<div class="scroller-container">
+    <button (click)="prevImage()">&#8592;</button>
+    <div class="viewer">
+      <img [src]="images[currentIndex]" alt="Photo" class="photo" />
+    </div>
+    <button (click)="nextImage()">&#8594;</button>
+</div>
+

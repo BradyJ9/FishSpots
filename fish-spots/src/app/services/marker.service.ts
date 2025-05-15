@@ -65,7 +65,7 @@ export class MarkerService {
       locations.forEach(location => {
         const locLatLng:LatLng = new LatLng(Number(location.lat),Number(location.long));
         const m = marker([locLatLng.lat,locLatLng.lng],options);
-        this.addLocationPopup(m,location.locationName);
+        this.addLocationPopup(m,location);
         this.locationMarkers.addLayer(m);
       });
       this.locationMarkers.addTo(map);
@@ -86,16 +86,17 @@ export class MarkerService {
     });
   }
 
-  private addLocationPopup(m: Marker,locName:string) {
+  private addLocationPopup(m: Marker,loc:LocationDto) {
     //TODO: Add onClick behavior
-
+    console.log(loc);
+    const locName = loc.locationName
     m.bindPopup(
       //TODO: Replace placeholder location.png image with locationImage
       `
       <div class="location-preview">
         <img src="../assets/location.png"/ width=40px>
         <div><div/>
-        <button class="location-button">${locName}</button>
+        <button class="location-button" onclick="window.goToLocationPage({ locationId: ${loc.locationId} })">${loc.locationName}</button>
       <div/>
       `
     );
@@ -128,11 +129,15 @@ export class MarkerService {
     pop.setLatLng(m.getLatLng()).openOn(map);
   }
 
-  private attachOnClickGlobalFunction(): void {
+  public attachOnClickGlobalFunction(): void {
       // Leaflet doesn't have access to the Angular component contexts
       // so we have to attach to global 'window' scope
       (window as any).goToAddPage = (data: any) => {
         this.router.navigate(['/add'], { queryParams: { lat: data.lat, lng: data.lng } });
+      };
+
+      (window as any).goToLocationPage = (data: { locationId: number }) => {
+        this.router.navigate([`/location/${data.locationId}`]);
       };
   }
 }
