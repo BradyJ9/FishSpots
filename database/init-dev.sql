@@ -76,3 +76,13 @@ VALUES
 (1, 1, 'Rainbow Trout', 18.50, 2.30),
 (2, 1, 'Smallmouth Bass', 16.00, 2.00),
 (3, 2, 'Channel Catfish', 25.75, 4.10);
+
+INSERT INTO LocationImages(ImageID, LocationID, StoragePath)
+VALUES
+(1, 1, './src/assets/location-test-images/triallake.jpg'),
+(2, 2, './src/assets/location-test-images/powell.jpg'),
+(3, 3, './src/assets/location-test-images/bearlake.jpg')
+
+INSERT INTO CatchImages(ImageID, CatchID, StoragePath)
+VALUES
+(1, 1, './src/assets/catch-test-images/bigahhtrout.jpg')
