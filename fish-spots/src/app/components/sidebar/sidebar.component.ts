@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiClientService } from '../../services/apiclient.service';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { OutingDto } from '../../../model/dto/OutingDto';
@@ -11,65 +11,35 @@ import { map, Observable } from 'rxjs';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent {
-  constructor(private apiClient:ApiClientService){}
+export class SidebarComponent implements OnInit {
   isSidebarOpen = false;
+  catches: CatchDto[] = [];
 
-  //TODO: Retrieve catches data from backend & SORT BY RECENT
-  public getCatches():Observable<CatchDto[]>{
+  images = [
+      { id:1, url: '../../../assets/logo.png'},
+      { id:2, url: '../../../assets/location.png'}
+  ];
+
+  constructor(private apiClient:ApiClientService){}
+
+  ngOnInit(): void {
+    this.getAllCatches().subscribe({
+      next: (data) => {
+        this.catches = data;
+      },
+      error: (err) => {
+        console.error('Error fetching catches:', err);
+      }
+    });
+  }
+
+  //TODO: SORT BY RECENT
+  private getAllCatches():Observable<CatchDto[]> {
     let catchesObs:Observable<CatchDto[]> = this.apiClient.get<{ catches: CatchDto[] }>("catch").pipe(
-      map(response => response.catches)  // Extract 'locations' array from nested reponse
+      map(response => response.catches)
     );
     return catchesObs;
   }
-
-  catches:CatchDto[] = [
-    {
-      id:1,
-      outingId:1,
-      species: "Sea Bass",
-      catchLength: 57.6,
-      catchWeight: 15.9,
-      likes:10,
-      createdAt:new Date(),
-      updatedAt: new Date()
-    },
-    {
-      id:1,
-      outingId:1,
-      species: "Catfish",
-      catchLength: 57.6,
-      catchWeight: 15.9,
-      likes:10,
-      createdAt:new Date(),
-      updatedAt: new Date()
-    },
-        {
-      id:1,
-      outingId:1,
-      species: "Sea Bass",
-      catchLength: 57.6,
-      catchWeight: 15.9,
-      likes:10,
-      createdAt:new Date(),
-      updatedAt: new Date()
-    },
-    {
-      id:1,
-      outingId:1,
-      species: "Catfish",
-      catchLength: 57.6,
-      catchWeight: 15.9,
-      likes:10,
-      createdAt:new Date(),
-      updatedAt: new Date()
-    }
-  ];
-
-  images = [
-    { id:1, url: '../../../assets/logo.png'},
-    { id:2, url: '../../../assets/location.png'}
-  ];
 
   // outings:OutingDto[] = [
   //   {
@@ -92,19 +62,17 @@ export class SidebarComponent {
   //   }
   // ]
 
-  toggleSidebar() {
+  public toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  getFormattedDate(date:Date) {
-    var year = date.getFullYear();
+  public getFormattedDate(dateInput: Date | string | null | undefined): string {
+    if (!dateInput) return 'Invalid date';
 
-    var month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
+    const date = new Date(dateInput);
 
-    var day = date.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    
-    return month + '/' + day + '/' + year;
+    if (isNaN(date.getTime())) return 'Invalid date';
+
+    return new Intl.DateTimeFormat('en-US').format(date);
   }
 }

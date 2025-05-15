@@ -51,24 +51,62 @@ CREATE TABLE IF NOT EXISTS CatchImages (
 	StoragePath VARCHAR(1024) NOT NULL
 );
 
-DELETE FROM Location;
-DELETE FROM Outing;
-DELETE FROM Catch;
-DELETE FROM LocationImages;
+-- Delete existing data (in correct order)
 DELETE FROM CatchImages;
+DELETE FROM Catch;
+DELETE FROM Outing;
+DELETE FROM LocationImages;
+DELETE FROM Location;
 
--- Insert dummy data into location with explicit IDs
-INSERT INTO Location (LocationId, LocationName, Lat, Long, LocationDescription)
-VALUES
-(1,'Trial Lake', '40.6830051', '-110.9545998', 'Lovely Uinta Mountain Lake'),
-(2,'Lake Powell','36.9333','-111.4833','Gets real warm down here'),
-(3,'Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here');
+-- Reset sequences (optional in dev)
+-- ALTER SEQUENCE location_locationid_seq RESTART WITH 1;
+-- ALTER SEQUENCE outing_outingid_seq RESTART WITH 1;
+-- ALTER SEQUENCE catch_catchid_seq RESTART WITH 1;
+-- ALTER SEQUENCE locationimages_imageid_seq RESTART WITH 1;
+-- ALTER SEQUENCE catchimages_imageid_seq RESTART WITH 1;
 
--- Insert dummy data into outing, referencing valid location IDs
-INSERT INTO Outing (OutingId, LocationId, OutingDate, StartTime, EndTime)
-VALUES
-(1, 1, '2024-07-10', '06:00:00', '10:00:00'),
-(2, 2, '2024-08-15', '07:30:00', '11:30:00');
+-- Insert Locations and capture their IDs
+WITH inserted_locations AS (
+    INSERT INTO Location (LocationName, Lat, Long, LocationDescription)
+    VALUES
+        ('Trial Lake', '40.6830051', '-110.9545998', 'Lovely Uinta Mountain Lake'),
+        ('Lake Powell','36.9333','-111.4833','Gets real warm down here'),
+        ('Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here')
+    RETURNING LocationId, LocationName
+),
+
+-- Insert Outings and reference inserted LocationIds
+inserted_outings AS (
+    INSERT INTO Outing (LocationId, OutingDate, StartTime, EndTime)
+    SELECT
+        l.LocationId,
+        d.OutingDate,
+        d.StartTime,
+        d.EndTime
+    FROM inserted_locations l
+    JOIN (VALUES
+        ('Trial Lake', CAST('2024-07-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Lake Powell', CAST('2024-08-15' AS DATE), CAST('07:30:00' AS TIME), CAST('11:30:00' AS TIME))
+    ) AS d(LocationName, OutingDate, StartTime, EndTime)
+    ON l.LocationName = d.LocationName
+    RETURNING OutingId, LocationId, OutingDate
+)
+
+-- Insert Catch records and reference inserted OutingIds
+INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, Likes)
+SELECT
+    o.OutingId,
+    c.Species,
+    c.CatchLength,
+    c.CatchWeight,
+    c.Likes
+FROM inserted_outings o
+JOIN (VALUES
+    ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2),
+    ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23),
+    ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000)
+) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes)
+ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE);
 
 -- Insert dummy data into catch, referencing valid outing IDs
 INSERT INTO Catch (CatchId, OutingId, Species, CatchLength, CatchWeight)

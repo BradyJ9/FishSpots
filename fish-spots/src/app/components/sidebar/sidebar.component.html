@@ -11,15 +11,13 @@
   <div class="sidebar-container p-3">
     <h1>Hot Catches</h1>
     <div class="sidebar-content overflow-scroll-y">
-      <div class="row d-flex justify-content-center g-2">
-        <div class="card col-5" *ngFor="let catch of catches">
-          <div class="card-upper">
+      <div class="card-grid">
+        <div class="card" *ngFor="let catch of catches">
+          <div class="species-name">
             <h3>{{catch.species}}</h3>
-            <div class="catch-measurements">
-              <div>Length: {{catch.catchLength}}
-                Weight: {{catch.catchWeight}}
-              </div>
-            </div>
+          </div>
+          <div class="catch-measurements">
+              Length: {{catch.catchLength}} Weight: {{catch.catchWeight}}
           </div>
           <img [src]="'../../../assets/bigahhtrout.jpg'" class="img-fluid rounded" alt="Image" />
           <div class="likes">
