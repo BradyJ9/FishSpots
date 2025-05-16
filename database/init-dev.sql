@@ -117,29 +117,23 @@ SELECT
     li.StoragePath
 FROM inserted_locations l
 JOIN (VALUES
-('Trial Lake', './src/assets/location-test-images/triallake.jpg'),
-('Lake Powell', './src/assets/location-test-images/powell.jpg'),
-('Bear Lake', './src/assets/location-test-images/bearlake.jpg')
+('Trial Lake', 'https://3.bp.blogspot.com/-eIe5T9OMIhY/UjI7TYGyxII/AAAAAAAABts/x3wewmJKp6Q/s1600/unsinkable2-2013-07-21-00079.JPG'),
+('Lake Powell', 'https://ctfassets.ksldigital.com/0wjmk6wgfops/6dk4N8fQLpGCMCCTBhPm8s/9c6c36bf360076d793738404612629c1/AdobeStock_190040875.jpeg?q=70'),
+('Bear Lake', 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bear_Lake.jpg')
 ) AS li(LocationName, StoragePath)
 ON l.LocationName = li.LocationName;
 
--- Insert CatchImages by joining with inserted catches
 INSERT INTO CatchImages (CatchID, StoragePath)
 SELECT
     c.CatchID,
     i.StoragePath
 FROM Catch c
 JOIN (VALUES
-    ('Rainbow Trout', '2024-07-10', 'storage/catch1.jpg'),
-    ('Smallmouth Bass', '2024-07-10', 'storage/catch2.jpg'),
-    ('Channel Catfish', '2024-08-15', 'storage/catch3.jpg')
+    ('Rainbow Trout','2024-07-10', 'https://www.wildtrout.org/assets/img/general/_640xAUTO_crop_center-center_none/Wye-wild-rainbow-comp.jpg'),
+    ('Smallmouth Bass','2024-07-10', 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg'),
+    ('Channel Catfish','2024-08-15', 'https://files.blogs.illinois.edu/files/7362/140158490/186285.jpg')
 ) AS i(Species, OutingDate, StoragePath)
 ON c.Species = i.Species
 AND c.OutingID IN (
-    SELECT OutingID FROM Outing WHERE OutingDate = i.OutingDate
+    SELECT OutingID FROM Outing WHERE CAST(OutingDate AS DATE) = CAST(i.OutingDate AS DATE)
 );
-
-
--- INSERT INTO CatchImages (CatchID, StoragePath)
--- VALUES
--- (1, 1, './src/assets/catch-test-images/bigahhtrout.jpg');
