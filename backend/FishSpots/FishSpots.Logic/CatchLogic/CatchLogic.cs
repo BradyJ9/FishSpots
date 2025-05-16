@@ -13,7 +13,7 @@ namespace FishSpots.Logic.CatchLogic
 
             if (success != 1)
             {
-                throw new ResourceNotFoundException($"Catch with id {catchId} not found");
+                throw new ResourceNotFoundException($"Error: Catch with id {catchId} not found");
             }
         }
 
@@ -26,21 +26,21 @@ namespace FishSpots.Logic.CatchLogic
         {
             var cat = await catchRepository.GetCatchByIdAsync(catchId);
             return cat == null ?
-                throw new Exception("Error: catch with id " + catchId + " not found.") : cat;
+                throw new Exception($"Error: catch with id {catchId} not found") : cat;
         }
 
         public async Task<List<Catch>> GetCatchesByOutingAsync(int outingId)
         {
             var catches = await catchRepository.GetCatchesByOutingAsync(outingId);
             return catches == null ?
-                throw new Exception("Error: No catches found for outing with id " + outingId + ".") : catches;
+                throw new Exception($"Error: No catches found for outing with id {outingId}") : catches;
         }
 
         public async Task<List<Catch>> GetCatchesBySpeciesAsync(string species)
         {
             var catches = await catchRepository.GetCatchesBySpeciesAsync(species);
             return catches == null ?
-                throw new Exception("Error: No catches found of species " + species + ".") : catches;
+                throw new Exception($"Error: No catches found of species {species}") : catches;
         }
 
         public async Task InsertCatchAsync(Catch cat)
@@ -49,7 +49,7 @@ namespace FishSpots.Logic.CatchLogic
 
             if (success != 1)
             {
-                throw new ResourceNotFoundException("Error: row not inserted");
+                throw new Exception("Error: row not inserted");
             }
         }
 

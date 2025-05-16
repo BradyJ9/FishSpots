@@ -123,6 +123,23 @@ JOIN (VALUES
 ) AS li(LocationName, StoragePath)
 ON l.LocationName = li.LocationName;
 
+-- Insert CatchImages by joining with inserted catches
+INSERT INTO CatchImages (CatchID, StoragePath)
+SELECT
+    c.CatchID,
+    i.StoragePath
+FROM Catch c
+JOIN (VALUES
+    ('Rainbow Trout', '2024-07-10', 'storage/catch1.jpg'),
+    ('Smallmouth Bass', '2024-07-10', 'storage/catch2.jpg'),
+    ('Channel Catfish', '2024-08-15', 'storage/catch3.jpg')
+) AS i(Species, OutingDate, StoragePath)
+ON c.Species = i.Species
+AND c.OutingID IN (
+    SELECT OutingID FROM Outing WHERE OutingDate = i.OutingDate
+);
+
+
 -- INSERT INTO CatchImages (CatchID, StoragePath)
 -- VALUES
 -- (1, 1, './src/assets/catch-test-images/bigahhtrout.jpg');
