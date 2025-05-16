@@ -85,9 +85,7 @@ export class MarkerService {
   }
 
   private addLocationPopup(m: Marker,loc:LocationDto) {
-    //TODO: Add onClick behavior
     console.log(loc);
-    const locName = loc.locationName
     m.bindPopup(
       //TODO: Replace placeholder location.png image with locationImage
       `
@@ -95,30 +93,18 @@ export class MarkerService {
         <img src="../assets/location.png"/ width=40px>
         <div><div/>
         <button class="location-button" onclick="window.goToLocationPage({ locationId: ${loc.locationId} })">${loc.locationName}</button>
-      <div/>
+        <div class="location-description">${loc.locationDescription}</div>
+        <div/>
       `
     );
   }
-
-  // private addPreviewPopup(m:Marker,map:Map){
-  //   var pop:Popup = popup({content:
-  //     `
-  //     <div class="location-preview">
-  //       <img src="../assets/location.png"/ width=40px>
-  //       <div><div/>
-  //       <button class="location-button">[Location Name]</button>
-  //     <div/>
-  //     `
-  //   });
-  //   m.bindPopup(pop);
-  //   pop.setLatLng(m.getLatLng()).openOn(map);
-  // }
 
   private addPreviewPopup(m: Marker, map: Map): void {
     const content = `
       <div class="location-preview">
         <img src="../assets/location.png" width="40px" id="popupImage" />
         <div class="name-preview" id="popupName">[Location Name]</div>
+        <div class="location-description" id="popupDescription">[Description]</div>
       </div>
     `;
 

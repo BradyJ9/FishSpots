@@ -63,14 +63,15 @@ export class AddLocationPageComponent {
       if (nameSpan) nameSpan.textContent = name;
     });
 
-    // (document.getElementById("description") as HTMLInputElement).addEventListener("input", (e) => {
-    //   const desc = (e.target as HTMLInputElement).value;
-    //   const popupEl = document.querySelector(".leaflet-popup") as HTMLElement;
-    //   if (!popupEl) return;
+    (document.getElementById("locDesc") as HTMLInputElement).addEventListener("input", (e) => {
+      const desc = (e.target as HTMLInputElement).value;
+      const popupEl = document.querySelector(".leaflet-popup") as HTMLElement;
+      if (!popupEl) return;
 
-    //   const descSpan = popupEl.querySelector("#popupDescription");
-    //   if (descSpan) descSpan.textContent = desc;
-    // });
+      const descSpan = popupEl.querySelector("#popupDescription");
+      if (descSpan) descSpan.textContent = desc;
+    });
+
     (document.getElementById("locImage") as HTMLInputElement).addEventListener("change", (e) => {
       const input = e.target as HTMLInputElement;
       const file = input.files?.[0];

@@ -39,6 +39,11 @@ body {
         color:white;
     }
     
+    .location-description {
+        text-align:center;
+        overflow-x:hidden;
+    }
+    
     .name-preview {
         padding:2px;
         display:block;
