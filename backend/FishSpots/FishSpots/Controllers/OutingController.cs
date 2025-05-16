@@ -102,7 +102,7 @@ namespace FishSpots.Controllers
             }
         }
 
-        [HttpGet("/date/{date}", Name = "GetOutingsByDate")]
+        [HttpGet("date/{date}", Name = "GetOutingsByDate")]
         public async Task<IActionResult> GetOutingsByDate(DateTime date)
         {
             try
@@ -126,7 +126,7 @@ namespace FishSpots.Controllers
             }
         }
 
-        [HttpGet("/location/{locationId}", Name = "GetOutingsByLocation")]
+        [HttpGet("Location/{locationId}", Name = "GetOutingsByLocation")]
         public async Task<IActionResult> GetOutingsByLocation(int locationId)
         {
             try

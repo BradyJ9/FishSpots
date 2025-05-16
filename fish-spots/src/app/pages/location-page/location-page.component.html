@@ -7,10 +7,8 @@
     <app-photo-scroller></app-photo-scroller>
     <hr>
 
-    <h3>Visit History</h3>
+    <h3>Outings</h3>
     <ul class="list-group">
-      <li class="list-group-item">Visit on January 15, 2024</li>
-      <li class="list-group-item">Visit on March 3, 2024</li>
-      <li class="list-group-item">Visit on July 22, 2024</li>
+      <outing-bar class="list-group-item outing-box" *ngFor="let outing of outings$ | async" [outing]="outing"/>
     </ul>
   </div>

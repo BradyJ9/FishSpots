@@ -1,0 +1,10 @@
+
+.bi-caret-right-fill {
+  font-size: 1.5rem;
+  color: #007bff;
+  transition: transform 0.2s;
+}
+
+.bi-caret-right-fill:hover {
+  transform: scale(1.2);
+}

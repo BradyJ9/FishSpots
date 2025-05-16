@@ -85,7 +85,9 @@ inserted_outings AS (
         d.EndTime
     FROM inserted_locations l
     JOIN (VALUES
+            ('Trial Lake', CAST('2024-07-15' AS DATE), CAST('07:45:00' AS TIME), CAST('18:00:00' AS TIME)),
         ('Trial Lake', CAST('2024-07-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+
         ('Lake Powell', CAST('2024-08-15' AS DATE), CAST('07:30:00' AS TIME), CAST('11:30:00' AS TIME))
     ) AS d(LocationName, OutingDate, StartTime, EndTime)
     ON l.LocationName = d.LocationName
@@ -107,7 +109,7 @@ inserted_catches AS(
         ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000)
     ) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes)
     ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE)
-),
+)
 
 INSERT INTO LocationImages (LocationID, StoragePath)
 SELECT

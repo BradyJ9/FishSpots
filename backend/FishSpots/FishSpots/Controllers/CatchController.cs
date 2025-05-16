@@ -94,7 +94,7 @@ namespace FishSpots.Controllers
             }
         }
 
-        [HttpGet("outing/{outingId}", Name = "GetCatchesByOuting")]
+        [HttpGet("Outing/{outingId}", Name = "GetCatchesByOuting")]
         public async Task<IActionResult> GetCatchesByOuting(int outingId)
         {
             try
@@ -114,7 +114,7 @@ namespace FishSpots.Controllers
             }
         }
 
-        [HttpGet("species/{species}", Name = "GetCatchesBySpecies")]
+        [HttpGet("Species/{species}", Name = "GetCatchesBySpecies")]
         public async Task<IActionResult> GetCatchesBySpecies(string species)
         {
             try

@@ -1,0 +1,8 @@
+<div>
+    <i class="bi bi-caret-right-fill" style="cursor: pointer;" (click)="onDropdownClick()"></i>
+    User
+    {{outing.outingDate | date:'mediumDate'}}
+    <i class="fas fa-fish"></i>x
+    {{(catches$ | async)?.length}}
+
+</div>
