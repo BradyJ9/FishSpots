@@ -1,5 +1,6 @@
 ﻿using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
+using FishSpots.Logic.CatchLogic;
 using FishSpots.Logic.OutingLogic;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ namespace FishSpots.Controllers
         {
             try
             {
-                Outing outing = await outingLogic.GetOutingByIdAsync(outingId);
+                var outing = await outingLogic.GetOutingByIdAsync(outingId);
 
                 return Ok(new
                 {
