@@ -26,24 +26,25 @@ export class SidebarComponent implements OnInit {
     ngOnInit(): void {
     this.catchService.getAllCatches().subscribe({
       next: (data: CatchDto[]) => {
-        this.catches = data;
+      this.catches = data;
 
-        this.catches.forEach((cat) => {
-          if (cat.catchId !== undefined) {
-            this.imageService.getCatchImageById$(cat.catchId).subscribe({
-              next: (imageData) => {
-                this.imageMap[cat.catchId!] = imageData.storagePath
-              },
-              error: (err) => {
-                console.error(`Error fetching image for catch ${cat.catchId}:`, err);
-                this.imageMap[cat.catchId!] = '../../../assets/bigahhtrout.jpg'; // fallback
-              }
-            });
+      this.catches.forEach((cat, index) => {
+        if (cat.catchId !== undefined) {
+        this.imageService.getCatchImageById$(cat.catchId).subscribe({
+          next: (imageData) => {
+          this.imageMap[cat.catchId!] = imageData.storagePath;
+          },
+          error: (err) => {
+          console.error(`Error fetching image for catch ${cat.catchId}:`, err);
+          // Remove the catch from the list if it has no image
+          this.catches.splice(index, 1);
           }
         });
+        }
+      });
       },
       error: (err) => {
-        console.error('Error fetching catches:', err);
+      console.error('Error fetching catches:', err);
       }
     });
   }
