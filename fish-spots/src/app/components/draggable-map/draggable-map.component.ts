@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { MarkerService } from '../../services/marker.service';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { ActivatedRoute } from '@angular/router';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -28,13 +29,24 @@ L.Marker.prototype.options.icon = iconDefault;
 export class DraggableMapComponent implements OnInit, OnDestroy {
 
   private map!: L.Map;
-  
-  constructor(private markerService: MarkerService) { }
+  private mapCenterLat: number = 39.8282;
+  private mapCenterLng: number = -111.5795;
+
+  constructor(private markerService: MarkerService, private route: ActivatedRoute) {
+    let queryParams = this.route.snapshot.queryParams;
+    if (queryParams["lat"] && queryParams["lng"]) {
+      this.mapCenterLat = queryParams["lat"];
+      this.mapCenterLng = queryParams["lng"];
+    }
+  }
 
   ngOnInit(): void {
     this.initMap();
     this.map.on('click', this.onMapClick);
     this.markerService.attachOnClickGlobalFunction();
+  }
+
+  ngAfterViewInit(): void {
     this.markerService.plotAllLocations(this.map);  
   }
 
@@ -53,7 +65,7 @@ export class DraggableMapComponent implements OnInit, OnDestroy {
 
   private initMap(): void {
     this.map = L.map('map', {
-      center: [ 39.8282, -111.5795 ],
+      center: [ this.mapCenterLat, this.mapCenterLng ],
       zoom: 7
     });
 
