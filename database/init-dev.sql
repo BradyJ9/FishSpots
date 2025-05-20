@@ -113,7 +113,10 @@ inserted_catches AS(
     JOIN (VALUES
         ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2),
         ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23),
-        ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000)
+        ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000),
+        ('2024-12-10', 'Brook Trout', null, null, 0),
+        ('2024-04-14', 'Brook Trout', null, null, 0),
+        ('2024-03-13', 'Smallmouth Bass', 12, 3.5, 5)
     ) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes)
     ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE)
 )
@@ -138,7 +141,9 @@ FROM Catch c
 JOIN (VALUES
     ('Rainbow Trout','2024-07-10', 'https://www.wildtrout.org/assets/img/general/_640xAUTO_crop_center-center_none/Wye-wild-rainbow-comp.jpg'),
     ('Smallmouth Bass','2024-07-10', 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg'),
-    ('Channel Catfish','2024-08-15', 'https://files.blogs.illinois.edu/files/7362/140158490/186285.jpg')
+    ('Channel Catfish','2024-08-15', 'https://files.blogs.illinois.edu/files/7362/140158490/186285.jpg'),
+    ('Brook Trout', '2024-04-14', 'https://www.fws.gov/sites/default/files/2021-09/brook%20trout%20Credit%20Scott%20Cornett%2C%20NYDEC.jpg'),
+    ('Smallmouth Bass','2024-03-13', 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg')
 ) AS i(Species, OutingDate, StoragePath)
 ON c.Species = i.Species
 AND c.OutingID IN (
