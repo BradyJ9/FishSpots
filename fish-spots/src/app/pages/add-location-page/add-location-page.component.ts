@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { MiniMapComponent } from '../../components/minimap/mini-map.component';
 import { LocationService } from '../../services/location.service';
 import { LocationDto } from '../../../model/dto/LocationDto';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-add-location-page',
-  imports: [FormsModule, MiniMapComponent],
+  imports: [FormsModule, MiniMapComponent, NavbarComponent],
   templateUrl: './add-location-page.component.html',
   styleUrl: './add-location-page.component.css'
 })

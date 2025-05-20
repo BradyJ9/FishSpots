@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { MarkerService } from '../../services/marker.service';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -21,12 +22,13 @@ L.Marker.prototype.options.icon = iconDefault;
 @Component({
   selector: 'draggable-map',
   templateUrl: './draggable-map.component.html',
-  styleUrls: ['./draggable-map.component.css']
+  styleUrls: ['./draggable-map.component.css'],
+  imports: [NavbarComponent]
 })
 export class DraggableMapComponent implements OnInit, OnDestroy {
 
   private map!: L.Map;
-
+  
   constructor(private markerService: MarkerService) { }
 
   ngOnInit(): void {

@@ -10,10 +10,11 @@ import { OutingService } from '../../services/outing.service';
 import { OutingBarComponent } from "../../components/outing-bar/outing-bar.component";
 import { Dialog } from "@angular/cdk/dialog";
 import { AddOutingDialogComponent } from '../../components/add-outing-dialog/add-outing-dialog.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-location-page',
-  imports: [PhotoScrollerComponent, CommonModule, OutingBarComponent],
+  imports: [PhotoScrollerComponent, CommonModule, OutingBarComponent, NavbarComponent],
   templateUrl: './location-page.component.html',
   styleUrl: './location-page.component.css'
 })

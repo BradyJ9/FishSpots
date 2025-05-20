@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CatchDto } from '../../../model/dto/CatchDto';
-import { map, Observable } from 'rxjs';
 import { CatchService } from '../../services/catch.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'sidebar',
@@ -15,14 +13,14 @@ export class SidebarComponent implements OnInit {
   isSidebarOpen = false;
   catches: CatchDto[] = [];
 
-  displaySidebarUi: boolean = true;
+  @Input() displaySidebarUi: boolean = false;
 
   images = [
       { id:1, url: '../../../assets/logo.png'},
       { id:2, url: '../../../assets/location.png'}
   ];
 
-  constructor(private catchService:CatchService, private activeRoute: ActivatedRoute){}
+  constructor(private catchService:CatchService){}
 
   //TODO: Sort catches by recent (if they aren't already)
   //We can do this through the backend SQL query
