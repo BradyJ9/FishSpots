@@ -19,20 +19,28 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center;
+  justify-content: left;
 }
 
 .card {
-  display:flex;
+  display: flex;
   flex-direction: column;
   flex: 0 1 calc(50% - 20px);
   box-sizing: border-box;
-  /* Admittedly, I got no idea how this is gonna scale yet */
   height: 100%;
-  max-height:500px;
-  min-height:350px;
-  padding:10px;
-  background-color: #C5D86D;
+  max-height: 350px;
+  min-height: 350px;
+  padding: 10px;
+  background-color: #74e2d6;
+  align-items: center; /* Center content horizontally */
+  justify-content: space-between; /* Distribute content evenly */
+}
+
+.card img {
+  object-fit: cover; /* Ensure images fill the space without distortion */
+  width: 100%; /* Make images take up full width of the card */
+  height: 200px; /* Set a fixed height for consistency */
+  margin-bottom: 5px;
 }
 
 img {
@@ -40,9 +48,15 @@ img {
     height: auto; 
     width: auto; 
     max-width: 210px; 
-    max-height: 280px;
+    max-height: 220px;
   }
 }
+
+/* .catch-img {
+  max-height: 210px;
+  max-width: 180px;
+  align-self: center;
+} */
 
 .sidebar-container {
   background-color: #1E2019;
@@ -70,7 +84,7 @@ img {
 }
 
 .species-name {
-  text-align: center;
+  text-align: left;
 }
 
 .catch-measurements {
@@ -127,18 +141,6 @@ img {
   overflow: auto;
 
   background:
-    /* Shadow Cover TOP */
-    linear-gradient(
-      #C5D86D 30%,
-      rgba(255, 255, 255, 0)
-    ) center top,
-    
-    /* Shadow Cover BOTTOM */
-    linear-gradient(
-      rgba(255, 255, 255, 0), 
-      #C5D86D 70%
-    ) center bottom,
-    
     /* Shadow TOP */
     radial-gradient(
       farthest-side at 50% 0,

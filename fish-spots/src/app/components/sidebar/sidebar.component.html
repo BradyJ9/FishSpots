@@ -14,23 +14,25 @@
       <div class="card-grid">
         <div class="card" *ngFor="let catch of catches">
           <div class="species-name">
-            <h3>{{catch.species}}</h3>
+            <h5>{{catch.species}}</h5>
           </div>
-          <div class="catch-measurements">
-              Length: {{catch.catchLength}} Weight: {{catch.catchWeight}}
-          </div>
-          <img [src]="imageMap[catch.catchId!]" class="img-fluid rounded" alt="Image" />
-          <div class="likes">
-            <!--TODO: add onclick animation to like button-->
-            <img class='like-button' src="../../../assets/hearticon.png" 
-              onmouseover="this.style.cursor='pointer'"/>
-            <div class="likes-count">{{catch.likes}} likes</div>
+          <img [src]="imageMap[catch.catchId!]" class="img-fluid rounded catch-img" alt="Image" />
+          <div *ngIf="catch.catchLength !== 0 && catch.catchWeight !== 0" class="catch-measurements">
+            Length: {{catch.catchLength}} Weight: {{catch.catchWeight}}
           </div>
           <div class="catch-description scroll-shadows">
             <p>THIS IS A DESCRIPTION. THIS IS A REALLY LONG DESCRIPTION. IT KEEPS GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING</p>
           </div>
-            <div class="spacer"></div> <!-- Pushes everything below down -->
-          <div class="catch-date">{{getFormattedDate(catch.createdAt)}}</div>
+          <div class="spacer"></div> <!-- Pushes everything below down -->
+            <div class="d-flex align-items-center justify-content-between" style="gap: 10px;">
+            <div class="likes">
+              <!--TODO: add onclick animation to like button-->
+              <img class='like-button' src="../../../assets/hearticon.png" 
+                onmouseover="this.style.cursor='pointer'"/>
+              <div class="likes-count">{{catch.likes}} likes</div>
+            </div>
+            <div class="catch-date" style="margin-top: 10px;">{{getFormattedDate(catch.createdAt)}}</div>
+          </div>
         </div>
       </div>
     </div>
