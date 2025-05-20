@@ -19,42 +19,6 @@ export class SidebarComponent implements OnInit {
 
   constructor(private catchService:CatchService, private imageService:CatchImageService){}
 
-  //TODO: Sort catches by recent (if they aren't already)
-  // ngOnInit(): void {
-  //   this.catchService.getAllCatches().subscribe({
-  //     next: (data) => {
-  //       this.catches = data;
-
-  //       this.catches.forEach((cat) => {
-  //         this.imageService.getCatchImageById$(cat.catchId).subscribe({
-  //           next: (data) => {
-  //             console.log("balls");
-  //             this.images.push(data);
-  //           },
-  //           error: (err) => {
-  //             console.error('Error fetching images:', err);
-  //           }
-  //         })
-  //       });
-
-  //     },
-  //     error: (err) => {
-  //       console.error('Error fetching catches:', err);
-  //     }
-  //   }); 
-  // }
-
-  // public getImageUrl(catchId:number|undefined):string {
-  //   console.log(catchId);
-  //   for(let i=0; i<this.images.length; i++){
-  //     if(this.images[i].catchId == catchId){
-  //       console.log(this.images[i].storagePath)
-  //       return this.images[i].storagePath;
-  //     }
-  //   }
-  //   return "IMAGE NOT FOUND";
-  // }
-
     ngOnInit(): void {
     this.catchService.getAllCatches().subscribe({
       next: (data: CatchDto[]) => {
@@ -64,8 +28,6 @@ export class SidebarComponent implements OnInit {
           if (cat.catchId !== undefined) {
             this.imageService.getCatchImageById$(cat.catchId).subscribe({
               next: (imageData) => {
-                console.log(imageData);
-                console.log(imageData.storagePath);
                 this.imageMap[cat.catchId!] = imageData.storagePath
               },
               error: (err) => {
