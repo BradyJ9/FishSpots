@@ -1,8 +1,8 @@
 <div class="scroller-container">
-    <button (click)="prevImage()">&#8592;</button>
-    <div class="viewer">
+    <button [ngStyle]="{'font-size': arrowSize}" (click)="prevImage()">&#8592;</button>
+    <div class="viewer" [ngStyle]="{'width': viewWidth, 'height': viewHeight}">
       <img [src]="images[currentIndex]" alt="Photo" class="photo" />
     </div>
-    <button (click)="nextImage()">&#8594;</button>
+    <button [ngStyle]="{'font-size': arrowSize}" (click)="nextImage()">&#8594;</button>
 </div>
 

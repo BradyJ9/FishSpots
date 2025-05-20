@@ -87,7 +87,14 @@ inserted_outings AS (
     JOIN (VALUES
             ('Trial Lake', CAST('2024-07-15' AS DATE), CAST('07:45:00' AS TIME), CAST('18:00:00' AS TIME)),
         ('Trial Lake', CAST('2024-07-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-
+        ('Trial Lake', CAST('2024-07-12' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-08-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-11-03' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-09-19' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-01-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-03-13' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-04-14' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-12-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
         ('Lake Powell', CAST('2024-08-15' AS DATE), CAST('07:30:00' AS TIME), CAST('11:30:00' AS TIME))
     ) AS d(LocationName, OutingDate, StartTime, EndTime)
     ON l.LocationName = d.LocationName

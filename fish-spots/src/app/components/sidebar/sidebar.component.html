@@ -1,10 +1,10 @@
-<button 
+<button *ngIf="displaySidebarUi"
   class="btn btn-primary position-fixed top-0 end-0 m-3 toggle-button"
   (click)="toggleSidebar()">
   ☰
 </button>
 
-<div 
+<div *ngIf="displaySidebarUi"
   class="sidebar bg-light position-fixed top-0 end-0 h-100 border-start shadow"
   [ngClass]="{'translate-end': !isSidebarOpen, 'translate-none': isSidebarOpen}"
 >

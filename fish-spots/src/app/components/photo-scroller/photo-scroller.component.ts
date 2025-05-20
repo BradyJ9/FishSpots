@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-photo-scroller',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './photo-scroller.component.html',
   styleUrl: './photo-scroller.component.css'
 })
@@ -11,7 +12,12 @@ export class PhotoScrollerComponent {
     currentIndex = 0;
     images: string[] = [];
 
+    @Input() viewHeight: string = '300px';
+    @Input() viewWidth: string = '400px';
+    @Input() arrowSize: string = '24px';
+
     ngOnInit(): void {
+      
       this.images = [
         // 'assets/location.png',
         // 'assets/logo.png'

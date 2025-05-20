@@ -1,0 +1,15 @@
+.form-background {
+    width: 60%; /* Takes up 80% of the page width */
+    height: 80%; /* Takes up 80% of the page height */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px black;
+    position: absolute; /* Allows positioning */
+    top: 50%; /* Centers the element vertically */
+    left: 50%; /* Centers the element horizontally */
+    transform: translate(-50%, -50%); /* Adjusts for the element's own dimensions */
+}
+
+.form-body {
+    margin: 25px;
+}

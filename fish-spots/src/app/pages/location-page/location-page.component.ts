@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { OutingDto } from '../../../model/dto/OutingDto';
 import { OutingService } from '../../services/outing.service';
 import { OutingBarComponent } from "../../components/outing-bar/outing-bar.component";
+import { Dialog } from "@angular/cdk/dialog";
+import { AddOutingDialogComponent } from '../../components/add-outing-dialog/add-outing-dialog.component';
 
 @Component({
   selector: 'app-location-page',
@@ -21,7 +23,8 @@ export class LocationPageComponent {
   title: string = "Loading";
   outings$: Observable<OutingDto[]>;
 
-  constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService) {
+  constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService,
+    private dialog: Dialog) {
     const id = this.route.snapshot.paramMap.get('id');
     this.outings$ = this.outingService.getOutingsByLocationId$(id ?? '');
   }
@@ -36,10 +39,13 @@ export class LocationPageComponent {
         this.locationService.getLocationById(id).subscribe((response: LocationDto) => {
           this.title = response.locationName;
           this.location = {...response};
-          console.log(this.location);
         });
       }
     }
+  }
+
+  public addOutingOpenDialog() {
+    this.dialog.open(AddOutingDialogComponent);
   }
 
 }

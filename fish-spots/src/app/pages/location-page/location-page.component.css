@@ -1,6 +1,6 @@
-.outing-box {
-    border-radius: 5px;
-    margin-bottom: 5px;
-    border-width: 1.5px;
-    border-color: black;
+.outings-header {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 5px;
 }

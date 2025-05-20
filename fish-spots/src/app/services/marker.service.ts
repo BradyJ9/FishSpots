@@ -85,7 +85,6 @@ export class MarkerService {
   }
 
   private addLocationPopup(m: Marker,loc:LocationDto) {
-    console.log(loc);
     m.bindPopup(
       //TODO: Replace placeholder location.png image with locationImage
       `

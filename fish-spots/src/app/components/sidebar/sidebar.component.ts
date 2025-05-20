@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { map, Observable } from 'rxjs';
 import { CatchService } from '../../services/catch.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'sidebar',
@@ -14,14 +15,17 @@ export class SidebarComponent implements OnInit {
   isSidebarOpen = false;
   catches: CatchDto[] = [];
 
+  displaySidebarUi: boolean = true;
+
   images = [
       { id:1, url: '../../../assets/logo.png'},
       { id:2, url: '../../../assets/location.png'}
   ];
 
-  constructor(private catchService:CatchService){}
+  constructor(private catchService:CatchService, private activeRoute: ActivatedRoute){}
 
   //TODO: Sort catches by recent (if they aren't already)
+  //We can do this through the backend SQL query
   ngOnInit(): void {
     this.catchService.getAllCatches().subscribe({
       next: (data) => {
@@ -32,6 +36,7 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+
   
   public toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
