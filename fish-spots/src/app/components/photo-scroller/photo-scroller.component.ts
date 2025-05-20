@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-photo-scroller',
@@ -10,27 +11,27 @@ import { Component, Input } from '@angular/core';
 
 export class PhotoScrollerComponent {
     currentIndex = 0;
-    images: string[] = [];
+    imageUrls: string[] = [];
 
     @Input() viewHeight: string = '300px';
     @Input() viewWidth: string = '400px';
     @Input() arrowSize: string = '24px';
+    @Input() fetchImageUrls$!: Observable<string[]>;
 
     ngOnInit(): void {
       
-      this.images = [
-        // 'assets/location.png',
-        // 'assets/logo.png'
-      ];
-      //console.log(this.images.length);
+      this.fetchImageUrls$.subscribe((urls: string[]) => {
+        this.imageUrls = urls;
+      })
+      console.log(this.imageUrls.length);
     }
 
     prevImage() {
-      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      this.currentIndex = (this.currentIndex - 1 + this.imageUrls.length) % this.imageUrls.length;
     }
 
     nextImage() {
       console.log("next image: " + this.currentIndex);
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.currentIndex = (this.currentIndex + 1) % this.imageUrls.length;
     }
 }  

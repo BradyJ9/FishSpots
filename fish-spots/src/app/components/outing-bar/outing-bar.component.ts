@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { OutingService } from '../../services/outing.service';
 import { CatchService } from '../../services/catch.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PhotoScrollerComponent } from "../photo-scroller/photo-scroller.component";
 
 @Component({
@@ -24,6 +24,10 @@ export class OutingBarComponent {
   ngOnInit(): void {
     this.catches$ = this.catchService.getCatchesForOuting$(this.outing?.outingId ?? null)  
   }
+
+  // public getOutingImageUrls = (): Observable<string[]> => {
+    
+  // }
 
   public onDropdownClick() {
     this.isDropdownOpen = !this.isDropdownOpen;

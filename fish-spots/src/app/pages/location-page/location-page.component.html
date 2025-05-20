@@ -5,7 +5,7 @@
       {{location?.locationDescription}}
     </p>
 
-    <app-photo-scroller></app-photo-scroller>
+    <app-photo-scroller [fetchImageUrls$]="fetchLocationImageUrls()"/>
     <hr>
 
     <div class="d-flex justify-content-between align-items-center outings-header">

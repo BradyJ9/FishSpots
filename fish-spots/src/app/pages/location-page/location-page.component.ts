@@ -11,6 +11,7 @@ import { OutingBarComponent } from "../../components/outing-bar/outing-bar.compo
 import { Dialog } from "@angular/cdk/dialog";
 import { AddOutingDialogComponent } from '../../components/add-outing-dialog/add-outing-dialog.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { LocationImageService } from '../../services/locationimage.service';
 
 @Component({
   selector: 'app-location-page',
@@ -25,7 +26,7 @@ export class LocationPageComponent {
   outings$: Observable<OutingDto[]>;
 
   constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService,
-    private dialog: Dialog) {
+    private dialog: Dialog, private locationImageService: LocationImageService) {
     const id = this.route.snapshot.paramMap.get('id');
     this.outings$ = this.outingService.getOutingsByLocationId$(id ?? '');
   }
@@ -43,6 +44,11 @@ export class LocationPageComponent {
         });
       }
     }
+  }
+
+  public fetchLocationImageUrls = (): Observable<string[]> => {
+    console.log("fetching location image urls");
+    return this.locationImageService.getImageUrlsByLocationId(this.location?.locationId ?? null);
   }
 
   public addOutingOpenDialog() {

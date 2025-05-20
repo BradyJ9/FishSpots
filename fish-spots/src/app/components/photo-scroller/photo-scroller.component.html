@@ -1,7 +1,7 @@
 <div class="scroller-container">
     <button [ngStyle]="{'font-size': arrowSize}" (click)="prevImage()">&#8592;</button>
     <div class="viewer" [ngStyle]="{'width': viewWidth, 'height': viewHeight}">
-      <img [src]="images[currentIndex]" alt="Photo" class="photo" />
+      <img [src]="imageUrls[currentIndex]" alt="Photo" class="photo" />
     </div>
     <button [ngStyle]="{'font-size': arrowSize}" (click)="nextImage()">&#8594;</button>
 </div>
