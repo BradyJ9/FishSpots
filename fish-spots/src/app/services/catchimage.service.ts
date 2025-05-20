@@ -16,11 +16,9 @@ export class CatchImageService {
         if (catchId === undefined) {
             return of();
         }
-        // return this.apiClient.get<{ image: CatchImageDto }>(this.catchImageUrl + catchId).pipe(
-        //     map(response => response.image)
-        // );
-        console.log(this.apiClient.get<CatchImageDto>(this.catchImageUrl + catchId))
-        return this.apiClient.get<CatchImageDto>(this.catchImageUrl + catchId);
+        return this.apiClient.get<{ catchImage: CatchImageDto }>(this.catchImageUrl + catchId).pipe(
+            map(response => response.catchImage)
+        );
     }
 
 }

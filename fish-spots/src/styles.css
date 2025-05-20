@@ -42,6 +42,7 @@ body {
     .location-description {
         text-align:center;
         overflow-x:hidden;
+        text-overflow: ellipsis;
     }
     
     .name-preview {
@@ -61,5 +62,6 @@ body {
         max-height:100px;
         overflow-wrap:anywhere;
         overflow-y:hidden;
+        text-overflow: ellipsis;
     }
 }
