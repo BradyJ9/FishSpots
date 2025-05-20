@@ -19,7 +19,7 @@
           <div class="catch-measurements">
               Length: {{catch.catchLength}} Weight: {{catch.catchWeight}}
           </div>
-          <img [src]="'../../../assets/bigahhtrout.jpg'" class="img-fluid rounded" alt="Image" />
+          <img [src]="imageMap[catch.catchId!]" class="img-fluid rounded" alt="Image" />
           <div class="likes">
             <!--TODO: add onclick animation to like button-->
             <img class='like-button' src="../../../assets/hearticon.png" 
@@ -27,7 +27,7 @@
             <div class="likes-count">{{catch.likes}} likes</div>
           </div>
           <div class="catch-description scroll-shadows">
-            <p>THIS IS A DESCRIPTION. THIS IS A REALLY LONG DESCRIPTION. IT KEEPS GOING AND GOING AND GOING</p>
+            <p>THIS IS A DESCRIPTION. THIS IS A REALLY LONG DESCRIPTION. IT KEEPS GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING AND GOING</p>
           </div>
             <div class="spacer"></div> <!-- Pushes everything below down -->
           <div class="catch-date">{{getFormattedDate(catch.createdAt)}}</div>

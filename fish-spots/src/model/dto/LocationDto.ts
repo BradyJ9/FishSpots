@@ -5,5 +5,5 @@ export interface LocationDto {
     readonly lat: string;
     readonly long: string;
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
+    readonly lastUpdatedAt?: Date;
 }
