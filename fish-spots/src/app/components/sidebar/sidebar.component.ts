@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { CatchService } from '../../services/catch.service';
 import { CatchImageService } from '../../services/catchimage.service';
@@ -17,8 +17,12 @@ export class SidebarComponent implements OnInit {
   images$:CatchImageDto[] = [];
   imageMap: { [key: number]: string } = {};
 
+  @Input() displaySidebarUi: boolean = false;
+
   constructor(private catchService:CatchService, private imageService:CatchImageService){}
 
+    //TODO: Sort catches by recent (if they aren't already)
+    //We can do this through the backend SQL query
     ngOnInit(): void {
     this.catchService.getAllCatches().subscribe({
       next: (data: CatchDto[]) => {
@@ -43,6 +47,7 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+
   
   public toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;

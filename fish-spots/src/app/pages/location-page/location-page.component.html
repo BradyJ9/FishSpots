@@ -1,14 +1,18 @@
+<app-navbar/>
 <div class="container mt-5">
     <h1 class="display-4">{{ title }}</h1>
     <p class="lead">
       {{location?.locationDescription}}
     </p>
 
-    <app-photo-scroller></app-photo-scroller>
+    <app-photo-scroller [fetchImageUrls$]="fetchLocationImageUrls()"/>
     <hr>
 
-    <h3>Outings</h3>
+    <div class="d-flex justify-content-between align-items-center outings-header">
+      <h2>Recent Outings</h2>
+      <button class="btn btn-primary" (click)="addOutingOpenDialog()">Add Outing</button>
+    </div>
     <ul class="list-group">
-      <outing-bar class="list-group-item outing-box" *ngFor="let outing of outings$ | async" [outing]="outing"/>
+      <outing-bar *ngFor="let outing of outings$ | async" [outing]="outing"/>
     </ul>
   </div>

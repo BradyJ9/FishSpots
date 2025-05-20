@@ -19,7 +19,6 @@ export class LocationService {
     }
 
     public getLocationById(id: string): Observable<LocationDto> {
-        console.log("getting " + id);
         return this.apiClientService.get<{location:LocationDto}>(this.locationUrl + id).pipe(
             map(response => response.location)
         );

@@ -1,10 +1,28 @@
 
-.bi-caret-right-fill {
-  font-size: 1.5rem;
-  color: #007bff;
+.fa-chevron-right {
+  font-size: 1rem;
+  color: #040e19;
   transition: transform 0.2s;
 }
 
 .bi-caret-right-fill:hover {
   transform: scale(1.2);
+}
+
+.outing-box {
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border-width: 1.5px;
+  border-color: black;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.outing-dropdown {
+  margin-top: -10px;
+  border-radius: 5px;
+  border-width: 1.5px;
+  border-color: black;
+  height: 200px;
 }

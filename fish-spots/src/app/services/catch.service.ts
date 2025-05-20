@@ -23,7 +23,7 @@ export class CatchService {
         if (outingId == null) {
             return of([])
         }
-        return this.apiClient.get<{ catches: CatchDto[] }>("Outing/" + outingId).pipe(
+        return this.apiClient.get<{ catches: CatchDto[] }>(this.catchUrl + "Outing/" + outingId).pipe(
             map(response => response.catches)
         )
     }

@@ -26,21 +26,21 @@ namespace FishSpots.Logic.OutingLogic
         {
             var outing = await outingRepository.GetOutingByIdAsync(outingId);
             return outing == null ?
-                throw new Exception("Error: outing with id " + outingId + " not found.") : outing;
+                throw new Exception($"Error: outing with id {outingId} not found") : outing;
         }
 
         public async Task<List<Outing>> GetOutingsByDateAsync(DateTime date)
         {
             var outings = await outingRepository.GetOutingsByDateAsync(date);
             return outings == null ?
-                throw new Exception("Error: No outings found for date " + date + ".") : outings;
+                throw new Exception($"Error: No outings found for date {date}") : outings;
         }
 
         public async Task<List<Outing>> GetOutingsByLocationAsync(int locationId)
         {
             var outings = await outingRepository.GetOutingsByLocationAsync(locationId);
             return outings == null ?
-                throw new Exception("Error: No outings found for location with id " + locationId + ".") : outings;
+                throw new Exception($"Error: No outings found for location with id {locationId}") : outings;
         }
 
         public async Task InsertOutingAsync(Outing outing)
@@ -49,7 +49,7 @@ namespace FishSpots.Logic.OutingLogic
 
             if (success != 1)
             {
-                throw new ResourceNotFoundException("Error: row not inserted");
+                throw new Exception("Error: row not inserted");
             }
         }
 

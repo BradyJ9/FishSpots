@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { MiniMapComponent } from '../../components/minimap/mini-map.component';
 import { LocationService } from '../../services/location.service';
 import { LocationDto } from '../../../model/dto/LocationDto';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-add-location-page',
-  imports: [FormsModule, MiniMapComponent],
+  imports: [FormsModule, MiniMapComponent, NavbarComponent],
   templateUrl: './add-location-page.component.html',
   styleUrl: './add-location-page.component.css'
 })
@@ -49,8 +50,10 @@ export class AddLocationPageComponent {
       long:this.newLng,
       locationDescription:this.locDesc
     }
-    this.locationService.insertLocation(newLocation).subscribe();
-    this.returnToHomepage();
+    this.locationService.insertLocation(newLocation).subscribe({
+      next: () => this.returnToHomepage(this.newLat, this.newLng),
+      error: (err) => console.error('Failed to insert location:', err)
+    });
   }
 
   public updatePopup(){
@@ -91,7 +94,7 @@ export class AddLocationPageComponent {
     });
   }
 
-  private returnToHomepage(): void {
-    this.router.navigate(['/']);
+  private returnToHomepage(lat:string, lng:string): void {
+    this.router.navigate(['/'], { queryParams: { lat, lng } });
   }
 }

@@ -1,8 +1,27 @@
-<div>
-    <i class="bi bi-caret-right-fill" style="cursor: pointer;" (click)="onDropdownClick()"></i>
-    User
-    {{outing.outingDate | date:'mediumDate'}}
-    <i class="fas fa-fish"></i>x
-    {{(catches$ | async)?.length}}
-
+<div class="list-group-item outing-box">
+    <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px;" (click)="onDropdownClick()">
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <i class="fa-solid fa-chevron-right" 
+            style="transition: transform 0.3s;" 
+            [style.transform]="isDropdownOpen ? 'rotate(90deg)' : 'rotate(0deg)'" 
+            ></i>
+            <p style="font-weight: bold; margin: 0;">USER NAME HERE</p> 
+            <p style="font-size: 12px; font-style: italic; text-align: center; margin: 0;">
+                {{outing.outingDate | date:'mediumDate'}}
+            </p>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div>
+                <i class="fas fa-fish"></i>x{{(catches$ | async)?.length}}
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isDropdownOpen" class="list-group-item outing-box outing-dropdown">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="width: 400px;">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        </div>
+        <app-photo-scroller style="margin-top: 10px;" [viewHeight]="'150px'" [viewWidth]="'200px'" [arrowSize]="'12px'"/>
+    </div>
 </div>

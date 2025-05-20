@@ -87,7 +87,14 @@ inserted_outings AS (
     JOIN (VALUES
             ('Trial Lake', CAST('2024-07-15' AS DATE), CAST('07:45:00' AS TIME), CAST('18:00:00' AS TIME)),
         ('Trial Lake', CAST('2024-07-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-
+        ('Trial Lake', CAST('2024-07-12' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-08-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-11-03' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-09-19' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-01-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-03-13' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-04-14' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', CAST('2024-12-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
         ('Lake Powell', CAST('2024-08-15' AS DATE), CAST('07:30:00' AS TIME), CAST('11:30:00' AS TIME))
     ) AS d(LocationName, OutingDate, StartTime, EndTime)
     ON l.LocationName = d.LocationName
@@ -117,12 +124,23 @@ SELECT
     li.StoragePath
 FROM inserted_locations l
 JOIN (VALUES
-('Trial Lake', './src/assets/location-test-images/triallake.jpg'),
-('Lake Powell', './src/assets/location-test-images/powell.jpg'),
-('Bear Lake', './src/assets/location-test-images/bearlake.jpg')
+('Trial Lake', 'https://3.bp.blogspot.com/-eIe5T9OMIhY/UjI7TYGyxII/AAAAAAAABts/x3wewmJKp6Q/s1600/unsinkable2-2013-07-21-00079.JPG'),
+('Lake Powell', 'https://ctfassets.ksldigital.com/0wjmk6wgfops/6dk4N8fQLpGCMCCTBhPm8s/9c6c36bf360076d793738404612629c1/AdobeStock_190040875.jpeg?q=70'),
+('Bear Lake', 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bear_Lake.jpg')
 ) AS li(LocationName, StoragePath)
 ON l.LocationName = li.LocationName;
 
--- INSERT INTO CatchImages (CatchID, StoragePath)
--- VALUES
--- (1, 1, './src/assets/catch-test-images/bigahhtrout.jpg');
+INSERT INTO CatchImages (CatchID, StoragePath)
+SELECT
+    c.CatchID,
+    i.StoragePath
+FROM Catch c
+JOIN (VALUES
+    ('Rainbow Trout','2024-07-10', 'https://www.wildtrout.org/assets/img/general/_640xAUTO_crop_center-center_none/Wye-wild-rainbow-comp.jpg'),
+    ('Smallmouth Bass','2024-07-10', 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg'),
+    ('Channel Catfish','2024-08-15', 'https://files.blogs.illinois.edu/files/7362/140158490/186285.jpg')
+) AS i(Species, OutingDate, StoragePath)
+ON c.Species = i.Species
+AND c.OutingID IN (
+    SELECT OutingID FROM Outing WHERE CAST(OutingDate AS DATE) = CAST(i.OutingDate AS DATE)
+);
