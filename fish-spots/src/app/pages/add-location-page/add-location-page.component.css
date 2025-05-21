@@ -1,3 +1,7 @@
+#locName, #locDesc {
+    border-radius:5px;
+}
+
 .add-location-page {
     padding:10px;
     background-color: #262A18;
