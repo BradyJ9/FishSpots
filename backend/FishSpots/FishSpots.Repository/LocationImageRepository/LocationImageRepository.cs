@@ -14,15 +14,16 @@ namespace FishSpots.Repository.LocationImageRepository
             return await connection.ExecuteAsync(sql, new { ImageId = imageId });
         }
 
-        public async Task<LocationImage?> GetLocationImageByIdAsync(int locationId)
+        public async Task<List<LocationImage>> GetLocationImagesByIdAsync(int locationId)
         {
             using var connection = databaseFactory.CreateDbConnection();
+
             var sql = "SELECT * FROM LocationImages WHERE LocationID = @LocationId";
 
-            return await connection.QueryFirstOrDefaultAsync<LocationImage>(sql, new
+            return (await connection.QueryAsync<LocationImage>(sql, new
             {
                 LocationId = locationId
-            });
+            })).ToList();
         }
 
         public async Task<int> InsertLocationImageAsync(LocationImage locationImage)

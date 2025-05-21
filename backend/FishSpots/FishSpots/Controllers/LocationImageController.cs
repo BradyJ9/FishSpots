@@ -10,25 +10,25 @@ namespace FishSpots.Controllers
     public class LocationImageController(ILocationImageLogic locationImageLogic, ILogger<LocationImageController> logger): ControllerBase
     {
         [HttpGet("{locationId}", Name = "GetLocationImageById")]
-        public async Task<IActionResult> GetLocationImageById(int locationId)
+        public async Task<IActionResult> GetLocationImagesById(int locationId)
         {
             try
             {
-                LocationImage locationImage = await locationImageLogic.GetLocationImageByIdAsync(locationId);
+                List<LocationImage> locationImages = await locationImageLogic.GetLocationImagesByIdAsync(locationId);
 
                 return Ok(new
                 {
-                    locationImage
+                    locationImages
                 });
             }
             catch (ResourceNotFoundException ex)
             {
-                logger.LogError("Error in GetLocationImageById: ${msg}", ex.Message);
+                logger.LogError("Error in GetLocationImagesById: ${msg}", ex.Message);
                 return StatusCode(404, ex.Message);
             }
             catch (Exception ex)
             {
-                logger.LogError("Error in GetLocationImageById: ${msg}", ex.Message);
+                logger.LogError("Error in GetLocationImagesById: ${msg}", ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }
