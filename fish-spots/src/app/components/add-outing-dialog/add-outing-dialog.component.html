@@ -22,13 +22,29 @@
                     </mat-form-field> 
                 </div>
                 <div>
-                    <mat-form-field class="example-full-width" style="width: 70%;">
-                        <textarea matInput placeholder="Notes" maxlength="500" formControlName="notes" rows="4"></textarea>
+                    <mat-form-field class="example-full-width" style="width: 90%;">
+                        <textarea matInput placeholder="Notes" maxlength="500" formControlName="notes" rows="3" style="resize: none;"></textarea>
                         <mat-hint>{{ outingForm.get('notes')?.value?.length || 0 }}/500</mat-hint>
                     </mat-form-field>
                 </div>
                 <br/>
-                <h4>Catches</h4>
+                <div class="d-flex">
+                    <div>
+                        <h4>Catches</h4>
+                        <p style="font-style: italic; font-size: 12px; margin-top: -7px;">Include up to 10 catches</p>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <button mat-icon-button style="color: white; background-color: rgb(30, 212, 151); display: flex; align-items: center;
+                         justify-content: center;" (click)="addCatchToOutingForm()">+</button>
+                    </div>
+                </div>
+                <div style="max-height: 35vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                    <ul class="list-group">
+                        <div *ngFor="let cat of catchesToAdd">
+                            <add-catch-bar [currCatch]="cat" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>
+                        </div>
+                    </ul>
+                </div>
             </form>
         </div>
     </div>  

@@ -1,16 +1,22 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatDatepicker, MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormField, MatFormFieldModule } from "@angular/material/form-field";
-import { MatInput, MatInputModule } from "@angular/material/input";
-import {MatIcon, MatIconModule} from '@angular/material/icon';
-import { MatTimepicker, MatTimepickerModule } from '@angular/material/timepicker';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule} from '@angular/material/icon';
+import { MatTimepickerModule } from '@angular/material/timepicker';
+import { MatButtonModule } from "@angular/material/button";
+import { CatchDto } from "../../../model/dto/CatchDto";
+import { AddCatchBarComponent } from "../add-catch-bar/add-catch-bar.component";
+import { CommonModule } from "@angular/common";
 
 @Component ({
     selector: 'add-outing-dialog',
     templateUrl: './add-outing-dialog.component.html',
     styleUrl: './add-outing-dialog.component.css',
-    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatTimepickerModule, ReactiveFormsModule]
+    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,
+         MatTimepickerModule, ReactiveFormsModule, MatButtonModule, AddCatchBarComponent,
+        CommonModule]
 })
 
 export class AddOutingDialogComponent {
@@ -21,5 +27,21 @@ export class AddOutingDialogComponent {
         endTime: new FormControl('')
     });
 
+    public catchesToAdd: CatchDto[] = [];
+
     constructor() {}
+
+    addCatchToOutingForm() {
+        console.log(this.catchesToAdd.length);
+        if (this.catchesToAdd.length < 10) {
+            let newCatch: CatchDto = {} as CatchDto;
+            this.catchesToAdd = [...this.catchesToAdd, newCatch];
+        }
+    }
+
+    public removeCatchFromOutingForm = (index: number) => {
+        console.log("REMOVING " + index);
+        console.log(this.catchesToAdd);
+        this.catchesToAdd = this.catchesToAdd.filter((_, i) => i !== index);
+    }
 }
