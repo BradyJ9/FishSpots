@@ -4,7 +4,7 @@ import { LocationDto } from '../../../model/dto/LocationDto';
 import { PhotoScrollerComponent } from "../../components/photo-scroller/photo-scroller.component";
 import { LocationService } from '../../services/location.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 import { OutingDto } from '../../../model/dto/OutingDto';
 import { OutingService } from '../../services/outing.service';
 import { OutingBarComponent } from "../../components/outing-bar/outing-bar.component";
@@ -25,6 +25,9 @@ export class LocationPageComponent {
   title: string = "Loading";
   outings$: Observable<OutingDto[]>;
 
+  private locationIdSubject = new ReplaySubject<number|undefined>(1); // replays last value to new subscribers
+  public fetchImageUrls$!:Observable<string[]>;
+  
   constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService,
     private dialog: Dialog, private locationImageService: LocationImageService) {
     const id = this.route.snapshot.paramMap.get('id');
@@ -35,24 +38,29 @@ export class LocationPageComponent {
     const navState = history.state.locationData;
     if (navState) {
       this.location = navState;
+      this.title = navState.locationName;
+      this.locationIdSubject.next(navState.locationId);
     } else {
       const id = this.route.snapshot.paramMap.get('id');
       if (id) {
         this.locationService.getLocationById(id).subscribe((response: LocationDto) => {
           this.title = response.locationName;
-          this.location = {...response};
+          this.location = { ...response };
+          this.locationIdSubject.next(response.locationId);
         });
       }
     }
-  }
 
-  public fetchLocationImageUrls = (): Observable<string[]> => {
-    console.log("fetching location image urls");
-    return this.locationImageService.getImageUrlsByLocationId(this.location?.locationId ?? null);
+    this.fetchImageUrls$ = this.locationIdSubject.pipe(
+      switchMap(locationId =>
+        this.locationImageService.getImageUrlsByLocationId(locationId).pipe(
+          tap(() => console.log('image urls fetched'))
+        )
+      )
+    );
   }
 
   public addOutingOpenDialog() {
     this.dialog.open(AddOutingDialogComponent);
   }
-
 }

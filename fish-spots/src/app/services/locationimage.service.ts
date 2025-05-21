@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ApiClientService } from "./apiclient.service";
-import { Observable, of } from "rxjs";
-
+import { map, Observable, of, tap } from "rxjs";
 
 @Injectable({
     providedIn: "root"
@@ -13,10 +12,15 @@ export class LocationImageService {
 
     private readonly endpoint = 'LocationImage/'
 
-    public getImageUrlsByLocationId(locId: number | null): Observable<string[]> {
-        if (locId === null) {
+    public getImageUrlsByLocationId(locationId: number | undefined): Observable<string[]> {
+        if (locationId === undefined) {
             return of([]);
         }
-        return this.apiClient.get<string[]>(this.endpoint + locId);
+
+        return this.apiClient.get<{ locationImages: { storagePath: string }[] }>(
+            this.endpoint + locationId
+        ).pipe(
+            map(response => response.locationImages.map(image => image.storagePath))
+        );
     }
 }
