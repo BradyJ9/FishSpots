@@ -20,6 +20,8 @@ namespace FishSpots.Domain.Models
 
 		public int Likes { get; set; }
 
+		public string ImageUrl { get; set; }
+
 		public DateTime CreatedAt { get; set; }
 
 		public DateTime LastUpdatedAt { get; set; }

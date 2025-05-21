@@ -2,7 +2,34 @@
     <div class="form-background">
         <div class="form-body">
             <h3>Add Outing</h3>
-
+            <form [formGroup]="outingForm">
+                <div>
+                    <mat-form-field class="example-full-width">
+                        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Date">
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 100px; width: 20%;">
+                        <input matInput [matTimepicker]="starttimepicker" formControlName="startTime" placeholder="Start Time">
+                        <mat-timepicker-toggle matIconSuffix [for]="starttimepicker"/>
+                        <mat-timepicker interval="60" #starttimepicker/>
+                    </mat-form-field> 
+                    <mat-form-field style="margin-left: 100px; width: 20%;">
+                        <input matInput [matTimepicker]="endtimepicker" formControlName="endTime" placeholder="End Time">
+                        <mat-timepicker-toggle matIconSuffix [for]="endtimepicker"/>
+                        <mat-timepicker interval="60" #endtimepicker/>
+                    </mat-form-field> 
+                </div>
+                <div>
+                    <mat-form-field class="example-full-width" style="width: 70%;">
+                        <textarea matInput placeholder="Notes" maxlength="500" formControlName="notes" rows="4"></textarea>
+                        <mat-hint>{{ outingForm.get('notes')?.value?.length || 0 }}/500</mat-hint>
+                    </mat-form-field>
+                </div>
+                <br/>
+                <h4>Catches</h4>
+            </form>
         </div>
     </div>  
 </article>

@@ -17,11 +17,9 @@ namespace FishSpots.Logic.LocationImageLogic
             }
         }
 
-        public async Task<LocationImage> GetLocationImageByIdAsync(int locationId)
+        public async Task<List<LocationImage>> GetLocationImagesByIdAsync(int locationId)
         {
-            var locationImage = await locationImageRepository.GetLocationImageByIdAsync(locationId);
-            return locationImage == null ?
-                throw new Exception($"Error: no image found for location with id {locationId}") : locationImage;
+            return await locationImageRepository.GetLocationImagesByIdAsync(locationId);
         }
 
         public async Task InsertLocationImageAsync(LocationImage locationImage)

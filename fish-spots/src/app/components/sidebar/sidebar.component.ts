@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { CatchService } from '../../services/catch.service';
-import { CatchImageService } from '../../services/catchimage.service';
-import { CatchImageDto } from '../../../model/dto/CatchImageDto';
 
 @Component({
   selector: 'sidebar',
@@ -14,44 +12,32 @@ import { CatchImageDto } from '../../../model/dto/CatchImageDto';
 export class SidebarComponent implements OnInit {
   isSidebarOpen = false;
   catches: CatchDto[] = [];
-  images$:CatchImageDto[] = [];
   imageMap: { [key: number]: string } = {};
 
   @Input() displaySidebarUi: boolean = false;
 
-  constructor(private catchService:CatchService, private imageService:CatchImageService){}
+  constructor(private catchService:CatchService){}
 
     //TODO: Sort catches by recent (if they aren't already)
     //We can do this through the backend SQL query
     ngOnInit(): void {
-      this.catchService.getAllCatches().subscribe({
-        next: (data: CatchDto[]) => {
-        this.catches = data;
-        this.catches.forEach((cat, index) => {
-          if (cat.catchId !== undefined) {
-          this.imageService.getCatchImageById$(cat.catchId).subscribe({
-            next: (imageData) => {
-            this.imageMap[cat.catchId!] = imageData.storagePath;
-            },
-            error: (err) => {
-            console.error(`Error fetching image for catch ${cat.catchId}:`, err);
-            // Remove the catch from the list if it has no image
-            this.catches.splice(index, 1);
-            }
-          });
-          }
-        });
-        },
-        error: (err) => {
-        console.error('Error fetching catches:', err);
+    this.catchService.getAllCatches().subscribe({
+      next: (data: CatchDto[]) => {
+      this.catches = data;
+
+      this.catches.forEach((cat, index) => {
+        if (!cat.imageUrl) {
+          this.catches.splice(index, 1);
+        }
+        if (cat.catchId !== undefined) {
+          this.imageMap[cat.catchId!] = cat.imageUrl;
         }
       });
-
-      let id = 0;
-      const cards = document.querySelectorAll('card');
-      cards.forEach(function(card) {
-        card.id = (id + 1).toString();
-      });
+      },
+      error: (err) => {
+      console.error('Error fetching catches:', err);
+      }
+    });
   }
 
   
