@@ -28,7 +28,7 @@
             <div class="likes">
               <img class='like-button' name="unclicked" src="../../../assets/hearticon.png" 
                 onmouseover="this.style.cursor='pointer'"
-                (click)="likeClicked(catch.likes, catch.catchId!)"
+                (click)="likeClicked(catch)"
                 [id]="'like-button' + catch.catchId"/>
               <div class="likes-count" [id]="'likes-count' + catch.catchId">{{catch.likes}} likes</div>
             </div>

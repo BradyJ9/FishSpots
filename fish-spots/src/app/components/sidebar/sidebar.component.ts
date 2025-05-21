@@ -23,19 +23,19 @@ export class SidebarComponent implements OnInit {
     ngOnInit(): void {
     this.catchService.getAllCatches().subscribe({
       next: (data: CatchDto[]) => {
-      this.catches = data;
+        this.catches = data;
 
-      this.catches.forEach((cat, index) => {
-        if (!cat.imageUrl) {
-          this.catches.splice(index, 1);
-        }
-        if (cat.catchId !== undefined) {
-          this.imageMap[cat.catchId!] = cat.imageUrl;
-        }
-      });
+        this.catches.forEach((cat, index) => {
+          if (!cat.imageUrl) {
+            this.catches.splice(index, 1);
+          }
+          if (cat.catchId !== undefined) {
+            this.imageMap[cat.catchId!] = cat.imageUrl;
+          }
+        });
       },
       error: (err) => {
-      console.error('Error fetching catches:', err);
+        console.error('Error fetching catches:', err);
       }
     });
   }
@@ -55,21 +55,38 @@ export class SidebarComponent implements OnInit {
     return new Intl.DateTimeFormat('en-US').format(date);
   }
 
-  likeClicked(numLikes:number, id:number): void {
-    const likeButton = document.getElementById("like-button"+id.toString()) as HTMLImageElement;
-    const likesCount = document.getElementById("likes-count"+id.toString()) as HTMLDivElement;
+  likeClicked(cat:CatchDto): void {
+    const likeButton = document.getElementById("like-button"+cat.catchId!.toString()) as HTMLImageElement;
+    const likesCount = document.getElementById("likes-count"+cat.catchId!.toString()) as HTMLDivElement;
     
     if(likeButton.name == "unclicked"){
       likeButton.src = "/../../../assets/hearticon-red.png";
-      likesCount.textContent = (numLikes+1) + " likes";
-      this.catchService.incrementLikes(id);
+      likesCount.textContent = (cat.likes+1) + " likes";
+      //Should we make an incrementLikes function in catchService instead of this?
+      const updatedCatch:CatchDto = {
+        catchId: cat.catchId,
+        outingId: cat.outingId,
+        species: cat.species,
+        catchLength: cat.catchLength,
+        catchWeight: cat.catchWeight,
+        likes: cat.likes+1,
+        imageUrl: cat.imageUrl,
+        createdAt: cat.createdAt,
+        lastUpdatedAt: cat.lastUpdatedAt
+      }
+      this.catchService.updateCatch(updatedCatch);
       likeButton.name = "clicked";
     }
     
+    // V2 FIXME: This part is scuffed.
+    // If the sidebar is re-rendering dynamically (idk if we'll ever do this)
+    // OR
+    // if the post has already been liked (probably a v2 feature),
+    // this implementation should be changed.
     else if(likeButton.name == "clicked"){
       likeButton.src = "../../../assets/hearticon.png";
-      likesCount.textContent = (numLikes) + " likes";
-      this.catchService.decrementLikes(id);
+      likesCount.textContent = cat.likes + " likes";
+      this.catchService.updateCatch(cat);
       likeButton.name = "unclicked";
     }
   }

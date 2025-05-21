@@ -27,5 +27,9 @@ export class CatchService {
             map(response => response.catches)
         )
     }
+
+    public updateCatch(cat:CatchDto){
+        return this.apiClient.post<number>(this.catchUrl+cat.catchId,cat);
+    }
 }
 
