@@ -1,8 +1,8 @@
--- DROP TABLE IF EXISTS CatchImages;
--- DROP TABLE IF EXISTS Catch;
--- DROP TABLE IF EXISTS Outing;
--- DROP TABLE IF EXISTS LocationImages;
--- DROP TABLE IF EXISTS Location;
+DROP TABLE IF EXISTS CatchImages;
+DROP TABLE IF EXISTS Catch;
+DROP TABLE IF EXISTS Outing;
+DROP TABLE IF EXISTS LocationImages;
+DROP TABLE IF EXISTS Location;
 
 CREATE TABLE IF NOT EXISTS Location (
 	LocationID SERIAL PRIMARY KEY,
@@ -36,23 +36,16 @@ CREATE TABLE IF NOT EXISTS Catch (
 	CatchID SERIAL PRIMARY KEY,
 	OutingID INT NOT NULL,
 	FOREIGN KEY (OutingID) REFERENCES Outing (OutingID),
-	Species VARCHAR(50),
+	Species VARCHAR(50) NOT NULL,
 	CatchLength NUMERIC(5,2),
 	CatchWeight NUMERIC(5,2),
 	Likes SMALLINT DEFAULT 0,
+    ImageUrl VARCHAR(500),
 	CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS CatchImages (
-	ImageID SERIAL PRIMARY KEY,
-	CatchID INT NOT NULL,
-	FOREIGN KEY (CatchID) REFERENCES Catch (CatchID),
-	StoragePath VARCHAR(1024) NOT NULL
-);
-
 -- Delete existing data (in correct order)
-DELETE FROM CatchImages;
 DELETE FROM Catch;
 DELETE FROM Outing;
 DELETE FROM LocationImages;
@@ -63,7 +56,6 @@ DELETE FROM Location;
 -- ALTER SEQUENCE outing_outingid_seq RESTART WITH 1;
 -- ALTER SEQUENCE catch_catchid_seq RESTART WITH 1;
 -- ALTER SEQUENCE locationimages_imageid_seq RESTART WITH 1;
--- ALTER SEQUENCE catchimages_imageid_seq RESTART WITH 1;
 
 -- Insert Locations and capture their IDs
 WITH inserted_locations AS (
@@ -102,22 +94,23 @@ inserted_outings AS (
 ),
 
 inserted_catches AS(  
-    INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, Likes)
+    INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, Likes, ImageUrl)
     SELECT
         o.OutingId,
         c.Species,
         c.CatchLength,
         c.CatchWeight,
-        c.Likes
+        c.Likes,
+        c.ImageUrl
     FROM inserted_outings o
     JOIN (VALUES
-        ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2),
-        ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23),
-        ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000),
-        ('2024-12-10', 'Brook Trout', null, null, 0),
-        ('2024-04-14', 'Brook Trout', null, null, 0),
-        ('2024-03-13', 'Smallmouth Bass', 12, 3.5, 5)
-    ) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes)
+        ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2, 'https://www.wildtrout.org/assets/img/general/_640xAUTO_crop_center-center_none/Wye-wild-rainbow-comp.jpg'),
+        ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23, 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg'),
+        ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000, 'https://files.blogs.illinois.edu/files/7362/140158490/186285.jpg'),
+        ('2024-12-10', 'Brook Trout', null, null, 0, 'https://www.fws.gov/sites/default/files/2021-09/brook%20trout%20Credit%20Scott%20Cornett%2C%20NYDEC.jpg'),
+        ('2024-04-14', 'Brook Trout', null, null, 0, 'https://www.fws.gov/sites/default/files/2021-09/brook%20trout%20Credit%20Scott%20Cornett%2C%20NYDEC.jpg'),
+        ('2024-03-13', 'Smallmouth Bass', 12, 3.5, 5, 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg')
+    ) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes, ImageUrl)
     ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE)
 )
 
@@ -132,20 +125,3 @@ JOIN (VALUES
 ('Bear Lake', 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bear_Lake.jpg')
 ) AS li(LocationName, StoragePath)
 ON l.LocationName = li.LocationName;
-
-INSERT INTO CatchImages (CatchID, StoragePath)
-SELECT
-    c.CatchID,
-    i.StoragePath
-FROM Catch c
-JOIN (VALUES
-    ('Rainbow Trout','2024-07-10', 'https://www.wildtrout.org/assets/img/general/_640xAUTO_crop_center-center_none/Wye-wild-rainbow-comp.jpg'),
-    ('Smallmouth Bass','2024-07-10', 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg'),
-    ('Channel Catfish','2024-08-15', 'https://files.blogs.illinois.edu/files/7362/140158490/186285.jpg'),
-    ('Brook Trout', '2024-04-14', 'https://www.fws.gov/sites/default/files/2021-09/brook%20trout%20Credit%20Scott%20Cornett%2C%20NYDEC.jpg'),
-    ('Smallmouth Bass','2024-03-13', 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg')
-) AS i(Species, OutingDate, StoragePath)
-ON c.Species = i.Species
-AND c.OutingID IN (
-    SELECT OutingID FROM Outing WHERE CAST(OutingDate AS DATE) = CAST(i.OutingDate AS DATE)
-);

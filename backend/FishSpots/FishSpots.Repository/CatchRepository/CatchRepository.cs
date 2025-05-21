@@ -64,8 +64,8 @@ namespace FishSpots.Repository.CatchRepository
         {
             using var connection = databaseFactory.CreateDbConnection();
 
-            var sql = "INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight)" +
-                "VALUES (@OutingId, @Species, @CatchLength, @CatchWeight)";
+            var sql = "INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, ImageUrl)" +
+                "VALUES (@OutingId, @Species, @CatchLength, @CatchWeight, @ImageUrl)";
 
             return await connection.ExecuteAsync(sql, cat);
         }
@@ -79,6 +79,7 @@ namespace FishSpots.Repository.CatchRepository
                            Species = @Species,
                            CatchLength = @CatchLength,
                            CatchWeight = @CatchWeight,
+                           ImageUrl = @ImageUrl,
                            UpdatedAt = @UpdatedAt
                        WHERE CatchID = @CatchId";
 

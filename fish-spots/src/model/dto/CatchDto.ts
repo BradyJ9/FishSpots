@@ -5,6 +5,7 @@ export interface CatchDto {
     readonly catchLength: number;
     readonly catchWeight: number;
     readonly likes: number;
+    readonly imageUrl: string;
     readonly createdAt?: Date;
     readonly lastUpdatedAt?: Date;
 }
