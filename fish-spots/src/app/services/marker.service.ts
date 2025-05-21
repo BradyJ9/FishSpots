@@ -4,6 +4,7 @@ import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOption
 import { Observable } from 'rxjs';
 import { LocationDto } from '../../model/dto/LocationDto';
 import { LocationService } from './location.service';
+import { LocationImageService } from './locationimage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { LocationService } from './location.service';
 export class MarkerService {
   constructor(
     private router: Router, 
-    private locationService: LocationService) {
+    private locationService: LocationService, private locationImageService:LocationImageService) {
     this.currMarker = layerGroup();
     this.locationMarkers = layerGroup();
   }
@@ -85,19 +86,23 @@ export class MarkerService {
   }
 
   private addLocationPopup(m: Marker,loc:LocationDto) {
-    m.bindPopup(
-      //TODO: Replace placeholder location.png image with locationImage
-      `
-      <div class="location-preview">
-        <img src="../assets/location.png"/ width=40px>
-        <div><div/>
-        <button class="location-button" onclick="window.goToLocationPage({ locationId: ${loc.locationId} })">${loc.locationName}</button>
-        <div class="location-description">${loc.locationDescription}</div>
-        <div/>
-      `
-    );
+    var imageUrl:string = "";
+    //I feel like this is not proper use of an observable/subscribe
+    this.locationImageService.getImageUrlsByLocationId(loc.locationId).subscribe((urls:string[]) => {
+      imageUrl = urls[0];
+      m.bindPopup(
+        `
+        <div class="location-preview">
+          <img src=${imageUrl} width=40px>
+          <div><div/>
+          <button class="location-button" onclick="window.goToLocationPage({ locationId: ${loc.locationId} })">${loc.locationName}</button>
+          <div class="location-description">${loc.locationDescription}</div>
+          <div/>
+        `
+      );
+    });
   }
-
+  
   private addPreviewPopup(m: Marker, map: Map): void {
     const content = `
       <div class="location-preview">

@@ -4,13 +4,13 @@
     <h1>Add Location</h1>
 
     <form class = "add-location-info" #locationForm="ngForm">
-      <label for="locName">Location name:</label><br>
+      <label for="locName">Location Name</label><br>
       <input type="text" id="locName" name="locName" required [(ngModel)]="locName"><br>
 
-      <label for="locDesc">Location description:</label><br>
+      <label for="locDesc">Description</label><br>
       <input type="text" id="locDesc" name="locDesc" required [(ngModel)]="locDesc"><br>
 
-      <label for="locImage">Image:</label><br>
+      <label for="locImage">Image</label><br>
       <input type="file" id="locImage" name="locImage" (change)="onFileSelected($event)" accept="image/*"><br>
     </form><br>
     
