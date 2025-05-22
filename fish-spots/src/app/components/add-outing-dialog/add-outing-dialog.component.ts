@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectorRef, Component } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -29,19 +29,29 @@ export class AddOutingDialogComponent {
 
     public catchesToAdd: CatchDto[] = [];
 
-    constructor() {}
+    constructor(private cdr: ChangeDetectorRef) {}
 
-    addCatchToOutingForm() {
+    public addCatchToOutingForm = () => {
         console.log(this.catchesToAdd.length);
         if (this.catchesToAdd.length < 10) {
             let newCatch: CatchDto = {} as CatchDto;
-            this.catchesToAdd = [...this.catchesToAdd, newCatch];
+            this.catchesToAdd.push(newCatch);
         }
+        this.cdr.detectChanges();
     }
 
     public removeCatchFromOutingForm = (index: number) => {
         console.log("REMOVING " + index);
         console.log(this.catchesToAdd);
         this.catchesToAdd = this.catchesToAdd.filter((_, i) => i !== index);
+        this.cdr.detectChanges();
+    }
+
+    public onSubmit() {
+
+    }
+
+    public onCancel() {
+
     }
 }
