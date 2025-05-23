@@ -38,7 +38,7 @@
                          justify-content: center;" (click)="this.addCatchToOutingForm()">+</button>
                     </div>
                 </div>
-                <div style="max-height: 35vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <div style="max-height: 20vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
                     <ul class="list-group">
                         <div *ngFor="let cat of this.catchesToAdd">
                             <add-catch-bar [currCatch]="cat" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>

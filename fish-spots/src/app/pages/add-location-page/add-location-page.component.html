@@ -1,6 +1,6 @@
 <app-navbar/>
-<div class="add-location-page">
-  <div class="add-location-form">
+<div id="add-location-page">
+  <div id="add-location-form">
     <h1>Add Location</h1>
 
     <form class = "add-location-info" #locationForm="ngForm">
@@ -13,11 +13,15 @@
       <label for="locImage">Image</label><br>
       <input type="file" id="locImage" name="locImage" (change)="onFileSelected($event)" accept="image/*"><br>
     </form><br>
+
+    <!-- outing info -->
+    <div id="outing-info">
+      <button class="btn btn-primary" (click)="addOutingOpenDialog()">Record Outing (optional)</button><br>
+    </div>
     
-    <button class="submit-button" (click)="addLocation()" [disabled]="!locName || !locDesc || !locImage">
+    <button class="btn submit-button" (click)="addLocation()" [disabled]="!locName || !locDesc || !locImage">
       Submit
     </button>
   </div>
+  <mini-map></mini-map>
 </div>
-
-<mini-map></mini-map>

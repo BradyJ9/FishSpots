@@ -45,16 +45,6 @@ export class SidebarComponent implements OnInit {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  public getFormattedDate(dateInput: Date | string | null | undefined): string {
-    if (!dateInput) return 'Invalid date';
-
-    const date = new Date(dateInput);
-
-    if (isNaN(date.getTime())) return 'Invalid date';
-
-    return new Intl.DateTimeFormat('en-US').format(date);
-  }
-
   likeClicked(cat:CatchDto): void {
     const likeButton = document.getElementById("like-button"+cat.catchId!.toString()) as HTMLImageElement;
     const likesCount = document.getElementById("likes-count"+cat.catchId!.toString()) as HTMLDivElement;

@@ -8,14 +8,14 @@ import { Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 import { OutingDto } from '../../../model/dto/OutingDto';
 import { OutingService } from '../../services/outing.service';
 import { OutingBarComponent } from "../../components/outing-bar/outing-bar.component";
-import { Dialog } from "@angular/cdk/dialog";
 import { AddOutingDialogComponent } from '../../components/add-outing-dialog/add-outing-dialog.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LocationImageService } from '../../services/locationimage.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-location-page',
-  imports: [PhotoScrollerComponent, CommonModule, OutingBarComponent, NavbarComponent],
+  imports: [PhotoScrollerComponent, CommonModule, OutingBarComponent, NavbarComponent,MatDialogModule],
   templateUrl: './location-page.component.html',
   styleUrl: './location-page.component.css'
 })
@@ -29,7 +29,7 @@ export class LocationPageComponent {
   public fetchImageUrls$!:Observable<string[]>;
   
   constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService,
-    private dialog: Dialog, private locationImageService: LocationImageService) {
+    private dialog: MatDialog, private locationImageService: LocationImageService) {
     const id = this.route.snapshot.paramMap.get('id');
     this.outings$ = this.outingService.getOutingsByLocationId$(id ?? '');
   }
@@ -61,6 +61,12 @@ export class LocationPageComponent {
   }
 
   public addOutingOpenDialog() {
-    this.dialog.open(AddOutingDialogComponent);
+    const dialogRef = this.dialog.open(AddOutingDialogComponent, {
+      width: '80vw',
+      height: '90vh',
+      maxWidth: 'none',
+      disableClose: false,
+      autoFocus: true       
+    });
   }
 }

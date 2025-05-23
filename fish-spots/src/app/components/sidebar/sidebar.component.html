@@ -32,7 +32,7 @@
                 [id]="'like-button' + catch.catchId"/>
               <div class="likes-count" [id]="'likes-count' + catch.catchId">{{catch.likes}} likes</div>
             </div>
-            <div class="catch-date" style="margin-top: 10px;">{{getFormattedDate(catch.createdAt)}}</div>
+            <div class="catch-date" style="margin-top: 10px;">{{catch.createdAt | date:'shortDate'}}</div>
           </div>
         </div>
       </div>
