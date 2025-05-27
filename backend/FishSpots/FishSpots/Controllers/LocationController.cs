@@ -57,8 +57,8 @@ namespace FishSpots.Controllers
         {
             try
             {
-                await locationLogic.InsertLocationAsync(location);
-                return Ok();
+                var id = await locationLogic.InsertLocationAsync(location);
+                return Ok(id);
             }
             catch (Exception ex)
             {

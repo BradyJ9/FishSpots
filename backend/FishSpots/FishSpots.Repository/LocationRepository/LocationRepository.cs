@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Collections.Generic;
+using Dapper;
 using FishSpots.Domain.Models;
 using FishSpots.Infrastructure;
 
@@ -32,9 +33,11 @@ namespace FishSpots.Repository.LocationRepository
             using var connection = databaseFactory.CreateDbConnection();
 
             var sql = "INSERT INTO Location (LocationName, Lat, Long, LocationDescription)" +
-                "VALUES (@LocationName, @Lat, @Long, @LocationDescription)";
+            "VALUES (@LocationName, @Lat, @Long, @LocationDescription)" +
+            "returning LocationID;";
 
-            return await connection.ExecuteAsync(sql, location);
+            //Returns the ID of the location inserted; will throw an error if insertion is unsuccessful
+            return await connection.QuerySingleAsync<int>(sql, location);
         }
 
         public async Task<int> UpdateLocationByIdAsync(Location location, int locationId)
