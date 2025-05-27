@@ -2,8 +2,9 @@ export interface OutingDto {
     readonly outingId?: number;
     readonly locationId: number;
     readonly outingDate: Date;
-    readonly startTime: Date;
-    readonly endTime: Date;
+    readonly startTime: string;
+    readonly endTime: string;
+    readonly notes: string;
     readonly createdAt?: Date;
     readonly lastUpdatedAt?: Date;
 }

@@ -8,6 +8,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { AddOutingDialogComponent } from "../../components/add-outing-dialog/add-outing-dialog.component";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
+import { OutingDto } from '../../../model/dto/OutingDto';
+import { OutingService } from '../../services/outing.service';
 
 @Component({
   selector: 'app-add-location-page',
@@ -15,6 +17,7 @@ import { formatDate } from '@angular/common';
   templateUrl: './add-location-page.component.html',
   styleUrl: './add-location-page.component.css'
 })
+
 export class AddLocationPageComponent {
 
   public newLat!: string;
@@ -23,10 +26,17 @@ export class AddLocationPageComponent {
   public locDesc: string = '';
   public locImage: File | null = null;
 
-  constructor(private router:Router, private route: ActivatedRoute, 
-    private locationService:LocationService, private dialog:MatDialog) { }
+  private outingParams: {
+    locationId:number,
+    outingDate: Date;
+    startTime: string;
+    endTime: string;
+    notes: string;
+  } | undefined;
 
-  //TODO: Don't return to homepage until the new marker is visible
+  constructor(private router:Router, private route: ActivatedRoute, 
+    private locationService:LocationService, private dialog:MatDialog,
+    private outingService:OutingService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -46,9 +56,8 @@ export class AddLocationPageComponent {
     }
   }
 
-  public addLocation(): void {
+  public insertLocation(): void {
     //TODO: Implement image uploads
-    //TODO: Submit outing info if present
     const newLocation:LocationDto = {
       locationName:this.locName,
       lat:this.newLat,
@@ -56,7 +65,14 @@ export class AddLocationPageComponent {
       locationDescription:this.locDesc
     }
     this.locationService.insertLocation(newLocation).subscribe({
-      next: () => this.returnToHomepage(this.newLat, this.newLng),
+      next: (locationId:number) => {
+        if(this.outingParams){
+          this.outingParams.locationId = locationId;
+          this.insertOuting();
+        }
+        this.returnToHomepage(this.newLat, this.newLng);
+      },
+      error: (err) => {console.error('Error submitting location:', err);}
     });
   }
 
@@ -98,16 +114,16 @@ export class AddLocationPageComponent {
     });
   }
 
-  public saveOutingSummary(data:{ date: string, startTime: string, endTime:string, catchCount: number, notes: string }){
+  public saveOutingSummary(data:{ date: Date, startTime: string, endTime:string, catchCount: number, notes: string }){
     if(document.getElementById('outing-summary') == null){
       const form = document.getElementById('outing-info') as HTMLDivElement;
       const outingSummary = document.createElement("div");
-      outingSummary.className = "outing-summary";
+      outingSummary.id = "outing-summary";
       
       outingSummary.innerHTML =
         `
           <h3>${formatDate(data.date,'mediumDate', 'en-US')}</h3>
-          <h5>${formatDate(data.date,'shortTime', 'en-US')}-${formatDate(data.date,'shortTime', 'en-US')}</h5>
+          <h5>${formatDate(data.startTime,'shortTime', 'en-US')}-${formatDate(data.endTime,'shortTime', 'en-US')}</h5>
           <div><i class="fas fa-fish"></i> x${data.catchCount} </div>
           <p>${data.notes}</p>
         `;
@@ -115,10 +131,18 @@ export class AddLocationPageComponent {
     } else {
       (document.getElementById('outing-summary') as HTMLDivElement).innerHTML =
       `
-        <h3>${data.date} ${data.startTime}-${data.endTime}</h3>
-        <div><i class="fas fa-fish"></i> x${data.catchCount} </div>
-        <p>${data.notes}</p>
+          <h3>${formatDate(data.date,'mediumDate', 'en-US')}</h3>
+          <h5>${formatDate(data.startTime,'shortTime', 'en-US')}-${formatDate(data.endTime,'shortTime', 'en-US')}</h5>
+          <div><i class="fas fa-fish"></i> x${data.catchCount} </div>
+          <p>${data.notes}</p>
       `;
+    }
+    this.outingParams = {
+      locationId:-1,
+      outingDate: data.date,
+      startTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
+      endTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
+      notes: data.notes
     }
   }
 
@@ -133,6 +157,25 @@ export class AddLocationPageComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.saveOutingSummary(result);
+      }
+    });
+  }
+
+  public insertOuting(): void {
+    const newOuting:OutingDto = {
+      locationId: this.outingParams!.locationId,
+      outingDate: this.outingParams!.outingDate,
+      startTime: this.outingParams!.startTime,
+      endTime: this.outingParams!.endTime,
+      notes: this.outingParams!.notes
+    }
+    console.log(newOuting);
+    this.outingService.insertOuting(newOuting).subscribe({
+      next: () => {
+        console.log('Outing inserted successfully');
+      },
+      error: (err) => {
+        console.error('Error submitting outing:', err);
       }
     });
   }

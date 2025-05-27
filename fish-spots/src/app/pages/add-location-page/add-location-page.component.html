@@ -5,7 +5,7 @@
 
     <form class = "add-location-info" #locationForm="ngForm">
       <label for="locName">Location Name</label><br>
-      <input type="text" id="locName" name="locName" required [(ngModel)]="locName"><br>
+      <input type="text" id="locName" name="locName" required [(ngModel)]="locName" autofocus="autofocus"><br>
 
       <label for="locDesc">Description</label><br>
       <input type="text" id="locDesc" name="locDesc" required [(ngModel)]="locDesc"><br>
@@ -19,7 +19,7 @@
       <button class="btn btn-primary" (click)="addOutingOpenDialog()">Record Outing (optional)</button><br>
     </div>
     
-    <button class="btn submit-button" (click)="addLocation()" [disabled]="!locName || !locDesc || !locImage">
+    <button class="btn submit-button" (click)="insertLocation()" [disabled]="!locName || !locDesc || !locImage">
       Submit
     </button>
   </div>

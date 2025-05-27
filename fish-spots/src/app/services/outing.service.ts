@@ -9,9 +9,7 @@ import { map, Observable, of } from "rxjs";
 })
 
 export class OutingService {
-    constructor(private apiClient: ApiClientService) {
-
-    }
+    constructor(private apiClient: ApiClientService) {}
 
     private readonly outingUrl = 'Outing/';
 
@@ -22,5 +20,9 @@ export class OutingService {
         return this.apiClient.get<{outings: OutingDto[] }>(this.outingUrl + 'Location/' + locId).pipe(
             map(response => response.outings)
         );
+    }
+
+    public insertOuting(outing:OutingDto): Observable<number> {
+        return this.apiClient.post<number>(this.outingUrl,outing);
     }
 }
