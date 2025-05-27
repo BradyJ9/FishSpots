@@ -35,15 +35,19 @@
                     </div>
                     <div style="margin-left: 20px;">
                         <button mat-icon-button style="color: white; background-color: rgb(30, 212, 151); display: flex; align-items: center;
-                         justify-content: center;" (click)="addCatchToOutingForm()">+</button>
+                         justify-content: center;" (click)="this.addCatchToOutingForm()">+</button>
                     </div>
                 </div>
-                <div style="max-height: 35vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <div style="max-height: 20vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
                     <ul class="list-group">
-                        <div *ngFor="let cat of catchesToAdd">
+                        <div *ngFor="let cat of this.catchesToAdd">
                             <add-catch-bar [currCatch]="cat" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>
                         </div>
                     </ul>
+                </div>
+                <div style="display: flex; align-items: center; gap: 30px; margin-top: 10px;">
+                    <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                    <button class="btn btn-primary" style="background-color: grey; border-color: grey;" (click)="onCancel()">Cancel</button>
                 </div>
             </form>
         </div>

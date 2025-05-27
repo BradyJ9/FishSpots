@@ -5,10 +5,13 @@ import { MiniMapComponent } from '../../components/minimap/mini-map.component';
 import { LocationService } from '../../services/location.service';
 import { LocationDto } from '../../../model/dto/LocationDto';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { AddOutingDialogComponent } from "../../components/add-outing-dialog/add-outing-dialog.component";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-add-location-page',
-  imports: [FormsModule, MiniMapComponent, NavbarComponent],
+  imports: [FormsModule, MiniMapComponent, NavbarComponent,MatDialogModule],
   templateUrl: './add-location-page.component.html',
   styleUrl: './add-location-page.component.css'
 })
@@ -20,7 +23,8 @@ export class AddLocationPageComponent {
   public locDesc: string = '';
   public locImage: File | null = null;
 
-  constructor(private router:Router, private route: ActivatedRoute, private locationService:LocationService) { }
+  constructor(private router:Router, private route: ActivatedRoute, 
+    private locationService:LocationService, private dialog:MatDialog) { }
 
   //TODO: Don't return to homepage until the new marker is visible
 
@@ -44,6 +48,7 @@ export class AddLocationPageComponent {
 
   public addLocation(): void {
     //TODO: Implement image uploads
+    //TODO: Submit outing info if present
     const newLocation:LocationDto = {
       locationName:this.locName,
       lat:this.newLat,
@@ -52,7 +57,6 @@ export class AddLocationPageComponent {
     }
     this.locationService.insertLocation(newLocation).subscribe({
       next: () => this.returnToHomepage(this.newLat, this.newLng),
-      error: (err) => console.error('Failed to insert location:', err)
     });
   }
 
@@ -91,6 +95,45 @@ export class AddLocationPageComponent {
         }
       };
       reader.readAsDataURL(file);
+    });
+  }
+
+  public saveOutingSummary(data:{ date: string, startTime: string, endTime:string, catchCount: number, notes: string }){
+    if(document.getElementById('outing-summary') == null){
+      const form = document.getElementById('outing-info') as HTMLDivElement;
+      const outingSummary = document.createElement("div");
+      outingSummary.className = "outing-summary";
+      
+      outingSummary.innerHTML =
+        `
+          <h3>${formatDate(data.date,'mediumDate', 'en-US')}</h3>
+          <h5>${formatDate(data.date,'shortTime', 'en-US')}-${formatDate(data.date,'shortTime', 'en-US')}</h5>
+          <div><i class="fas fa-fish"></i> x${data.catchCount} </div>
+          <p>${data.notes}</p>
+        `;
+      form.appendChild(outingSummary);
+    } else {
+      (document.getElementById('outing-summary') as HTMLDivElement).innerHTML =
+      `
+        <h3>${data.date} ${data.startTime}-${data.endTime}</h3>
+        <div><i class="fas fa-fish"></i> x${data.catchCount} </div>
+        <p>${data.notes}</p>
+      `;
+    }
+  }
+
+  public addOutingOpenDialog() {
+    const dialogRef = this.dialog.open(AddOutingDialogComponent, {
+      width: '80vw',
+      height: '90vh',
+      maxWidth: 'none',
+      disableClose: false,
+      autoFocus: true       
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.saveOutingSummary(result);
+      }
     });
   }
 

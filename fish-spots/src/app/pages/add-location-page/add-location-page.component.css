@@ -2,13 +2,13 @@
     border-radius:5px;
 }
 
-.add-location-page {
+#add-location-page {
     padding:10px;
     background-color: #262A18;
     min-height:100vh;
 }
 
-.add-location-form {
+#add-location-form {
     background-color: #BAD1CD;
     padding:15px;
     width:30%;
@@ -25,4 +25,17 @@
 
 .submit-button:disabled {
     background-color: #7aa177;
+}
+
+.btn-primary {
+    background-color:#0d7006;
+    border:none;
+    margin-bottom:20px;
+}
+
+#outing-info {
+    /* Given the 500 character limit, this should never overflow under normal conditions. */
+    /* background-color: #2ec55b; */
+    /* border-radius: 5px; */
+    max-width:100%;
 }

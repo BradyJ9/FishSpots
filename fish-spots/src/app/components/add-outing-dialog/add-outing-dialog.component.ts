@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectorRef, Component, ViewEncapsulation } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -9,14 +9,16 @@ import { MatButtonModule } from "@angular/material/button";
 import { CatchDto } from "../../../model/dto/CatchDto";
 import { AddCatchBarComponent } from "../add-catch-bar/add-catch-bar.component";
 import { CommonModule } from "@angular/common";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 
 @Component ({
     selector: 'add-outing-dialog',
     templateUrl: './add-outing-dialog.component.html',
     styleUrl: './add-outing-dialog.component.css',
-    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,
+    imports: [MatDialogModule,MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,
          MatTimepickerModule, ReactiveFormsModule, MatButtonModule, AddCatchBarComponent,
-        CommonModule]
+        CommonModule],
+    encapsulation: ViewEncapsulation.None
 })
 
 export class AddOutingDialogComponent {
@@ -29,19 +31,37 @@ export class AddOutingDialogComponent {
 
     public catchesToAdd: CatchDto[] = [];
 
-    constructor() {}
+    constructor(private cdr: ChangeDetectorRef, private dialogRef: MatDialogRef<AddOutingDialogComponent>) {}
 
-    addCatchToOutingForm() {
+    public addCatchToOutingForm = () => {
         console.log(this.catchesToAdd.length);
         if (this.catchesToAdd.length < 10) {
             let newCatch: CatchDto = {} as CatchDto;
-            this.catchesToAdd = [...this.catchesToAdd, newCatch];
+            this.catchesToAdd.push(newCatch);
         }
+        this.cdr.detectChanges();
     }
 
     public removeCatchFromOutingForm = (index: number) => {
         console.log("REMOVING " + index);
         console.log(this.catchesToAdd);
         this.catchesToAdd = this.catchesToAdd.filter((_, i) => i !== index);
+        this.cdr.detectChanges();
+    }
+
+    public onSubmit() {
+        const outingData = {
+            date: this.outingForm.controls['date'].value,
+            startTime: this.outingForm.controls['startTime'].value,
+            endTime: this.outingForm.controls['endTime'].value,
+            catchCount: this.catchesToAdd.length,
+            notes: this.outingForm.controls['notes'].value
+        };
+
+        this.dialogRef.close(outingData);
+    }
+
+    public onCancel() {
+
     }
 }
