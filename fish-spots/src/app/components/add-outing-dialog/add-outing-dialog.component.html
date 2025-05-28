@@ -1,5 +1,5 @@
 <article>
-    <div class="form-background">
+    <!-- <div class="form-background"> -->
         <div class="form-body">
             <h3>Add Outing</h3>
             <form [formGroup]="outingForm">
@@ -38,7 +38,7 @@
                          justify-content: center;" (click)="this.addCatchToOutingForm()">+</button>
                     </div>
                 </div>
-                <div style="max-height: 20vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <div style="max-height: 40vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
                     <ul class="list-group">
                         <div *ngFor="let cat of this.catchesToAdd">
                             <add-catch-bar [currCatch]="cat" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>
@@ -46,10 +46,10 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center; gap: 30px; margin-top: 10px;">
-                    <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
-                    <button class="btn btn-primary" style="background-color: grey; border-color: grey;" (click)="onCancel()">Cancel</button>
+                    <button class="btn btn-primary" (click)="this.onSubmit()">Submit</button>
+                    <button class="btn btn-primary" style="background-color: grey; border-color: grey;" (click)="this.onCancel()">Cancel</button>
                 </div>
             </form>
         </div>
-    </div>  
+    <!-- </div>   -->
 </article>
