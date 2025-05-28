@@ -12,6 +12,7 @@ import { AddOutingDialogComponent } from '../../components/add-outing-dialog/add
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LocationImageService } from '../../services/locationimage.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { OutingFormData } from '../../../model/dto/OutingFormData';
 
 @Component({
   selector: 'app-location-page',
@@ -66,7 +67,14 @@ export class LocationPageComponent {
       height: '90vh',
       maxWidth: 'none',
       disableClose: false,
-      autoFocus: true       
+      autoFocus: true
     });
+
+    dialogRef.afterClosed().subscribe((formData: OutingFormData) => {
+      if (formData !== null) {
+        console.log("form data received: " + formData)
+      }
+    })
+
   }
 }

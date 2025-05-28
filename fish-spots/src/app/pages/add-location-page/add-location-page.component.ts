@@ -10,6 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { OutingDto } from '../../../model/dto/OutingDto';
 import { OutingService } from '../../services/outing.service';
+import { OutingFormData } from '../../../model/dto/OutingFormData';
 
 @Component({
   selector: 'app-add-location-page',
@@ -114,7 +115,7 @@ export class AddLocationPageComponent {
     });
   }
 
-  public saveOutingSummary(data:{ date: Date, startTime: string, endTime:string, catchCount: number, notes: string }){
+  public saveOutingSummary(data:OutingFormData){
     if(document.getElementById('outing-summary') == null){
       const form = document.getElementById('outing-info') as HTMLDivElement;
       const outingSummary = document.createElement("div");
@@ -124,7 +125,7 @@ export class AddLocationPageComponent {
         `
           <h3>${formatDate(data.date,'mediumDate', 'en-US')}</h3>
           <h5>${formatDate(data.startTime,'shortTime', 'en-US')}-${formatDate(data.endTime,'shortTime', 'en-US')}</h5>
-          <div><i class="fas fa-fish"></i> x${data.catchCount} </div>
+          <div><i class="fas fa-fish"></i> x${data.catches.length} </div>
           <p>${data.notes}</p>
         `;
       form.appendChild(outingSummary);
@@ -133,7 +134,7 @@ export class AddLocationPageComponent {
       `
           <h3>${formatDate(data.date,'mediumDate', 'en-US')}</h3>
           <h5>${formatDate(data.startTime,'shortTime', 'en-US')}-${formatDate(data.endTime,'shortTime', 'en-US')}</h5>
-          <div><i class="fas fa-fish"></i> x${data.catchCount} </div>
+          <div><i class="fas fa-fish"></i> x${data.catches.length} </div>
           <p>${data.notes}</p>
       `;
     }
@@ -154,7 +155,7 @@ export class AddLocationPageComponent {
       disableClose: false,
       autoFocus: true       
     });
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: OutingFormData) => {
       if (result) {
         this.saveOutingSummary(result);
       }
@@ -173,6 +174,7 @@ export class AddLocationPageComponent {
     this.outingService.insertOuting(newOuting).subscribe({
       next: () => {
         console.log('Outing inserted successfully');
+        //TODO: Insert catches
       },
       error: (err) => {
         console.error('Error submitting outing:', err);
