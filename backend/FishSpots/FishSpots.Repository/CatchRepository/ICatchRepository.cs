@@ -9,6 +9,7 @@ namespace FishSpots.Repository.CatchRepository
         Task<List<Catch>?> GetCatchesByOutingAsync(int outingId);
         Task<List<Catch>?> GetCatchesBySpeciesAsync(string species);
         Task<Catch?> GetCatchByIdAsync(int catchId);
+        Task<Location?> GetCatchLocationAsync(int outingId);
         Task<int> UpdateCatchByIdAsync(Catch cat, int catchId);
         Task<int> InsertCatchAsync(Catch cat);
     }
