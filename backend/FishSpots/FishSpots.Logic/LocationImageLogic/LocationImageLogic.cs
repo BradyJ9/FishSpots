@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using FishSpots.Domain.Exceptions;
+﻿using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
 using FishSpots.Repository.LocationImageRepository;
 
@@ -9,7 +8,7 @@ namespace FishSpots.Logic.LocationImageLogic
     {
         public async Task DeleteLocationImageByIdAsync(int imageId)
         {
-            int success = await locationImageRepository.DeleteLocationImageByIdAsync(imageId);
+            var success = await locationImageRepository.DeleteLocationImageByIdAsync(imageId);
 
             if (success != 1)
             {
@@ -24,7 +23,7 @@ namespace FishSpots.Logic.LocationImageLogic
 
         public async Task InsertLocationImageAsync(LocationImage locationImage)
         {
-            int success = await locationImageRepository.InsertLocationImageAsync(locationImage);
+            var success = await locationImageRepository.InsertLocationImageAsync(locationImage);
 
             if (success != 1)
             {
@@ -34,7 +33,7 @@ namespace FishSpots.Logic.LocationImageLogic
 
         public async Task UpdateLocationImageByIdAsync(LocationImage locationImage, int imageId)
         {
-            int success = await locationImageRepository.UpdateLocationImageByIdAsync(locationImage,imageId);
+            var success = await locationImageRepository.UpdateLocationImageByIdAsync(locationImage,imageId);
 
             if (success != 1)
             {

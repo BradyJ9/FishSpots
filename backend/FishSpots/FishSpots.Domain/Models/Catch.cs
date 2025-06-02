@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FishSpots.Domain.Models
+﻿namespace FishSpots.Domain.Models
 {
     public class Catch
     {
@@ -12,7 +6,7 @@ namespace FishSpots.Domain.Models
 
 		public int OutingId { get; set; }
 
-		public string Species { get; set; }
+		public required string Species { get; set; }
 
 		public float CatchLength { get; set; }
 
@@ -20,7 +14,7 @@ namespace FishSpots.Domain.Models
 
 		public int Likes { get; set; }
 
-		public string ImageUrl { get; set; }
+		public string? ImageUrl { get; set; }
 
 		public DateTime CreatedAt { get; set; }
 

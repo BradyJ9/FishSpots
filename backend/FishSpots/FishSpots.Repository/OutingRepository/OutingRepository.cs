@@ -73,8 +73,8 @@ namespace FishSpots.Repository.OutingRepository
         {
             var sql = SqlInsertHelper.GetInsertWithReturnSql(databaseFactory.GetDbProvider(),
                 "Outing",
-                "LocationId, OutingDate, StartTime, EndTime",
-                "@LocationId, @OutingDate, @StartTime, @EndTime",
+                "LocationId, OutingDate, Notes, StartTime, EndTime",
+                "@LocationId, @OutingDate, @Notes, @StartTime, @EndTime",
                 "OutingId");
 
             return await connection.QuerySingleAsync<int>(sql, outing);

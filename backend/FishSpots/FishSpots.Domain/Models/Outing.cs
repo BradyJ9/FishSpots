@@ -14,7 +14,7 @@ namespace FishSpots.Domain.Models
 
         public required DateTime OutingDate { get; set; }
 
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
 
         public TimeSpan? StartTime { get; set; }
 

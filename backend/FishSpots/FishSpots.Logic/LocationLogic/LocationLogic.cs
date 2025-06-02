@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using FishSpots.Domain.Exceptions;
+﻿using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
 using FishSpots.Domain.RequestModels;
 using FishSpots.Infrastructure;
@@ -20,8 +19,7 @@ namespace FishSpots.Logic.LocationLogic
         public async Task<Location> GetLocationByIdAsync(int locationId)
         {
             var location = await locationRepository.GetLocationByIdAsync(locationId);
-            return location == null ? 
-                throw new Exception($"Error: location with id {locationId} not found") : location;
+            return location ?? throw new Exception($"Error: location with id {locationId} not found");
         }
 
         public async Task<int> InsertLocationAsync(Location location)
@@ -31,7 +29,7 @@ namespace FishSpots.Logic.LocationLogic
 
         public async Task DeleteLocationByIdAsync(int locationId)
         {
-            int success = await locationRepository.DeleteLocationByIdAsync(locationId);
+            var success = await locationRepository.DeleteLocationByIdAsync(locationId);
 
             if (success != 1)
             {
@@ -41,7 +39,7 @@ namespace FishSpots.Logic.LocationLogic
 
         public async Task UpdateLocationByIdAsync(Location location, int locationId)
         {
-            int success = await locationRepository.UpdateLocationByIdAsync(location, locationId);
+            var success = await locationRepository.UpdateLocationByIdAsync(location, locationId);
 
             if (success != 1)
             {
@@ -60,12 +58,13 @@ namespace FishSpots.Logic.LocationLogic
                 {
                     LocationId = outingInsert.Outing.LocationId,
                     OutingDate = outingInsert.Outing.OutingDate,
+                    Notes = outingInsert.Outing.Notes,
                     StartTime = string.IsNullOrWhiteSpace(outingInsert.Outing.StartTime) ? null : TimeSpan.Parse(outingInsert.Outing.StartTime),
                     EndTime = string.IsNullOrWhiteSpace(outingInsert.Outing.EndTime) ? null : TimeSpan.Parse(outingInsert.Outing.EndTime),
                 };
                 var outingId = await outingRepository.InsertOutingAsync(connection, outing);
 
-                var catches = outingInsert.Catches.Select(catchDto => new Catch
+                var catches = outingInsert.Catches?.Select(catchDto => new Catch
                 {
                     Species = catchDto.Species,
                     CatchLength = (float)catchDto.CatchLength,
@@ -73,7 +72,7 @@ namespace FishSpots.Logic.LocationLogic
                     ImageUrl = catchDto.ImageUrl ?? string.Empty,
                     CreatedAt = DateTime.UtcNow,
                     LastUpdatedAt = DateTime.UtcNow
-                }).ToList();
+                }).ToList() ?? [];
 
                 await catchRepository.InsertCatchesIntoOutingAsync(connection, catches, outingId);
 

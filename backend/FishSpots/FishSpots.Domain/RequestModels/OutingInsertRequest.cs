@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FishSpots.Domain.Models;
-
-namespace FishSpots.Domain.RequestModels
+﻿namespace FishSpots.Domain.RequestModels
 {
     public class OutingInsertRequest
     {

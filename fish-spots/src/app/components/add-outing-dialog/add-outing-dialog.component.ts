@@ -24,6 +24,7 @@ import { OutingFormData } from "../../../model/dto/OutingFormData";
 
 export class AddOutingDialogComponent {
     public outingForm!: FormGroup;
+    maxDate: Date = new Date();
 
     private timeRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
         const group = control as FormGroup;
@@ -68,8 +69,7 @@ export class AddOutingDialogComponent {
     }
 
     public onSubmit = () => {
-        console.log(this.catchesToAdd[0].species);
-        if (this.catchesToAdd.some(catchItem => !catchItem.species || catchItem.species.trim() === '')) {
+        if (this.catchesToAdd && this.catchesToAdd.some(catchItem => !catchItem.species || catchItem.species.trim() === '')) {
             alert('All catches must have a species specified.');
             return;
         }

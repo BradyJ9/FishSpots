@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Dapper;
+﻿using Dapper;
 using FishSpots.Domain.Models;
 using FishSpots.Infrastructure;
 using FishSpots.Repository.Helpers;

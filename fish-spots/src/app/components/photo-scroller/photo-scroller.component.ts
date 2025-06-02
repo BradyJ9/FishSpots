@@ -20,7 +20,7 @@ export class PhotoScrollerComponent {
 
     ngOnInit(): void {
       
-      this.fetchImageUrls$.subscribe((urls: string[]) => {
+      this.fetchImageUrls$?.subscribe((urls: string[]) => {
         this.imageUrls = urls;
       })
       console.log(this.imageUrls.length);

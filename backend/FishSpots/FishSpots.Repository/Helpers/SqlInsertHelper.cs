@@ -1,5 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-using FishSpots.Infrastructure;
+﻿using FishSpots.Infrastructure;
 
 namespace FishSpots.Repository.Helpers
 {
@@ -23,10 +22,10 @@ namespace FishSpots.Repository.Helpers
 
                 case DatabaseProviders.Postgresql:
                     return $"INSERT INTO {tableName} ({columns}) VALUES ({values}) RETURNING {idColumn};";
+
+                default:
+                    throw new InvalidOperationException("No matching sql statement for provider: " + provider);
             }
-
-            throw new InvalidOperationException("No matching sql statement for provider: " + provider.ToString());
-
         }
     }
 }

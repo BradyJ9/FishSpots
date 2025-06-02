@@ -5,7 +5,7 @@
             <form [formGroup]="outingForm" (onSubmit)="this.onSubmit()">
                 <div>
                     <mat-form-field class="example-full-width">
-                        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Date">
+                        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Date" [max]="maxDate">
                         <mat-datepicker-toggle matSuffix [for]="picker">
                         </mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
@@ -22,6 +22,10 @@
                         <input matInput [matTimepicker]="endtimepicker" formControlName="endTime" placeholder="End Time">
                         <mat-timepicker-toggle matIconSuffix [for]="endtimepicker"/>
                         <mat-timepicker interval="30m" #endtimepicker/>
+                        <!-- TODO: Show error message here -->
+                        <!-- <mat-error *ngIf="outingForm.errors?.invalidTimeRange">
+                            Date is required
+                        </mat-error> -->
                     </mat-form-field> 
                 </div>
                 <div>

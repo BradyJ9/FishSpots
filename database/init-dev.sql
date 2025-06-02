@@ -64,7 +64,8 @@ WITH inserted_locations AS (
     VALUES
         ('Trial Lake', '40.6830051', '-110.9545998', 'Lovely Uinta Mountain Lake'),
         ('Lake Powell','36.9333','-111.4833','Gets real warm down here'),
-        ('Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here')
+        ('Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here'),
+        ('Fish Lake','38.5514','-111.705','Must be fish in here, right? Also here is some additional text to show a really really long description some people like to write a lot and we should handle long text like this appropriately Timberland is a dirty stinky catfish and I must admit sometimes I want to use him as live bait do not tell Rachel.  I have nothing else left to say but to quote Dave Blunt lyrics baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and')
     RETURNING LocationId, LocationName
 ),
 
@@ -123,6 +124,7 @@ FROM inserted_locations l
 JOIN (VALUES
 ('Trial Lake', 'https://3.bp.blogspot.com/-eIe5T9OMIhY/UjI7TYGyxII/AAAAAAAABts/x3wewmJKp6Q/s1600/unsinkable2-2013-07-21-00079.JPG'),
 ('Lake Powell', 'https://ctfassets.ksldigital.com/0wjmk6wgfops/6dk4N8fQLpGCMCCTBhPm8s/9c6c36bf360076d793738404612629c1/AdobeStock_190040875.jpeg?q=70'),
-('Bear Lake', 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bear_Lake.jpg')
+('Bear Lake', 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bear_Lake.jpg'),
+('Fish Lake', 'https://geology.utah.gov/wp-content/uploads/11_2019_Fishlake_J_Lucy_Jordan-1.jpg')
 ) AS li(LocationName, StoragePath)
 ON l.LocationName = li.LocationName;

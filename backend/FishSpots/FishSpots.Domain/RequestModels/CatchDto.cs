@@ -2,7 +2,7 @@
 {
     public class CatchDto
     {
-        public string Species { get; set; }
+        public required string Species { get; set; }
 
         public double CatchLength { get; set; }
 
