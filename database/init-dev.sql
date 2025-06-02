@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS Outing (
 	OutingID SERIAL PRIMARY KEY,
 	LocationID INT NOT NULL,
 	FOREIGN KEY (LocationId) REFERENCES Location (LocationID),
+    Notes VARCHAR(500),
 	OutingDate DATE NOT NULL,
 	StartTime TIME,
 	EndTime TIME,

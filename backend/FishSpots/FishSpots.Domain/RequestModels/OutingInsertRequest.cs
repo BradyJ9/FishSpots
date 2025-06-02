@@ -5,8 +5,8 @@ namespace FishSpots.Domain.RequestModels
 {
     public class OutingInsertRequest
     {
-        public OutingDto Outing { get; set; }
+        public required OutingDto Outing { get; set; }
 
-        public List<CatchDto> Catches { get; set; }
+        public List<CatchDto>? Catches { get; set; }
     }
 }
