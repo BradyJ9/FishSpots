@@ -72,7 +72,23 @@ export class LocationPageComponent {
 
     dialogRef.afterClosed().subscribe((formData: OutingFormData) => {
       if (formData !== null) {
-        console.log("form data received: " + formData)
+        console.log("form data received: " + formData);
+        const outing: OutingDto = {
+          locationId: this.location?.locationId ?? 0,
+          //notes: formData.notes,
+          outingDate: formData.date,
+          startTime: formData.startTime,
+          endTime: formData.endTime
+        };
+
+        this.locationService.insertOutingByLocationId(this.location?.locationId ?? 0, outing, formData.catches).subscribe({
+          next: (newOuting) => {
+            console.log("New outing added:", newOuting);
+          },
+          error: (err) => {
+            console.error("Error adding outing:", err);
+          }
+        });
       }
     })
 

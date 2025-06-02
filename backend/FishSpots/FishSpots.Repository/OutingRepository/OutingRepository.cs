@@ -1,6 +1,8 @@
-﻿using Dapper;
+﻿using System.Data;
+using Dapper;
 using FishSpots.Domain.Models;
 using FishSpots.Infrastructure;
+using FishSpots.Repository.Helpers;
 
 namespace FishSpots.Repository.OutingRepository
 {
@@ -64,10 +66,18 @@ namespace FishSpots.Repository.OutingRepository
         {
             using var connection = databaseFactory.CreateDbConnection();
 
-            var sql = "INSERT INTO Outing (LocationId, OutingDate, StartTime, EndTime)" +
-                "VALUES (@LocationId, @OutingDate, @StartTime, @EndTime)";
+            return await InsertOutingAsync(connection, outing);
+        }
 
-            return await connection.ExecuteAsync(sql, outing);
+        public async Task<int> InsertOutingAsync(IDbConnection connection, Outing outing)
+        {
+            var sql = SqlInsertHelper.GetInsertWithReturnSql(databaseFactory.GetDbProvider(),
+                "Outing",
+                "LocationId, OutingDate, StartTime, EndTime",
+                "@LocationId, @OutingDate, @StartTime, @EndTime",
+                "OutingId");
+
+            return await connection.QuerySingleAsync<int>(sql, outing);
         }
 
         public async Task<int> UpdateOutingByIdAsync(Outing outing, int outingId)

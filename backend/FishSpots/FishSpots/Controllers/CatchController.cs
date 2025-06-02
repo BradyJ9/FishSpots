@@ -49,8 +49,8 @@ namespace FishSpots.Controllers
         {
             try
             {
-                await catchLogic.InsertCatchAsync(cat);
-                return Ok();
+                var id = await catchLogic.InsertCatchAsync(cat);
+                return Ok(id);
             }
             catch (Exception ex)
             {

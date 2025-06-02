@@ -30,7 +30,7 @@ export class SidebarComponent implements OnInit {
             this.catches.splice(index, 1);
           }
           if (cat.catchId !== undefined) {
-            this.imageMap[cat.catchId!] = cat.imageUrl;
+            this.imageMap[cat.catchId!] = cat.imageUrl ?? '';
           }
         });
       },

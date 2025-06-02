@@ -1,11 +1,16 @@
 ﻿using System.Runtime.InteropServices;
 using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
+using FishSpots.Domain.RequestModels;
+using FishSpots.Infrastructure;
+using FishSpots.Repository.CatchRepository;
 using FishSpots.Repository.LocationRepository;
+using FishSpots.Repository.OutingRepository;
+using Microsoft.Extensions.Logging;
 
 namespace FishSpots.Logic.LocationLogic
 {
-    public class LocationLogic(ILocationRepository locationRepository) : ILocationLogic
+    public class LocationLogic(ILocationRepository locationRepository, IOutingRepository outingRepository, ICatchRepository catchRepository, DatabaseFactory databaseFactory, ILogger<LocationLogic> logger) : ILocationLogic
     {
         public async Task<List<Location>> GetAllLocationsAsync()
         {
@@ -41,6 +46,44 @@ namespace FishSpots.Logic.LocationLogic
             if (success != 1)
             {
                 throw new ResourceNotFoundException($"Location with id {locationId} not found");
+            }
+        }
+
+        public async Task<int> InsertOutingIntoLocationAsync(int locationId, OutingInsertRequest outingInsert)
+        {
+            using var connection = databaseFactory.CreateDbConnection();
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                var outing = new Outing
+                {
+                    LocationId = outingInsert.Outing.LocationId,
+                    OutingDate = outingInsert.Outing.OutingDate,
+                    StartTime = string.IsNullOrWhiteSpace(outingInsert.Outing.StartTime) ? null : TimeSpan.Parse(outingInsert.Outing.StartTime),
+                    EndTime = string.IsNullOrWhiteSpace(outingInsert.Outing.EndTime) ? null : TimeSpan.Parse(outingInsert.Outing.EndTime),
+                };
+                var outingId = await outingRepository.InsertOutingAsync(connection, outing);
+
+                var catches = outingInsert.Catches.Select(catchDto => new Catch
+                {
+                    Species = catchDto.Species,
+                    CatchLength = (float)catchDto.CatchLength,
+                    CatchWeight = (float)catchDto.CatchWeight,
+                    ImageUrl = catchDto.ImageUrl ?? string.Empty,
+                    CreatedAt = DateTime.UtcNow,
+                    LastUpdatedAt = DateTime.UtcNow
+                }).ToList();
+
+                await catchRepository.InsertCatchesIntoOutingAsync(connection, catches, outingId);
+
+                transaction.Commit();
+                return outingId;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
             }
         }
     }

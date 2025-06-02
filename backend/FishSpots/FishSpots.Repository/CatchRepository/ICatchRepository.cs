@@ -1,4 +1,5 @@
-﻿using FishSpots.Domain.Models;
+﻿using System.Data;
+using FishSpots.Domain.Models;
 
 namespace FishSpots.Repository.CatchRepository
 {
@@ -11,5 +12,7 @@ namespace FishSpots.Repository.CatchRepository
         Task<Catch?> GetCatchByIdAsync(int catchId);
         Task<int> UpdateCatchByIdAsync(Catch cat, int catchId);
         Task<int> InsertCatchAsync(Catch cat);
+        Task<int> InsertCatchesIntoOutingAsync(List<Catch> catches, int outingId);
+        Task<int> InsertCatchesIntoOutingAsync(IDbConnection connection, List<Catch> catches, int outingId);
     }
 }

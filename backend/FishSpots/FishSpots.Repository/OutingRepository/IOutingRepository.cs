@@ -1,4 +1,5 @@
-﻿using FishSpots.Domain.Models;
+﻿using System.Data;
+using FishSpots.Domain.Models;
 
 namespace FishSpots.Repository.OutingRepository
 {
@@ -11,5 +12,6 @@ namespace FishSpots.Repository.OutingRepository
         Task<Outing?> GetOutingByIdAsync(int outingId);
         Task<int> UpdateOutingByIdAsync(Outing outing, int outingId);
         Task<int> InsertOutingAsync(Outing outing);
+        Task<int> InsertOutingAsync(IDbConnection connection, Outing outing);
     }
 }

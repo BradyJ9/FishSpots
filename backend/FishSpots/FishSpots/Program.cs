@@ -6,6 +6,7 @@ using FishSpots.Logic.LocationLogic;
 using FishSpots.Logic.OutingLogic;
 using FishSpots.Repository.CatchImageRepository;
 using FishSpots.Repository.CatchRepository;
+using FishSpots.Repository.Helpers;
 using FishSpots.Repository.LocationImageRepository;
 using FishSpots.Repository.LocationRepository;
 using FishSpots.Repository.OutingRepository;

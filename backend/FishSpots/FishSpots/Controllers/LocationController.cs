@@ -1,5 +1,6 @@
 using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
+using FishSpots.Domain.RequestModels;
 using FishSpots.Logic.LocationLogic;
 using Microsoft.AspNetCore.Mvc;
 
@@ -98,6 +99,26 @@ namespace FishSpots.Controllers
             catch (Exception ex)
             {
                 logger.LogError("Error in DeleteLocationById: ${msg}", ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("{locationId}/Outing", Name = "InsertOutingIntoLocation")]
+        public async Task<IActionResult> InsertOutingIntoLocation(int locationId, [FromBody] OutingInsertRequest outingInsert)
+        {
+            try
+            {
+                await locationLogic.InsertOutingIntoLocationAsync(locationId, outingInsert);
+                return Ok();
+            }
+            catch (ResourceNotFoundException ex)
+            {
+                logger.LogError("Error in InsertOutingIntoLocation: ${msg}", ex.Message);
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error in InsertOutingIntoLocation: ${msg}", ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }

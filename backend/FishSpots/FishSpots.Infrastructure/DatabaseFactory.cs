@@ -32,5 +32,20 @@ namespace FishSpots.Infrastructure
             //var connString = _configuration.GetConnectionString("AzureServerSqlConnection");
             //return new SqlConnection();
         }
+
+        public DatabaseProviders GetDbProvider()
+        {
+            if (_hostEnvironment.IsDevelopment() || _hostEnvironment.IsEnvironment("Debug"))
+            {
+                return DatabaseProviders.Postgresql;
+            }
+
+            if (_hostEnvironment.IsProduction())
+            {
+                return DatabaseProviders.SqlServer;
+            }
+
+            throw new InvalidOperationException("No Db Provider found");
+        }
     }
 }

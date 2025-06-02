@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiClientService } from './apiclient.service';
 import { LocationDto } from '../../model/dto/LocationDto';
 import { map, Observable } from 'rxjs';
+import { OutingDto } from '../../model/dto/OutingDto';
+import { CatchDto } from '../../model/dto/CatchDto';
 
 @Injectable ({
     providedIn: 'root'
@@ -26,5 +28,9 @@ export class LocationService {
 
     public insertLocation(location:LocationDto): Observable<number> {
         return this.apiClientService.post<number>(this.locationUrl,location);
+    }
+
+    public insertOutingByLocationId(locationId : number, outing : OutingDto, catches : CatchDto[]) {
+        return this.apiClientService.post<number>(this.locationUrl + locationId + "/" + "Outing", {outing, catches})
     }
 }
