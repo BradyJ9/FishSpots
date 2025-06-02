@@ -1,31 +1,33 @@
-<div class="list-group-item catch-box">
-    <div class="d-flex justify-content-between align-items-center">
-        <div style="display: flex; align-items: center; gap: 30px;">
-            <div>
-                <i class="fas fa-fish"></i>
+<form [formGroup]="catchForm">
+    <div class="list-group-item catch-box">
+        <div class="d-flex justify-content-between align-items-center">
+            <div style="display: flex; align-items: center; gap: 30px;">
+                <div>
+                    <i class="fas fa-fish"></i>
+                </div>
+                    <div>
+                        <input style="width: 30vh;" [(ngModel)]="currCatch.species" (ngModelChange)="updateCatch()"  type="text" class="form-control" placeholder="Species" formControlName="species">
+                    </div>
+                    <div class="d-flex" style="align-items: center;">
+                        <input type="number" [(ngModel)]="currCatch.catchWeight" (ngModelChange)="updateCatch()" class="form-control" style="width: 100px;" placeholder="Weight" formControlName="weight" step="0.01" min="0">
+                        <p style="margin: 0; align-self: center; margin-left: 5px;">lbs</p>
+                    </div>
+                    <div class="d-flex">
+                        <input type="number" [(ngModel)]="currCatch.catchLength" (ngModelChange)="updateCatch()" class="form-control" style="width: 100px;" placeholder="Length" formControlName="length" step="0.01" min="0">
+                        <p style="margin: 0; align-self: center; margin-left: 5px;">in</p>
+                    </div>
+                    <div>
+                        <label for="file-upload" style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-camera"></i>
+                            <span id="file-name" style="font-size: 0.9em; color: gray;">No file chosen</span>
+                        </label>
+                        <input id="file-upload" type="file" accept="image/jpeg, image/png" style="display: none;" 
+                            onchange="document.getElementById('file-name').textContent = this.files[0] ? this.files[0].name : 'No file chosen';"/>
+                    </div>
             </div>
             <div>
-                <input style="width: 30vh;" type="text" class="form-control" placeholder="Species">
+                <i class="fas fa-trash" style="cursor: pointer;" (click)="removeCatch(indexInList)"></i>
             </div>
-            <div class="d-flex" style="align-items: center;">
-                <input type="text" class="form-control" style="width: 80px;" placeholder="Weight">
-                <p style="margin: 0; align-self: center; margin-left: 5px;">lbs</p>
-            </div>
-            <div class="d-flex">
-                <input type="text" class="form-control" style="width: 80px;" placeholder="Length">
-                <p style="margin: 0; align-self: center; margin-left: 5px;">in</p>
-            </div>
-            <div>
-                <label for="file-upload" style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-camera"></i>
-                    <span id="file-name" style="font-size: 0.9em; color: gray;">No file chosen</span>
-                </label>
-                <input id="file-upload" type="file" accept="image/jpeg, image/png" style="display: none;" 
-                    onchange="document.getElementById('file-name').textContent = this.files[0] ? this.files[0].name : 'No file chosen';"/>
-            </div>
-        </div>
-        <div>
-            <i class="fas fa-trash" style="cursor: pointer;" (click)="removeCatch(indexInList)"></i>
         </div>
     </div>
-</div>
+</form>

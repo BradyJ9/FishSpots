@@ -4,7 +4,7 @@ export interface OutingDto {
     readonly outingDate: Date;
     readonly startTime: string;
     readonly endTime: string;
-    readonly notes: string;
+    readonly notes?: string;
     readonly createdAt?: Date;
     readonly lastUpdatedAt?: Date;
 }

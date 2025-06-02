@@ -58,8 +58,8 @@ namespace FishSpots.Controllers
         {
             try
             {
-                await outingLogic.InsertOutingAsync(outing);
-                return Ok();
+                var id = await outingLogic.InsertOutingAsync(outing);
+                return Ok(id);
             }
             catch (Exception ex)
             {

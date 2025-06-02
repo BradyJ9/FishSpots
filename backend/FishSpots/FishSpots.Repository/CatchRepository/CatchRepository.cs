@@ -1,6 +1,8 @@
-﻿using Dapper;
+﻿using System.Data;
+using Dapper;
 using FishSpots.Domain.Models;
 using FishSpots.Infrastructure;
+using FishSpots.Repository.Helpers;
 
 namespace FishSpots.Repository.CatchRepository
 {
@@ -60,14 +62,33 @@ namespace FishSpots.Repository.CatchRepository
             })).ToList();
         }
 
+        public async Task<Location?> GetCatchLocationAsync(int catchId)
+        {
+            using var connection = databaseFactory.CreateDbConnection();
+
+            var sql = "SELECT l.* " +
+                "FROM Catch c " +
+                "JOIN Outing o ON c.OutingID = o.OutingID " +
+                "JOIN Location l ON o.LocationID = l.LocationID " +
+                "WHERE c.CatchID = @CatchId;";
+
+            return await connection.QueryFirstOrDefaultAsync<Location>(sql, new
+            {
+                CatchId = catchId
+            });
+        }
+
         public async Task<int> InsertCatchAsync(Catch cat)
         {
             using var connection = databaseFactory.CreateDbConnection();
 
-            var sql = "INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, ImageUrl)" +
-                "VALUES (@OutingId, @Species, @CatchLength, @CatchWeight, @ImageUrl)";
+            var sql = SqlInsertHelper.GetInsertWithReturnSql(databaseFactory.GetDbProvider(),
+                "Catch",
+                "OutingId, Species, CatchLength, CatchWeight, ImageUrl",
+                "@OutingId, @Species, @CatchLength, @CatchWeight, @ImageUrl",
+                "CatchId");
 
-            return await connection.ExecuteAsync(sql, cat);
+            return await connection.QuerySingleAsync<int>(sql, cat);
         }
 
         public async Task<int> UpdateCatchByIdAsync(Catch cat, int catchId)
@@ -92,6 +113,33 @@ namespace FishSpots.Repository.CatchRepository
                 UpdatedAt = DateTime.UtcNow,
                 CatchId = catchId
             });
+        }
+
+        public async Task<int> InsertCatchesIntoOutingAsync(List<Catch> catches, int outingId)
+        {
+            using var connection = databaseFactory.CreateDbConnection();
+
+            return await InsertCatchesIntoOutingAsync(connection, catches, outingId);
+        }
+
+        public async Task<int> InsertCatchesIntoOutingAsync(IDbConnection connection, List<Catch> catches, int outingId)
+        {
+            var sql = "INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, ImageUrl) " +
+          "VALUES (@OutingId, @Species, @CatchLength, @CatchWeight, @ImageUrl)";
+
+            foreach (var catchItem in catches)
+            {
+                await connection.ExecuteAsync(sql, new
+                {
+                    OutingId = outingId,
+                    catchItem.Species,
+                    catchItem.CatchLength,
+                    catchItem.CatchWeight,
+                    catchItem.ImageUrl
+                });
+            }
+
+            return catches.Count;
         }
     }
 }

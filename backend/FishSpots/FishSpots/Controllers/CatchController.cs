@@ -44,13 +44,33 @@ namespace FishSpots.Controllers
             }
         }
 
+        [HttpGet("{catchId}/location", Name = "GetCatchLocation")]
+        public async Task<IActionResult> GetCatchLocation(int catchId)
+        {
+            try
+            {
+                var location = await catchLogic.GetCatchLocationAsync(catchId);
+                return Ok(new { location });
+            }
+            catch (ResourceNotFoundException ex)
+            {
+                logger.LogError("Error in GetCatchLocation: {msg}", ex.Message);
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error in GetCatchLocation: {msg}", ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(Name = "Catch")]
         public async Task<IActionResult> InsertCatch(Catch cat)
         {
             try
             {
-                await catchLogic.InsertCatchAsync(cat);
-                return Ok();
+                var id = await catchLogic.InsertCatchAsync(cat);
+                return Ok(id);
             }
             catch (Exception ex)
             {

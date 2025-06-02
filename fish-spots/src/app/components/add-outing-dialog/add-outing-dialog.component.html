@@ -2,23 +2,26 @@
     <!-- <div class="form-background"> -->
         <div class="form-body">
             <h3>Add Outing</h3>
-            <form [formGroup]="outingForm">
+            <form [formGroup]="outingForm" (onSubmit)="this.onSubmit()">
                 <div>
                     <mat-form-field class="example-full-width">
                         <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Date">
                         <mat-datepicker-toggle matSuffix [for]="picker">
                         </mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="outingForm.get('date')?.hasError('required')">
+                            Date is required
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field style="margin-left: 100px; width: 20%;">
                         <input matInput [matTimepicker]="starttimepicker" formControlName="startTime" placeholder="Start Time">
                         <mat-timepicker-toggle matIconSuffix [for]="starttimepicker"/>
-                        <mat-timepicker interval="60" #starttimepicker/>
+                        <mat-timepicker interval="30m" #starttimepicker/>
                     </mat-form-field> 
                     <mat-form-field style="margin-left: 100px; width: 20%;">
                         <input matInput [matTimepicker]="endtimepicker" formControlName="endTime" placeholder="End Time">
                         <mat-timepicker-toggle matIconSuffix [for]="endtimepicker"/>
-                        <mat-timepicker interval="60" #endtimepicker/>
+                        <mat-timepicker interval="30m" #endtimepicker/>
                     </mat-form-field> 
                 </div>
                 <div>
@@ -40,13 +43,17 @@
                 </div>
                 <div style="max-height: 40vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
                     <ul class="list-group">
-                        <div *ngFor="let cat of this.catchesToAdd">
-                            <add-catch-bar [currCatch]="cat" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>
+                        <div *ngFor="let cat of this.catchesToAdd; let i = index">
+                            <add-catch-bar [currCatch]="this.catchesToAdd[this.catchesToAdd.indexOf(cat)]" (currCatchChange)="this.updateCatchDto($event, i)" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>
                         </div>
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center; gap: 30px; margin-top: 10px;">
-                    <button class="btn btn-primary" (click)="this.onSubmit()">Submit</button>
+                    <button class="btn btn-primary" [disabled]="outingForm.invalid" 
+                        [ngStyle]="{ 'background-color': outingForm.invalid ? '#d3d3d3' : '#007bff', 
+                                     'border-color': outingForm.invalid ? '#d3d3d3' : '#007bff', 
+                                     'color': outingForm.invalid ? '#6c757d' : 'white' }" 
+                        (click)="this.onSubmit()">Submit</button>
                     <button class="btn btn-primary" style="background-color: grey; border-color: grey;" (click)="this.onCancel()">Cancel</button>
                 </div>
             </form>

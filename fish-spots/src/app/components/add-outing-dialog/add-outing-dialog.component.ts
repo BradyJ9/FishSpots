@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewEncapsulation } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -23,23 +23,43 @@ import { OutingFormData } from "../../../model/dto/OutingFormData";
 })
 
 export class AddOutingDialogComponent {
-    public outingForm: FormGroup = new FormGroup({
-        notes: new FormControl(''),
-        date: new FormControl('', Validators.required),
-        startTime: new FormControl(''),
-        endTime: new FormControl('')
-    });
+    public outingForm!: FormGroup;
+
+    private timeRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+        const group = control as FormGroup;
+        const startTime = group.controls['startTime'].value;
+        const endTime = group.controls['endTime'].value;
+
+        if (startTime && endTime && startTime >= endTime) {
+            return { invalidTimeRange: true };
+        }
+        return null;
+    }
 
     public catchesToAdd: CatchDto[] = [];
+
+    ngOnInit() {
+        this.outingForm = new FormGroup({
+            notes: new FormControl('', [Validators.maxLength(500)]),
+            date: new FormControl('', [Validators.required]),
+            startTime: new FormControl(''),
+            endTime: new FormControl('')
+        }, { validators: this.timeRangeValidator });
+    }
 
     constructor(private cdr: ChangeDetectorRef, private dialogRef: MatDialogRef<AddOutingDialogComponent>) {}
 
     public addCatchToOutingForm = () => {
         if (this.catchesToAdd.length < 10) {
-            let newCatch: CatchDto = {} as CatchDto;
+            let newCatch: CatchDto = { species: '', catchWeight: 0, catchLength: 0 } as CatchDto; // Initialize with default values
             this.catchesToAdd.push(newCatch);
         }
         this.cdr.detectChanges();
+    }
+
+    public updateCatchDto = (newCatch : CatchDto, index: number) => {
+        console.log("updating catch: " + newCatch.species );
+        this.catchesToAdd[index] = newCatch;
     }
 
     public removeCatchFromOutingForm = (index: number) => {
@@ -47,7 +67,13 @@ export class AddOutingDialogComponent {
         this.cdr.detectChanges();
     }
 
-    public onSubmit() {
+    public onSubmit = () => {
+        console.log(this.catchesToAdd[0].species);
+        if (this.catchesToAdd.some(catchItem => !catchItem.species || catchItem.species.trim() === '')) {
+            alert('All catches must have a species specified.');
+            return;
+        }
+
         const formData: OutingFormData = {
             date: this.outingForm.controls['date'].value,
             startTime: this.outingForm.controls['startTime'].value,

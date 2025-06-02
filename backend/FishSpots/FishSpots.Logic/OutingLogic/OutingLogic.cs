@@ -43,14 +43,9 @@ namespace FishSpots.Logic.OutingLogic
                 throw new Exception($"Error: No outings found for location with id {locationId}") : outings;
         }
 
-        public async Task InsertOutingAsync(Outing outing)
+        public async Task<int> InsertOutingAsync(Outing outing)
         {
-            int success = await outingRepository.InsertOutingAsync(outing);
-
-            if (success != 1)
-            {
-                throw new Exception("Error: row not inserted");
-            }
+            return await outingRepository.InsertOutingAsync(outing);
         }
 
         public async Task UpdateOutingByIdAsync(Outing outing, int outingId)

@@ -10,6 +10,6 @@ namespace FishSpots.Logic.OutingLogic
         Task<List<Outing>> GetOutingsByDateAsync(DateTime date);
         Task<Outing?> GetOutingByIdAsync(int outingId);
         Task UpdateOutingByIdAsync(Outing outing, int outingId);
-        Task InsertOutingAsync(Outing outing);
+        Task<int> InsertOutingAsync(Outing outing);
     }
 }
