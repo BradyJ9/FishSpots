@@ -3,11 +3,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { CatchService } from '../../services/catch.service';
 import { LocationDto } from '../../../model/dto/LocationDto';
-import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
 
 @Component({
   selector: 'sidebar',
-  imports: [CommonModule],
+  imports: [CommonModule,ImageViewerComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -48,7 +49,7 @@ export class SidebarComponent implements OnInit {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  likeClicked(cat:CatchDto): void {
+  public likeClicked(cat:CatchDto): void {
     const likeButton = document.getElementById("like-button"+cat.catchId!.toString()) as HTMLImageElement;
     const likesCount = document.getElementById("likes-count"+cat.catchId!.toString()) as HTMLDivElement;
     
@@ -82,5 +83,12 @@ export class SidebarComponent implements OnInit {
       this.catchService.updateCatch(cat);
       likeButton.name = "unclicked";
     }
+  }
+
+  public showFullImage(src:string):void{
+    const fullImage = document.createElement("img");
+    fullImage.src = src;
+    console.log("click");
+    document.appendChild(fullImage);
   }
 }
