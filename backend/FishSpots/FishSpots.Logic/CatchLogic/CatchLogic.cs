@@ -42,6 +42,12 @@ namespace FishSpots.Logic.CatchLogic
             return catches == null ?
                 throw new Exception($"Error: No catches found of species {species}") : catches;
         }
+        public async Task<Location?> GetCatchLocationAsync(int catchId)
+        {
+            var cat = await catchRepository.GetCatchLocationAsync(catchId);
+            return cat == null ?
+                throw new Exception($"Error: location for catch {catchId} not found") : cat;
+        }
 
         public async Task<int> InsertCatchAsync(Catch cat)
         {

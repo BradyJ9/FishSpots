@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { CatchService } from '../../services/catch.service';
+import { LocationDto } from '../../../model/dto/LocationDto';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
 
 @Component({
   selector: 'sidebar',
@@ -13,6 +15,7 @@ export class SidebarComponent implements OnInit {
   isSidebarOpen = false;
   catches: CatchDto[] = [];
   imageMap: { [key: number]: string } = {};
+  $catchLocations = new Map<number,Observable<LocationDto>>();
 
   @Input() displaySidebarUi: boolean = false;
 
@@ -30,7 +33,8 @@ export class SidebarComponent implements OnInit {
             this.catches.splice(index, 1);
           }
           if (cat.catchId !== undefined) {
-            this.imageMap[cat.catchId!] = cat.imageUrl ?? '';
+            this.imageMap[cat.catchId!] = cat.imageUrl;
+            this.$catchLocations.set(cat.catchId,this.catchService.getCatchLocation(cat.catchId));
           }
         });
       },
@@ -40,7 +44,6 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  
   public toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }

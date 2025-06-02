@@ -62,6 +62,22 @@ namespace FishSpots.Repository.CatchRepository
             })).ToList();
         }
 
+        public async Task<Location?> GetCatchLocationAsync(int catchId)
+        {
+            using var connection = databaseFactory.CreateDbConnection();
+
+            var sql = "SELECT l.* " +
+                "FROM Catch c " +
+                "JOIN Outing o ON c.OutingID = o.OutingID " +
+                "JOIN Location l ON o.LocationID = l.LocationID " +
+                "WHERE c.CatchID = @CatchId;";
+
+            return await connection.QueryFirstOrDefaultAsync<Location>(sql, new
+            {
+                CatchId = catchId
+            });
+        }
+
         public async Task<int> InsertCatchAsync(Catch cat)
         {
             using var connection = databaseFactory.CreateDbConnection();

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { ApiClientService } from "./apiclient.service";
 import { map, Observable, of } from "rxjs";
 import { CatchDto } from "../../model/dto/CatchDto";
+import { LocationDto } from "../../model/dto/LocationDto";
 
 @Injectable ({
     providedIn: 'root'
@@ -25,6 +26,15 @@ export class CatchService {
         }
         return this.apiClient.get<{ catches: CatchDto[] }>(this.catchUrl + "Outing/" + outingId).pipe(
             map(response => response.catches)
+        )
+    }
+
+    public getCatchLocation(catchId:number | undefined):Observable<LocationDto> {
+        if(catchId == undefined){
+            return of();
+        }
+        return this.apiClient.get<{location:LocationDto}>(this.catchUrl + catchId + "/location").pipe(
+            map(response => response.location)
         )
     }
 
