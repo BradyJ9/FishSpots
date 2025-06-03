@@ -5,6 +5,7 @@
     right: 0;
     bottom: 0px;
     margin: 30px;
+    transition: all 0.3s ease;
   }
   
 .map-frame {

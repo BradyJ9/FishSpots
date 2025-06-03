@@ -25,28 +25,33 @@ export class SidebarComponent implements OnInit {
     //TODO: Sort catches by recent (if they aren't already)
     //We can do this through the backend SQL query
     ngOnInit(): void {
-    this.catchService.getAllCatches().subscribe({
-      next: (data: CatchDto[]) => {
-        this.catches = data;
+      this.catchService.getAllCatches().subscribe({
+        next: (data: CatchDto[]) => {
+          this.catches = data;
 
-        this.catches.forEach((cat, index) => {
-          if (!cat.imageUrl) {
-            this.catches.splice(index, 1);
-          }
-          if (cat.catchId !== undefined) {
-            this.imageMap[cat.catchId!] = cat.imageUrl ?? '';
-            this.$catchLocations.set(cat.catchId,this.catchService.getCatchLocation(cat.catchId));
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Error fetching catches:', err);
-      }
-    });
-  }
+          this.catches.forEach((cat, index) => {
+            if (!cat.imageUrl) {
+              this.catches.splice(index, 1);
+            }
+            if (cat.catchId !== undefined) {
+              this.imageMap[cat.catchId!] = cat.imageUrl ?? '';
+              this.$catchLocations.set(cat.catchId,this.catchService.getCatchLocation(cat.catchId));
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching catches:', err);
+        }
+      });
+    }
 
   public toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+    var mapDiv:HTMLDivElement = document.getElementsByClassName("map-container")[0] as HTMLDivElement;
+    if(this.isSidebarOpen)
+      mapDiv.style.right = "40%";
+    else
+      mapDiv.style.right = "0";
   }
 
   public likeClicked(cat:CatchDto): void {
