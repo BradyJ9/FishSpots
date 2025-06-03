@@ -4,11 +4,11 @@ import { CatchDto } from '../../../model/dto/CatchDto';
 import { CatchService } from '../../services/catch.service';
 import { LocationDto } from '../../../model/dto/LocationDto';
 import { Observable } from 'rxjs';
-import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
+import { ImageViewerComponent } from "../image-viewer/image-viewer.component";
 
 @Component({
   selector: 'sidebar',
-  imports: [CommonModule,ImageViewerComponent],
+  imports: [CommonModule, ImageViewerComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -86,9 +86,13 @@ export class SidebarComponent implements OnInit {
   }
 
   public showFullImage(src:string):void{
-    const fullImage = document.createElement("img");
-    fullImage.src = src;
-    console.log("click");
-    document.appendChild(fullImage);
+    var modal = document.getElementById("imageModal");
+    if(modal != null){
+      modal.style.display = "block";
+      var image:HTMLImageElement = (document.getElementById("fullscreen-image") as HTMLImageElement);
+      image.src = src;
+    } else {
+      console.log('modal does not exist');
+    }
   }
 }
