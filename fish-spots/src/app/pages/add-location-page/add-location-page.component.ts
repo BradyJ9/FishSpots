@@ -47,6 +47,20 @@ export class AddLocationPageComponent {
     this.updatePopup();
   }
 
+  public nameIsValid():boolean {
+    return this.locName.length <= 255;
+  }
+
+  public descriptionIsValid():boolean { 
+    return this.locDesc.length <= 1000;
+  }
+
+  public submissionIsValid():boolean {
+    return !(!this.locName || !this.locDesc || !this.locImage) 
+      && this.nameIsValid()
+      && this.descriptionIsValid();
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
