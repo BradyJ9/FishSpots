@@ -82,6 +82,9 @@ export class MarkerService {
     m.bindPopup(`<button class="add-button" onclick="window.goToAddPage({ lat: ${latlng.lat}, lng: ${latlng.lng} })">Add Location</>`)
     .on('add', function () {
       m.openPopup();
+    })
+    .on('popupclose', () => {
+      this.clearCurrMarker();
     });
   }
 

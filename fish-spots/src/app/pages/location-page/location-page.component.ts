@@ -24,25 +24,22 @@ import { OutingFormData } from '../../../model/dto/OutingFormData';
 export class LocationPageComponent {
   location: LocationDto | null = null;
   title: string = "Loading";
-  outings$: Observable<OutingDto[]>;
+  outings$!: Observable<OutingDto[]>;
 
   private locationIdSubject = new ReplaySubject<number|undefined>(1); // replays last value to new subscribers
   public fetchImageUrls$!:Observable<string[]>;
   
   constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService,
-    private dialog: MatDialog, private locationImageService: LocationImageService) {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.outings$ = this.outingService.getOutingsByLocationId$(id ?? '');
-  }
+    private dialog: MatDialog, private locationImageService: LocationImageService) {}
 
   ngOnInit(): void {
     const navState = history.state.locationData;
+    const id = this.route.snapshot.paramMap.get('id');
     if (navState) {
       this.location = navState;
       this.title = navState.locationName;
       this.locationIdSubject.next(navState.locationId);
     } else {
-      const id = this.route.snapshot.paramMap.get('id');
       if (id) {
         this.locationService.getLocationById(id).subscribe((response: LocationDto) => {
           this.title = response.locationName;
@@ -51,6 +48,8 @@ export class LocationPageComponent {
         });
       }
     }
+
+    this.outings$ = this.outingService.getOutingsByLocationId$(id ?? '');
 
     this.fetchImageUrls$ = this.locationIdSubject.pipe(
       switchMap(locationId =>
@@ -75,7 +74,7 @@ export class LocationPageComponent {
         console.log("form data received: " + formData);
         const outing: OutingDto = {
           locationId: this.location?.locationId ?? 0,
-          //notes: formData.notes,
+          notes: formData.notes,
           outingDate: formData.date,
           startTime: formData.startTime,
           endTime: formData.endTime

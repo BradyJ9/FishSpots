@@ -108,8 +108,8 @@ namespace FishSpots.Controllers
         {
             try
             {
-                await locationLogic.InsertOutingIntoLocationAsync(locationId, outingInsert);
-                return Ok();
+                var outingId = await locationLogic.InsertOutingIntoLocationAsync(locationId, outingInsert);
+                return Ok(outingId);
             }
             catch (ResourceNotFoundException ex)
             {

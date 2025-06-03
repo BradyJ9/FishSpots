@@ -19,9 +19,11 @@ export class OutingBarComponent {
   isDropdownOpen: boolean = false;
 
   constructor(private catchService: CatchService) {
+    
   }
 
   ngOnInit(): void {
+    console.log(this.outing);
     this.catches$ = this.catchService.getCatchesForOuting$(this.outing?.outingId ?? null)  
   }
 

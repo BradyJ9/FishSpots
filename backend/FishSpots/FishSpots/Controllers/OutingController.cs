@@ -1,6 +1,5 @@
 ﻿using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
-using FishSpots.Logic.CatchLogic;
 using FishSpots.Logic.OutingLogic;
 using Microsoft.AspNetCore.Mvc;
 

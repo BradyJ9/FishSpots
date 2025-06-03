@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using FishSpots.Domain.Exceptions;
+﻿using FishSpots.Domain.Exceptions;
 using FishSpots.Domain.Models;
 using FishSpots.Repository.OutingRepository;
 
@@ -9,7 +8,7 @@ namespace FishSpots.Logic.OutingLogic
     {
         public async Task DeleteOutingByIdAsync(int outingId)
         {
-            int success = await outingRepository.DeleteOutingByIdAsync(outingId);
+            var success = await outingRepository.DeleteOutingByIdAsync(outingId);
 
             if (success != 1)
             {
@@ -25,22 +24,19 @@ namespace FishSpots.Logic.OutingLogic
         public async Task<Outing?> GetOutingByIdAsync(int outingId)
         {
             var outing = await outingRepository.GetOutingByIdAsync(outingId);
-            return outing == null ?
-                throw new Exception($"Error: outing with id {outingId} not found") : outing;
+            return outing ?? throw new Exception($"Error: outing with id {outingId} not found");
         }
 
         public async Task<List<Outing>> GetOutingsByDateAsync(DateTime date)
         {
             var outings = await outingRepository.GetOutingsByDateAsync(date);
-            return outings == null ?
-                throw new Exception($"Error: No outings found for date {date}") : outings;
+            return outings ?? throw new Exception($"Error: No outings found for date {date}");
         }
 
         public async Task<List<Outing>> GetOutingsByLocationAsync(int locationId)
         {
             var outings = await outingRepository.GetOutingsByLocationAsync(locationId);
-            return outings == null ?
-                throw new Exception($"Error: No outings found for location with id {locationId}") : outings;
+            return outings ?? throw new Exception($"Error: No outings found for location with id {locationId}");
         }
 
         public async Task<int> InsertOutingAsync(Outing outing)
@@ -50,7 +46,7 @@ namespace FishSpots.Logic.OutingLogic
 
         public async Task UpdateOutingByIdAsync(Outing outing, int outingId)
         {
-            int success = await outingRepository.UpdateOutingByIdAsync(outing, outingId);
+            var success = await outingRepository.UpdateOutingByIdAsync(outing, outingId);
 
             if (success != 1)
             {

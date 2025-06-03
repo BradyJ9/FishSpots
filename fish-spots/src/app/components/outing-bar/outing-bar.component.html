@@ -20,7 +20,10 @@
 <div *ngIf="isDropdownOpen" class="list-group-item outing-box outing-dropdown">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div style="width: 400px;">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p *ngIf="outing.notes; else noNotes">{{ outing.notes }}</p>
+            <ng-template #noNotes>
+                <p style="font-style: italic; font-size: small; color: grey;">No notes on this outing</p>
+            </ng-template>
         </div>
         <app-photo-scroller style="margin-top: 10px;" [viewHeight]="'150px'" [viewWidth]="'200px'" [arrowSize]="'12px'"/>
     </div>

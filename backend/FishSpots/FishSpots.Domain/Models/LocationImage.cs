@@ -10,6 +10,6 @@ namespace FishSpots.Domain.Models
     {
         public int ImageId { get; }
         public int LocationId { get; set; }
-        public string StoragePath { get; set; }
+        public required string StoragePath { get; set; }
     }
 }

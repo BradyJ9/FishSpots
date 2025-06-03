@@ -120,6 +120,8 @@ export class AddLocationPageComponent {
       const form = document.getElementById('outing-info') as HTMLDivElement;
       const outingSummary = document.createElement("div");
       outingSummary.id = "outing-summary";
+
+      console.log(data.date)
       
       outingSummary.innerHTML =
         `
