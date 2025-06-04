@@ -1,5 +1,10 @@
-#locName, #locDesc {
+#locName {
     border-radius:5px;
+}
+
+#locDesc {
+    border-radius:5px;
+    width: 185px;
 }
 
 #add-location-page {
