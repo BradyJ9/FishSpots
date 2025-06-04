@@ -98,7 +98,7 @@ export class MarkerService {
         <div class="location-preview">
           <img src=${imageUrl} width=40px>
           <div><div/>
-          <button class="location-button" onclick="window.goToLocationPage({ locationId: ${loc.locationId} })">${loc.locationName}</button>
+          <button class="location-button name-preview" onclick="window.goToLocationPage({ locationId: ${loc.locationId} })">${loc.locationName}</button>
           <div class="location-description">${loc.locationDescription}</div>
           <div/>
         `
