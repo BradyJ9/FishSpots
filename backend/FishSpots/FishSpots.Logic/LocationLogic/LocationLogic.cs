@@ -59,8 +59,8 @@ namespace FishSpots.Logic.LocationLogic
                     LocationId = outingInsert.Outing.LocationId,
                     OutingDate = outingInsert.Outing.OutingDate,
                     Notes = outingInsert.Outing.Notes,
-                    StartTime = string.IsNullOrWhiteSpace(outingInsert.Outing.StartTime) ? null : TimeSpan.Parse(outingInsert.Outing.StartTime),
-                    EndTime = string.IsNullOrWhiteSpace(outingInsert.Outing.EndTime) ? null : TimeSpan.Parse(outingInsert.Outing.EndTime),
+                    StartTime = string.IsNullOrWhiteSpace(outingInsert.Outing.StartTime) ? null : DateTime.Parse(outingInsert.Outing.StartTime).TimeOfDay,
+                    EndTime = string.IsNullOrWhiteSpace(outingInsert.Outing.EndTime) ? null : DateTime.Parse(outingInsert.Outing.EndTime).TimeOfDay,
                 };
                 var outingId = await outingRepository.InsertOutingAsync(connection, outing);
 

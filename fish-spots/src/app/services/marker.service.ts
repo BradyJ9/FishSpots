@@ -108,7 +108,7 @@ export class MarkerService {
   
   private addPreviewPopup(m: Marker, map: Map): void {
     const content = `
-      <div class="location-preview">
+      <div class="location-preview" style="text-align: center;">
         <img src="../assets/location.png" width="40px" id="popupImage" />
         <div class="name-preview" id="popupName">[Location Name]</div>
         <div class="location-description" id="popupDescription">[Description]</div>

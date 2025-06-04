@@ -12,6 +12,9 @@
       <h2>Recent Outings</h2>
       <button class="btn btn-primary" (click)="addOutingOpenDialog()">Record Outing</button>
     </div>
+    <div class="outings-header" *ngIf="(outings$ | async)?.length == 0">
+      <p class="mt-3" style="font-style: italic; font-size: small;">No outings recorded for this location</p>
+    </div>
     <ul class="list-group">
       <outing-bar *ngFor="let outing of outings$ | async" [outing]="outing"/>
     </ul>

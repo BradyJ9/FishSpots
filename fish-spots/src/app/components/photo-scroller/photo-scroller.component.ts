@@ -13,17 +13,15 @@ export class PhotoScrollerComponent {
     currentIndex = 0;
     imageUrls: string[] = [];
 
-    @Input() viewHeight: string = '300px';
-    @Input() viewWidth: string = '400px';
+    @Input() viewHeight: string = '400px';
+    @Input() viewWidth: string = '500px';
     @Input() arrowSize: string = '24px';
     @Input() fetchImageUrls$!: Observable<string[]>;
 
     ngOnInit(): void {
-      
-      this.fetchImageUrls$?.subscribe((urls: string[]) => {
+      this.fetchImageUrls$.subscribe((urls: string[]) => {
         this.imageUrls = urls;
       })
-      console.log(this.imageUrls.length);
     }
 
     prevImage() {
@@ -31,7 +29,6 @@ export class PhotoScrollerComponent {
     }
 
     nextImage() {
-      console.log("next image: " + this.currentIndex);
       this.currentIndex = (this.currentIndex + 1) % this.imageUrls.length;
     }
 }  
