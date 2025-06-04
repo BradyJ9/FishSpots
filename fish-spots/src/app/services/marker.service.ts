@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOptions, Popup, popup } from 'leaflet';
+import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOptions, popup } from 'leaflet';
 import { Observable } from 'rxjs';
 import { LocationDto } from '../../model/dto/LocationDto';
 import { LocationService } from './location.service';

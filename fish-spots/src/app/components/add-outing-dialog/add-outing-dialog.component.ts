@@ -26,6 +26,8 @@ export class AddOutingDialogComponent {
     public outingForm!: FormGroup;
     maxDate: Date = new Date();
 
+    constructor(private cdr: ChangeDetectorRef, private dialogRef: MatDialogRef<AddOutingDialogComponent>) {}
+
     private timeRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
         const group = control as FormGroup;
         const startTime = group.controls['startTime'].value;
@@ -47,8 +49,6 @@ export class AddOutingDialogComponent {
             endTime: new FormControl('')
         }, { validators: this.timeRangeValidator });
     }
-
-    constructor(private cdr: ChangeDetectorRef, private dialogRef: MatDialogRef<AddOutingDialogComponent>) {}
 
     public addCatchToOutingForm = () => {
         if (this.catchesToAdd.length < 10) {

@@ -16,7 +16,8 @@
           <div class="species-name">
             <h5>{{catch.species}}</h5>
           </div>
-          <img [src]="imageMap[catch.catchId!]" class="img-fluid rounded catch-img" alt="Image" />
+          <img [src]="imageMap[catch.catchId!]" class="img-fluid rounded catch-img" alt="Image" 
+            (click)="showFullImage(imageMap[catch.catchId!])" onmouseover="this.style.cursor='pointer'"/>
           
           <div class="catch-location" *ngIf="$catchLocations.get(catch.catchId!) | async; let location">
             Caught at 
@@ -42,3 +43,5 @@
     </div>
   </div>
 </div>
+
+<image-viewer></image-viewer>

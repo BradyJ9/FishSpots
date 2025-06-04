@@ -39,3 +39,9 @@
     /* border-radius: 5px; */
     max-width:100%;
 }
+
+.formError {
+    color:red;
+    font-size:small;
+    font-weight:normal;
+}
