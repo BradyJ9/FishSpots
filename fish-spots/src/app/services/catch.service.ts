@@ -38,8 +38,8 @@ export class CatchService {
         )
     }
 
-    public updateCatch(cat:CatchDto){
-        return this.apiClient.post<number>(this.catchUrl+cat.catchId,cat);
+    public updateCatch(cat:CatchDto):Observable<number>{
+        return this.apiClient.put<number>(this.catchUrl+cat.catchId, cat);
     }
 }
 
