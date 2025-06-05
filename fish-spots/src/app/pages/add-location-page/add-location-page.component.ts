@@ -179,7 +179,7 @@ export class AddLocationPageComponent {
       width: '80vw',
       height: '90vh',
       maxWidth: 'none',
-      disableClose: false,
+      disableClose: true,
       autoFocus: true       
     });
     dialogRef.afterClosed().subscribe((result: OutingFormData) => {

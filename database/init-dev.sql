@@ -126,6 +126,8 @@ JOIN (VALUES
 ('Trial Lake', 'https://3.bp.blogspot.com/-eIe5T9OMIhY/UjI7TYGyxII/AAAAAAAABts/x3wewmJKp6Q/s1600/unsinkable2-2013-07-21-00079.JPG'),
 ('Lake Powell', 'https://ctfassets.ksldigital.com/0wjmk6wgfops/6dk4N8fQLpGCMCCTBhPm8s/9c6c36bf360076d793738404612629c1/AdobeStock_190040875.jpeg?q=70'),
 ('Bear Lake', 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bear_Lake.jpg'),
-('Fish Lake', 'https://geology.utah.gov/wp-content/uploads/11_2019_Fishlake_J_Lucy_Jordan-1.jpg')
+('Fish Lake', 'https://geology.utah.gov/wp-content/uploads/11_2019_Fishlake_J_Lucy_Jordan-1.jpg'),
+('Trial Lake', 'https://photos.thedyrt.com/photo/553794/media/trial-lake-campground_5364ccf2-a7b0-4128-92f1-12542abfe05a.heic?auto=webp'),
+('Trial Lake', 'https://lh3.googleusercontent.com/places/AAcXr8rxFf-OyXn4teYV_buyZsVff9lBhErxHi0RNar_LPY6yvuqRMnDrxeM5DBFOrAPoIZPVmclGsmxaq4kxoe5__gV_mpnKQAXOS8=s1600-h3024')
 ) AS li(LocationName, StoragePath)
 ON l.LocationName = li.LocationName;

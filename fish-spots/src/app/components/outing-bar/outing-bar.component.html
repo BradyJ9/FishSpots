@@ -1,33 +1,76 @@
-<div class="list-group-item outing-box">
-    <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px;" (click)="onDropdownClick()">
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <i class="fa-solid fa-chevron-right" 
-            style="transition: transform 0.3s;" 
-            [style.transform]="isDropdownOpen ? 'rotate(90deg)' : 'rotate(0deg)'" 
+<div class="list-group-item outing-box" style="background: linear-gradient(90deg, #e3f2fd 0%, #fce4ec 100%); border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.07);">
+    <div 
+        style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 10px 18px;" 
+        (click)="onDropdownClick()"
+    >
+        <div style="display: flex; gap: 22px; align-items: center;">
+            <i 
+                class="fa-solid fa-chevron-right" 
+                style="transition: transform 0.3s, color 0.3s; color: #1976d2; font-size: 1.2em;" 
+                [style.transform]="isDropdownOpen ? 'rotate(90deg)' : 'rotate(0deg)'"
             ></i>
-            <p style="font-weight: bold; margin: 0;">{{ outing.username }}'s Outing</p> 
-            <p style="font-size: 12px; font-style: italic; text-align: center; margin: 0;">
-                {{outing.outingDate | date:'mediumDate'}}
+            <p style="font-weight: 700; margin: 0; font-size: 1.15em; color: #2b3a55; letter-spacing: 0.5px; text-shadow: 0 1px 2px #e3f2fd;">
+                <i class="fas fa-user-circle" style="margin-right: 6px; color: #4fc3f7;"></i>
+                {{ outing.username }}<span style="font-weight: 400; color: #888;">'s Outing</span>
             </p>
-            <p *ngIf="outing.startTime && outing.endTime" style="font-size: 12px; font-style: italic; text-align: center; margin: 0;">
-                {{ outing.startTime }} - {{ outing.endTime }}
+            <p style="font-size: 13px; font-style: italic; margin: 0; color: #7b1fa2; background: #ede7f6; border-radius: 6px; padding: 2px 10px;">
+                <i class="fa-regular fa-calendar" style="margin-right: 4px; color: #7b1fa2;"></i>
+                {{ outing.outingDate | date:'mediumDate' }}
+            </p>
+            <p *ngIf="outing.startTime && outing.endTime" style="font-size: 12px; font-style: italic; margin: 0; color: #1976d2; background: #e3f2fd; border-radius: 6px; padding: 2px 10px;">
+                <i class="fa-regular fa-clock" style="margin-right: 4px; color: #1976d2;"></i>
+                {{ outing.startTime | timeAmPm }} - {{ outing.endTime | timeAmPm }}
             </p>
         </div>
         <div style="display: flex; align-items: center;">
-            <div>
-                <i class="fas fa-fish"></i>x{{(catches$ | async)?.length}}
+            <div style="background: #fff; border-radius: 8px; padding: 6px 14px; box-shadow: 0 1px 4px rgba(44,62,80,0.06); display: flex; align-items: center; gap: 7px;">
+                <i class="fas fa-fish" style="color: #4fc3f7; font-size: 1.1em;"></i>
+                <span style="font-weight: 600; color: #2b3a55; font-size: 1.05em;">x{{ (catches$ | async)?.length }}</span>
             </div>
         </div>
     </div>
 </div>
-<div *ngIf="isDropdownOpen" class="list-group-item outing-box outing-dropdown">
-    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-        <div style="width: 400px;">
-            <p *ngIf="outing.notes; else noNotes">{{ outing.notes }}</p>
+<div *ngIf="isDropdownOpen" class="list-group-item outing-box outing-dropdown" style="background: linear-gradient(90deg, #fce4ec 0%, #e3f2fd 100%); border-radius: 0 0 12px 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.07); border-top: 1px solid #e3f2fd; padding: 18px 28px 18px 40px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 30px;">
+        <div style="max-width: 400px;">
+            <p *ngIf="outing.notes; else noNotes" style="margin: 0; color: #2b3a55; font-size: 1.05em; letter-spacing: 0.2px;">
+                <i class="fa-regular fa-note-sticky" style="margin-right: 7px; color: #7b1fa2;"></i>
+                {{ outing.notes }}
+            </p>
             <ng-template #noNotes>
-                <p style="font-style: italic; font-size: small; color: grey;">No notes on this outing</p>
+                <p style="font-style: italic; font-size: 0.98em; color: #b0b0b0; margin: 0;">
+                    <i class="fa-regular fa-note-sticky" style="margin-right: 7px; color: #b0b0b0;"></i>
+                    No notes on this outing
+                </p>
             </ng-template>
         </div>
-        <app-photo-scroller style="margin-top: 10px;" [fetchImageUrls$]="getOutingImageUrls()" [viewHeight]="'150px'" [viewWidth]="'200px'" [arrowSize]="'12px'"/>
+        <div style="display: flex; flex-direction: row; align-items: flex-start; gap: 28px;">
+            <app-photo-scroller *ngIf="(catches$ | async)?.length ?? 0 > 0" style="margin-top: 0;" (currentIndexChange)="currFishScroll($event)" [fetchImageUrls$]="getOutingImageUrls()" [viewHeight]="'150px'" [viewWidth]="'200px'" [arrowSize]="'12px'"/>
+            <div>
+                <ng-container *ngIf="catches$ | async as catches">
+                    <div style="background: #fff; border-radius: 10px; padding: 18px 24px; box-shadow: 0 2px 8px rgba(44,62,80,0.07); min-width: 180px; text-align: center;">
+                        <p style="font-size: 1.13em; font-weight: 700; color: #2b3a55; margin-bottom: 10px; letter-spacing: 0.5px; text-shadow: 0 1px 2px #e3f2fd;">
+                            <i *ngIf="catches.length > 0" class="fas fa-fish" style="color: #4fc3f7; margin-right: 7px;"></i>
+                            <i *ngIf="catches.length === 0" class="fas fa-frown" style="color: #4fc3f7; margin-right: 7px;"></i>
+                            {{ catches.length > 0 ? catches?.[activeFishIndex]?.species || 'Unknown Species' : 'No Fish Caught' }}
+                        </p>
+                        <div style="display: flex; justify-content: center; gap: 22px;">
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                <span style="font-size: 1.25em; font-weight: 600; color: #388e3c;">
+                                    {{ catches?.[activeFishIndex]?.catchLength || '--' }}
+                                </span>
+                                <span style="font-size: 0.92em; color: #888;">inches</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                <span style="font-size: 1.25em; font-weight: 600; color: #1976d2;">
+                                    {{ catches?.[activeFishIndex]?.catchWeight || '--' }}
+                                </span>
+                                <span style="font-size: 0.92em; color: #888;">lbs</span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
     </div>
 </div>
