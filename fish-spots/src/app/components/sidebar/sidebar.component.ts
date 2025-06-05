@@ -73,7 +73,7 @@ export class SidebarComponent implements OnInit {
         createdAt: cat.createdAt,
         lastUpdatedAt: cat.lastUpdatedAt
       }
-      this.catchService.updateCatch(updatedCatch);
+      this.catchService.updateCatch(updatedCatch).subscribe();
       likeButton.name = "clicked";
     }
     
@@ -85,7 +85,7 @@ export class SidebarComponent implements OnInit {
     else if(likeButton.name == "clicked"){
       likeButton.src = "../../../assets/hearticon.png";
       likesCount.textContent = cat.likes + " likes";
-      this.catchService.updateCatch(cat);
+      this.catchService.updateCatch(cat).subscribe();
       likeButton.name = "unclicked";
     }
   }

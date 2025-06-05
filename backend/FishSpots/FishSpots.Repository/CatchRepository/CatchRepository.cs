@@ -100,6 +100,7 @@ namespace FishSpots.Repository.CatchRepository
                            Species = @Species,
                            CatchLength = @CatchLength,
                            CatchWeight = @CatchWeight,
+                           Likes = @Likes,
                            ImageUrl = @ImageUrl,
                            UpdatedAt = @UpdatedAt
                        WHERE CatchID = @CatchId";
@@ -110,6 +111,8 @@ namespace FishSpots.Repository.CatchRepository
                 cat.Species,
                 cat.CatchLength,
                 cat.CatchWeight,
+                cat.Likes,
+                cat.ImageUrl,
                 UpdatedAt = DateTime.UtcNow,
                 CatchId = catchId
             });

@@ -21,4 +21,8 @@ export class ApiClientService {
     post<T>(endpoint: string, data: any): Observable<T> {
         return this.httpClient.post<T>(`${this.baseUrl}/${endpoint}`, data)
     }
+
+    put<T>(endpoint: string, data: any): Observable<T> {
+        return this.httpClient.put<T>(`${this.baseUrl}/${endpoint}`, data)
+    }
 }
