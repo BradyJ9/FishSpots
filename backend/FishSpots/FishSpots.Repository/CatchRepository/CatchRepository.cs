@@ -21,7 +21,9 @@ namespace FishSpots.Repository.CatchRepository
         {
             using var connection = databaseFactory.CreateDbConnection();
 
-            var sql = "SELECT * FROM Catch";
+            var sql = "SELECT * FROM Catch c " +
+                "JOIN Outing o ON c.OutingID = o.OutingID " +
+                "ORDER BY o.OutingDate DESC";
 
             return (await connection.QueryAsync<Catch>(sql)).ToList();
         }

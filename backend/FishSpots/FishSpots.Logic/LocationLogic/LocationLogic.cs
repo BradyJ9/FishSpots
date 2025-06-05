@@ -72,7 +72,7 @@ namespace FishSpots.Logic.LocationLogic
                     CatchWeight = (float)catchDto.CatchWeight,
                     ImageUrl = catchDto.ImageUrl ?? string.Empty,
                     CreatedAt = DateTime.UtcNow,
-                    LastUpdatedAt = DateTime.UtcNow
+                    UpdatedAt = DateTime.UtcNow
                 }).ToList() ?? [];
 
                 await catchRepository.InsertCatchesIntoOutingAsync(connection, catches, outingId);
