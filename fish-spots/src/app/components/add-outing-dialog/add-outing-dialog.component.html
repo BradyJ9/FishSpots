@@ -50,7 +50,7 @@
                     </div>
                     <div style="margin-left: 20px;">
                         <button mat-icon-button style="color: white; background-color: rgb(30, 212, 151); display: flex; align-items: center;
-                         justify-content: center;" (click)="this.addCatchToOutingForm()">+</button>
+                         justify-content: center;" (click)="this.addCatchToOutingForm()" [hidden]="catchesToAdd.length == 10">+</button>
                     </div>
                 </div>
                 <div style="max-height: 30vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">

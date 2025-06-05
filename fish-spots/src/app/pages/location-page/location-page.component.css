@@ -4,3 +4,11 @@
     margin-right: auto;
     padding-bottom: 5px;
 }
+
+.display-4 {
+    overflow-wrap: break-word;
+}
+
+.lead {
+    overflow-wrap: break-word;
+}

@@ -5,15 +5,16 @@
 
     <form class = "add-location-info" #locationForm="ngForm">
       <label for="locName">Location Name</label><br>
-      <input type="text" id="locName" name="locName" required [(ngModel)]="locName" autofocus="autofocus"><br>
-      <h5 class="formError" [hidden]="nameIsValid()">*Maximum length for location name is 255 characters.</h5>
+      <input type="text" id="locName" name="locName" required [(ngModel)]="locName" autofocus><br>
+      <h5 class="formError" [hidden]="nameIsValid()">*Maximum length for location name is 100 characters.</h5>
 
       <label for="locDesc">Description</label><br>
-      <input type="text" id="locDesc" name="locDesc" required [(ngModel)]="locDesc"><br>
+      <textarea id="locDesc" name="locDesc" required [(ngModel)]="locDesc"></textarea><br>
       <h5 class="formError" [hidden]="descriptionIsValid()">*Maximum length for description is 1000 characters.</h5>
 
       <label for="locImage">Image</label><br>
       <input type="file" id="locImage" name="locImage" (change)="onFileSelected($event)" accept="image/*"><br>
+      <h5 class="formError" [hidden]="imageValidSize()">*Maximum file size is 8MB.</h5>
     </form><br>
 
     <!-- outing info -->

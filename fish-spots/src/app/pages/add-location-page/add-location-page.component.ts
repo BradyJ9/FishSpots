@@ -49,17 +49,25 @@ export class AddLocationPageComponent {
   }
 
   public nameIsValid():boolean {
-    return this.locName.length <= 255;
+    return this.locName.length <= 100;
   }
 
   public descriptionIsValid():boolean { 
     return this.locDesc.length <= 1000;
   }
 
+  public imageValidSize():boolean {
+    if(this.locImage != null)
+      return this.locImage.size <= 8e+6; //8MB limit
+    else
+      return true;
+  }
+
   public submissionIsValid():boolean {
     return !(!this.locName || !this.locDesc || !this.locImage) 
       && this.nameIsValid()
-      && this.descriptionIsValid();
+      && this.descriptionIsValid()
+      && this.imageValidSize();
   }
 
   onFileSelected(event: Event): void {
@@ -111,6 +119,7 @@ export class AddLocationPageComponent {
       if (descSpan) descSpan.textContent = desc;
     });
 
+    //NOTE: This preview does not adhere to the file size limit.
     (document.getElementById("locImage") as HTMLInputElement).addEventListener("change", (e) => {
       const input = e.target as HTMLInputElement;
       const file = input.files?.[0];
