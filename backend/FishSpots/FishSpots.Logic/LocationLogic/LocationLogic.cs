@@ -57,6 +57,7 @@ namespace FishSpots.Logic.LocationLogic
                 var outing = new Outing
                 {
                     LocationId = outingInsert.Outing.LocationId,
+                    Username = outingInsert.Outing.Username,
                     OutingDate = outingInsert.Outing.OutingDate,
                     Notes = outingInsert.Outing.Notes,
                     StartTime = string.IsNullOrWhiteSpace(outingInsert.Outing.StartTime) ? null : DateTime.Parse(outingInsert.Outing.StartTime).TimeOfDay,

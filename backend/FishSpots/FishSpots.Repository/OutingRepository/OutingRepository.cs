@@ -73,8 +73,8 @@ namespace FishSpots.Repository.OutingRepository
         {
             var sql = SqlInsertHelper.GetInsertWithReturnSql(databaseFactory.GetDbProvider(),
                 "Outing",
-                "LocationId, OutingDate, Notes, StartTime, EndTime",
-                "@LocationId, @OutingDate, @Notes, @StartTime, @EndTime",
+                "LocationId, Username, OutingDate, Notes, StartTime, EndTime",
+                "@LocationId, @Username, @OutingDate, @Notes, @StartTime, @EndTime",
                 "OutingId");
 
             return await connection.QuerySingleAsync<int>(sql, outing);
@@ -86,6 +86,8 @@ namespace FishSpots.Repository.OutingRepository
 
             var sql = @"UPDATE Outing  
                        SET LocationId = @LocationId,
+                           Username = @Username,
+                           Notes = @Notes,
                            OutingDate = @OutingDate,
                            StartTime = @StartTime,
                            EndTime = @EndTime,
@@ -95,6 +97,8 @@ namespace FishSpots.Repository.OutingRepository
             return await connection.ExecuteAsync(sql, new
             {
                 outing.LocationId,
+                outing.Username,
+                outing.Notes,
                 outing.OutingDate,
                 outing.StartTime,
                 outing.EndTime,

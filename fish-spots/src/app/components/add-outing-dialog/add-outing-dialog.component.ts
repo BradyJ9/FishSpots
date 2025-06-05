@@ -43,6 +43,7 @@ export class AddOutingDialogComponent {
 
     ngOnInit() {
         this.outingForm = new FormGroup({
+            username: new FormControl('', [Validators.required]),
             notes: new FormControl('', [Validators.maxLength(500)]),
             date: new FormControl('', [Validators.required]),
             startTime: new FormControl(''),
@@ -75,6 +76,7 @@ export class AddOutingDialogComponent {
         }
 
         const formData: OutingFormData = {
+            username: this.outingForm.controls['username'].value,
             date: this.outingForm.controls['date'].value,
             startTime: this.outingForm.controls['startTime'].value,
             endTime: this.outingForm.controls['endTime'].value,

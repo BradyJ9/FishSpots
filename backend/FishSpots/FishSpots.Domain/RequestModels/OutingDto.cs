@@ -6,6 +6,8 @@
 
         public required DateTime OutingDate { get; set; }
 
+        public required string Username { get; set; }
+
         public string? Notes { get; set; }
 
         public string? StartTime { get; set; }

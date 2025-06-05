@@ -71,9 +71,9 @@ export class LocationPageComponent {
 
     dialogRef.afterClosed().subscribe((formData: OutingFormData) => {
       if (formData !== null) {
-        console.log("form data received: " + formData);
         const outing: OutingDto = {
           locationId: this.location?.locationId ?? 0,
+          username: formData.username,
           notes: formData.notes,
           outingDate: formData.date,
           startTime: formData.startTime,
@@ -81,8 +81,8 @@ export class LocationPageComponent {
         };
 
         this.locationService.insertOutingByLocationId(this.location?.locationId ?? 0, outing, formData.catches).subscribe({
-          next: (newOuting) => {
-            console.log("New outing added:", newOuting);
+          next: () => {
+            this.outings$ = this.outingService.getOutingsByLocationId$(this.location?.locationId?.toString() ?? '');
           },
           error: (err) => {
             console.error("Error adding outing:", err);

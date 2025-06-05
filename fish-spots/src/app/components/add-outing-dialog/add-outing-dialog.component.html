@@ -5,6 +5,14 @@
             <form [formGroup]="outingForm" (onSubmit)="this.onSubmit()">
                 <div>
                     <mat-form-field class="example-full-width">
+                        <input matInput formControlName="username" placeholder="Your Name">
+                        <mat-error *ngIf="outingForm.get('username')?.hasError('required')">
+                            Name is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="example-full-width">
                         <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Date" [max]="maxDate">
                         <mat-datepicker-toggle matSuffix [for]="picker">
                         </mat-datepicker-toggle>
@@ -45,7 +53,7 @@
                          justify-content: center;" (click)="this.addCatchToOutingForm()">+</button>
                     </div>
                 </div>
-                <div style="max-height: 40vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <div style="max-height: 30vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
                     <ul class="list-group">
                         <div *ngFor="let cat of this.catchesToAdd; let i = index">
                             <add-catch-bar [currCatch]="this.catchesToAdd[this.catchesToAdd.indexOf(cat)]" (currCatchChange)="this.updateCatchDto($event, i)" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>

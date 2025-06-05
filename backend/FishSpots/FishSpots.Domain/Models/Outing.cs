@@ -12,6 +12,8 @@ namespace FishSpots.Domain.Models
 
         public int LocationId { get; set;  }
 
+        public required string Username { get; set; }
+
         public required DateTime OutingDate { get; set; }
 
         public string? Notes { get; set; }

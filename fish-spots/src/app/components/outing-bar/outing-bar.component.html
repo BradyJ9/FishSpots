@@ -5,9 +5,12 @@
             style="transition: transform 0.3s;" 
             [style.transform]="isDropdownOpen ? 'rotate(90deg)' : 'rotate(0deg)'" 
             ></i>
-            <p style="font-weight: bold; margin: 0;">USER NAME HERE</p> 
+            <p style="font-weight: bold; margin: 0;">{{ outing.username }}'s Outing</p> 
             <p style="font-size: 12px; font-style: italic; text-align: center; margin: 0;">
                 {{outing.outingDate | date:'mediumDate'}}
+            </p>
+            <p *ngIf="outing.startTime && outing.endTime" style="font-size: 12px; font-style: italic; text-align: center; margin: 0;">
+                {{ outing.startTime }} - {{ outing.endTime }}
             </p>
         </div>
         <div style="display: flex; align-items: center;">
@@ -18,13 +21,13 @@
     </div>
 </div>
 <div *ngIf="isDropdownOpen" class="list-group-item outing-box outing-dropdown">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
         <div style="width: 400px;">
             <p *ngIf="outing.notes; else noNotes">{{ outing.notes }}</p>
             <ng-template #noNotes>
                 <p style="font-style: italic; font-size: small; color: grey;">No notes on this outing</p>
             </ng-template>
         </div>
-        <app-photo-scroller style="margin-top: 10px;" [viewHeight]="'150px'" [viewWidth]="'200px'" [arrowSize]="'12px'"/>
+        <app-photo-scroller style="margin-top: 10px;" [fetchImageUrls$]="getOutingImageUrls()" [viewHeight]="'150px'" [viewWidth]="'200px'" [arrowSize]="'12px'"/>
     </div>
 </div>

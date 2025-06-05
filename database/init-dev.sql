@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS CatchImages;
 DROP TABLE IF EXISTS Catch;
 DROP TABLE IF EXISTS Outing;
 DROP TABLE IF EXISTS LocationImages;
@@ -25,6 +24,7 @@ CREATE TABLE IF NOT EXISTS Outing (
 	OutingID SERIAL PRIMARY KEY,
 	LocationID INT NOT NULL,
 	FOREIGN KEY (LocationId) REFERENCES Location (LocationID),
+    Username VARCHAR(50),
     Notes VARCHAR(500),
 	OutingDate DATE NOT NULL,
 	StartTime TIME,
@@ -71,26 +71,27 @@ WITH inserted_locations AS (
 
 -- Insert Outings and reference inserted LocationIds
 inserted_outings AS (
-    INSERT INTO Outing (LocationId, OutingDate, StartTime, EndTime)
+    INSERT INTO Outing (LocationId, Username, OutingDate, StartTime, EndTime)
     SELECT
         l.LocationId,
+        d.Username,
         d.OutingDate,
         d.StartTime,
         d.EndTime
     FROM inserted_locations l
     JOIN (VALUES
-            ('Trial Lake', CAST('2024-07-15' AS DATE), CAST('07:45:00' AS TIME), CAST('18:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-07-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-07-12' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-08-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-11-03' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-09-19' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-01-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-03-13' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-04-14' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Trial Lake', CAST('2024-12-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
-        ('Lake Powell', CAST('2024-08-15' AS DATE), CAST('07:30:00' AS TIME), CAST('11:30:00' AS TIME))
-    ) AS d(LocationName, OutingDate, StartTime, EndTime)
+            ('Trial Lake', 'Matt Montuah', CAST('2024-07-15' AS DATE), CAST('07:45:00' AS TIME), CAST('18:00:00' AS TIME)),
+        ('Trial Lake', 'Matt Montuah', CAST('2024-07-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Matt Montuah', CAST('2024-07-12' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Matt Montuah', CAST('2024-08-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Matt Montuah', CAST('2024-11-03' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Gayden Fartin', CAST('2024-09-19' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Gayden Fartin', CAST('2024-01-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Gayden Fartin', CAST('2024-03-13' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Gayden Fartin', CAST('2024-04-14' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Trial Lake', 'Gayden Fartin', CAST('2024-12-10' AS DATE), CAST('06:00:00' AS TIME), CAST('10:00:00' AS TIME)),
+        ('Lake Powell', 'Josiah Biden', CAST('2024-08-15' AS DATE), CAST('07:30:00' AS TIME), CAST('11:30:00' AS TIME))
+    ) AS d(LocationName, Username, OutingDate, StartTime, EndTime)
     ON l.LocationName = d.LocationName
     RETURNING OutingId, LocationId, OutingDate
 ),

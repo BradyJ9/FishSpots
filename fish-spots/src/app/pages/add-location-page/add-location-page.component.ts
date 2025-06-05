@@ -29,6 +29,7 @@ export class AddLocationPageComponent {
 
   private outingParams: {
     locationId:number,
+    username: string,
     outingDate: Date;
     startTime: string;
     endTime: string;
@@ -156,6 +157,7 @@ export class AddLocationPageComponent {
     }
     this.outingParams = {
       locationId:-1,
+      username: data.username,
       outingDate: data.date,
       startTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
       endTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
@@ -181,6 +183,7 @@ export class AddLocationPageComponent {
   public insertOuting(): void {
     const newOuting:OutingDto = {
       locationId: this.outingParams!.locationId,
+      username: this.outingParams!.username,
       outingDate: this.outingParams!.outingDate,
       startTime: this.outingParams!.startTime,
       endTime: this.outingParams!.endTime,
