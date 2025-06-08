@@ -14,6 +14,8 @@ export class PhotoScrollerComponent {
     @Output() currentIndexChange = new EventEmitter<number>();
     currentIndex: number = 0;
     imageUrls: string[] = [];
+    isNextHovered: boolean = false;
+    isPrevHovered: boolean = false;
 
     @Input() viewHeight: string = '400px';
     @Input() viewWidth: string = '500px';

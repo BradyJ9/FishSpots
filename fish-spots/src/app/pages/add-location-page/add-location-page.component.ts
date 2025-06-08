@@ -9,8 +9,13 @@ import { AddOutingDialogComponent } from "../../components/add-outing-dialog/add
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { OutingDto } from '../../../model/dto/OutingDto';
-import { OutingService } from '../../services/outing.service';
 import { OutingFormData } from '../../../model/dto/OutingFormData';
+import { ImageBlobService } from '../../services/imageblob.service';
+import { BlobContainers } from '../../../model/enums/BlobContainers';
+import { from } from 'rxjs';
+import { LocationImageService } from '../../services/locationimage.service';
+import { CatchDto } from '../../../model/dto/CatchDto';
+import { CatchService } from '../../services/catch.service';
 
 @Component({
   selector: 'app-add-location-page',
@@ -33,12 +38,15 @@ export class AddLocationPageComponent {
     outingDate: Date;
     startTime: string;
     endTime: string;
+    catches: CatchDto[];
+    catchImages: (File | null)[];
     notes: string;
   } | undefined;
 
   constructor(private router:Router, private route: ActivatedRoute, 
     private locationService:LocationService, private dialog:MatDialog,
-    private outingService:OutingService) { }
+    private catchService:CatchService, private imageBlobService:ImageBlobService,
+    private locationImageService: LocationImageService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -80,20 +88,38 @@ export class AddLocationPageComponent {
     }
   }
 
-  public insertLocation(): void {
+  public insertLocationSubmit(): void {
     //TODO: Implement image uploads
+    //TODO: Make this one request on the backend to support transactions
+    if (this.locImage) {
+      from(this.imageBlobService.uploadFile(BlobContainers.LocationImages, this.locImage))
+        .subscribe(imageUrl => {
+          this.insertLocation(imageUrl);
+        })
+    } else {
+      this.insertLocation(null);
+    }
+  }
+
+  public insertLocation(imageUrl: string | null) {
     const newLocation:LocationDto = {
       locationName:this.locName,
       lat:this.newLat,
       long:this.newLng,
       locationDescription:this.locDesc
     }
+
     this.locationService.insertLocation(newLocation).subscribe({
       next: (locationId:number) => {
-        if(this.outingParams){
+        if (this.outingParams){
           this.outingParams.locationId = locationId;
           this.insertOuting();
         }
+
+        if (imageUrl) {
+          this.locationImageService.insertImageUrl(locationId, imageUrl);
+        }
+
         this.returnToHomepage(this.newLat, this.newLng);
       },
       error: (err) => {console.error('Error submitting location:', err);}
@@ -170,7 +196,9 @@ export class AddLocationPageComponent {
       outingDate: data.date,
       startTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
       endTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
-      notes: data.notes
+      notes: data.notes,
+      catches: data.catches,
+      catchImages: data.catchImages
     }
   }
 
@@ -189,7 +217,7 @@ export class AddLocationPageComponent {
     });
   }
 
-  public insertOuting(): void {
+  public async insertOuting(): Promise<void> {
     const newOuting:OutingDto = {
       locationId: this.outingParams!.locationId,
       username: this.outingParams!.username,
@@ -198,16 +226,17 @@ export class AddLocationPageComponent {
       endTime: this.outingParams!.endTime,
       notes: this.outingParams!.notes
     }
-    console.log(newOuting);
-    this.outingService.insertOuting(newOuting).subscribe({
+
+    await this.catchService.uploadCatchImagesAndAssignUrl(this.outingParams?.catchImages ?? [], this.outingParams?.catches ?? []);
+    
+    this.locationService.insertOutingByLocationId(newOuting.locationId, newOuting, this.outingParams?.catches ?? []).subscribe({
       next: () => {
         console.log('Outing inserted successfully');
-        //TODO: Insert catches
       },
       error: (err) => {
         console.error('Error submitting outing:', err);
       }
-    });
+    })
   }
 
   private returnToHomepage(lat:string, lng:string): void {

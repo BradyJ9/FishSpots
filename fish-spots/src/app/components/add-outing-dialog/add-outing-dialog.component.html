@@ -56,7 +56,7 @@
                 <div style="max-height: 30vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
                     <ul class="list-group">
                         <div *ngFor="let cat of this.catchesToAdd; let i = index">
-                            <add-catch-bar [currCatch]="this.catchesToAdd[this.catchesToAdd.indexOf(cat)]" (currCatchChange)="this.updateCatchDto($event, i)" [removeCatch]="this.removeCatchFromOutingForm" [indexInList]="this.catchesToAdd.indexOf(cat)" ></add-catch-bar>
+                            <add-catch-bar [currCatch]="catchesToAdd[catchesToAdd.indexOf(cat)]" (currCatchChange)="updateCatchDto($event, i)" (catchFileChange)="updateCatchImage($event, i)"  [removeCatch]="removeCatchFromOutingForm" [indexInList]="catchesToAdd.indexOf(cat)" ></add-catch-bar>
                         </div>
                     </ul>
                 </div>

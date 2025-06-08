@@ -65,7 +65,8 @@ WITH inserted_locations AS (
         ('Trial Lake', '40.6830051', '-110.9545998', 'Lovely Uinta Mountain Lake'),
         ('Lake Powell','36.9333','-111.4833','Gets real warm down here'),
         ('Bear Lake','40.8461246','-110.3990331', 'Gets real cold up here'),
-        ('Fish Lake','38.5514','-111.705','Must be fish in here, right? Also here is some additional text to show a really really long description some people like to write a lot and we should handle long text like this appropriately Timberland is a dirty stinky catfish and I must admit sometimes I want to use him as live bait do not tell Rachel.  I have nothing else left to say but to quote Dave Blunt lyrics baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and')
+        ('Fish Lake','38.5514','-111.705','Must be fish in here, right? Also here is some additional text to show a really really long description some people like to write a lot and we should handle long text like this appropriately Timberland is a dirty stinky catfish and I must admit sometimes I want to use him as live bait do not tell Rachel.  I have nothing else left to say but to quote Dave Blunt lyrics baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and baby i trieeed but i cant quit the codeine my double cuuup is killing me slowly without leeeean i tend to get so lonely baby come and hold me baby come and'),
+        ('The Goat', '37.2343', '-115.8067','You are my sunshine...my only sunshine...')  
     RETURNING LocationId, LocationName
 ),
 
@@ -107,12 +108,12 @@ inserted_catches AS(
         c.ImageUrl
     FROM inserted_outings o
     JOIN (VALUES
-        ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2, 'https://www.wildtrout.org/assets/img/general/_640xAUTO_crop_center-center_none/Wye-wild-rainbow-comp.jpg'),
-        ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23, 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg'),
-        ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000, 'https://files.blogs.illinois.edu/files/7362/140158490/186285.jpg'),
-        ('2024-12-10', 'Brook Trout', null, null, 0, 'https://www.fws.gov/sites/default/files/2021-09/brook%20trout%20Credit%20Scott%20Cornett%2C%20NYDEC.jpg'),
-        ('2024-04-14', 'Brook Trout', null, null, 0, 'https://www.fws.gov/sites/default/files/2021-09/brook%20trout%20Credit%20Scott%20Cornett%2C%20NYDEC.jpg'),
-        ('2024-03-13', 'Smallmouth Bass', 12, 3.5, 5, 'https://www.ndow.org/wp-content/uploads/2021/10/micropterus_dolomieu-scaled.jpeg')
+        ('2024-07-10', 'Rainbow Trout', 18.50, 2.30, 2, 'catchimages/rainbowtrout.jpg'),
+        ('2024-07-10', 'Smallmouth Bass', 16.00, 2.00, 23, 'catchimages/smallmouth.jpeg'),
+        ('2024-08-15', 'Channel Catfish', 25.75, 4.10, 1000, 'catchimages/catfish.jpg'),
+        ('2024-12-10', 'Brook Trout', null, null, 0, 'catchimages/brooktrout.jpg'),
+        ('2024-04-14', 'Brook Trout', null, null, 0, 'catchimages/brooktrout.jpg'),
+        ('2024-03-13', 'Smallmouth Bass', 12, 3.5, 5, 'catchimages/smallmouth.jpeg')
     ) AS c(OutingDate, Species, CatchLength, CatchWeight, Likes, ImageUrl)
     ON CAST(o.OutingDate AS DATE) = CAST(c.OutingDate AS DATE)
 )
@@ -123,11 +124,12 @@ SELECT
     li.StoragePath
 FROM inserted_locations l
 JOIN (VALUES
-('Trial Lake', 'https://3.bp.blogspot.com/-eIe5T9OMIhY/UjI7TYGyxII/AAAAAAAABts/x3wewmJKp6Q/s1600/unsinkable2-2013-07-21-00079.JPG'),
-('Lake Powell', 'https://ctfassets.ksldigital.com/0wjmk6wgfops/6dk4N8fQLpGCMCCTBhPm8s/9c6c36bf360076d793738404612629c1/AdobeStock_190040875.jpeg?q=70'),
-('Bear Lake', 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bear_Lake.jpg'),
-('Fish Lake', 'https://geology.utah.gov/wp-content/uploads/11_2019_Fishlake_J_Lucy_Jordan-1.jpg'),
-('Trial Lake', 'https://photos.thedyrt.com/photo/553794/media/trial-lake-campground_5364ccf2-a7b0-4128-92f1-12542abfe05a.heic?auto=webp'),
-('Trial Lake', 'https://lh3.googleusercontent.com/places/AAcXr8rxFf-OyXn4teYV_buyZsVff9lBhErxHi0RNar_LPY6yvuqRMnDrxeM5DBFOrAPoIZPVmclGsmxaq4kxoe5__gV_mpnKQAXOS8=s1600-h3024')
+('Trial Lake', 'locationimages/trial-lake.jpg'),
+('Lake Powell', 'locationimages/lake-powell.jpg'),
+('Bear Lake', 'locationimages/bear-lake.jpg'),
+('Fish Lake', 'locationimages/fish-lake.jpg'),
+('Trial Lake', 'locationimages/trial-lake2.jpg'),
+('Trial Lake', 'locationimages/trial-lake3.jpg'),
+('The Goat', 'locationimages/lebron-james-lets-go.gif')
 ) AS li(LocationName, StoragePath)
 ON l.LocationName = li.LocationName;

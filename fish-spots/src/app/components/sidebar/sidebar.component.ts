@@ -25,24 +25,30 @@ export class SidebarComponent implements OnInit {
     //TODO: Sort catches by recent (if they aren't already)
     //We can do this through the backend SQL query
     ngOnInit(): void {
-      this.catchService.getAllCatches().subscribe({
-        next: (data: CatchDto[]) => {
-          this.catches = data;
+      if (this.displaySidebarUi) {
+        this.catchService.getAllCatches().subscribe({
+          next: (data: CatchDto[]) => {
+            this.catches = data;
 
-          this.catches.forEach((cat, index) => {
-            if (!cat.imageUrl) {
-              this.catches.splice(index, 1);
-            }
-            if (cat.catchId !== undefined) {
-              this.imageMap[cat.catchId!] = cat.imageUrl ?? '';
-              this.$catchLocations.set(cat.catchId,this.catchService.getCatchLocation(cat.catchId));
-            }
-          });
-        },
-        error: (err) => {
-          console.error('Error fetching catches:', err);
-        }
-      });
+            this.catches.forEach((cat, index) => {
+              if (!cat.imageUrl) {
+                this.catches.splice(index, 1);
+              }
+              if (cat.catchId !== undefined) {
+                this.catchService.downloadCatchImageFromSasUrl(cat.imageUrl ?? '').subscribe(
+                  (catchSasUrl) => {
+                    this.imageMap[cat.catchId!] = catchSasUrl;
+                    this.$catchLocations.set(cat.catchId!,this.catchService.getCatchLocation(cat.catchId));
+                  }
+                );
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Error fetching catches:', err);
+          }
+        });
+    }
     }
 
   public toggleSidebar() {

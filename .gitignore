@@ -9,5 +9,4 @@
 # Azurite Things
 **/__blobstorage__/
 __azurite_db_*.json
-*.azurite
 AzuriteConfig

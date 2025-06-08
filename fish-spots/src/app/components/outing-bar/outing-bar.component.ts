@@ -3,7 +3,7 @@ import { OutingDto } from '../../../model/dto/OutingDto';
 import { CommonModule } from '@angular/common';
 import { CatchDto } from '../../../model/dto/CatchDto';
 import { CatchService } from '../../services/catch.service';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, mergeMap, forkJoin } from 'rxjs';
 import { PhotoScrollerComponent } from "../photo-scroller/photo-scroller.component";
 import { TimeAmPmPipe } from '../../pipes/timeAmPm/time-am-pm.pipe';
 import { ImageViewerComponent } from "../image-viewer/image-viewer.component";
@@ -47,9 +47,12 @@ export class OutingBarComponent {
 
   public getOutingImageUrls = (): Observable<string[]> => {
     return this.catches$.pipe(
-      map(catches => catches
-        .flatMap(c => c.imageUrl ?? [])
-      )
+      // Map catches to an array of observables, then combine them into one observable emitting an array of strings
+      mergeMap(catches => {
+        const imageObservables = catches
+          .map(c => c.imageUrl ? this.catchService.downloadCatchImageFromSasUrl(c.imageUrl) : '')
+        return imageObservables.length ? forkJoin(imageObservables) : of([]);
+      })
     );
   }
 

@@ -1,15 +1,94 @@
 <div class="scroller-container">
-  <button *ngIf="imageUrls.length > 1" [ngStyle]="{'font-size': arrowSize}" (click)="prevImage()">&#8592;</button>
+  <button 
+    *ngIf="imageUrls.length > 1" 
+    [ngStyle]="{
+      'font-size': arrowSize, 
+      'background': 'linear-gradient(135deg, #1de9b6 0%, #00bcd4 100%)',
+      'color': '#fff',
+      'border': 'none',
+      'border-radius': '50%',
+      'width': '2.5em',
+      'height': '2.5em',
+      'display': 'flex',
+      'align-items': 'center',
+      'justify-content': 'center',
+      'box-shadow': '0 2px 8px rgba(0,188,212,0.18)',
+      'transition': 'transform 0.2s, box-shadow 0.2s',
+      'outline': 'none',
+      'cursor': 'pointer',
+      'padding': '0'
+    }"
+    (click)="prevImage()"
+    aria-label="Previous image"
+    (mouseover)="isPrevHovered = true"
+    (mouseout)="isPrevHovered = false"
+    [style.transform]="isPrevHovered ? 'scale(1.15)' : 'scale(1)'"
+    [style.boxShadow]="isPrevHovered ? '0 4px 16px rgba(0,188,212,0.28)' : '0 2px 8px rgba(0,188,212,0.18)'"
+  >
+    <svg 
+      width="1.5em" 
+      height="1.5em" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+      style="display: block; margin: auto;"
+    >
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
 
-  <div class="viewer d-flex flex-column align-items-center justify-content-center gap-2 position-relative" [ngStyle]="{'width': viewWidth, 'height': viewHeight}">
-    <img [src]="imageUrls[currentIndex]" (click)="showFullImage(imageUrls[currentIndex])" onmouseover="this.style.cursor='pointer'" alt="Photo" class="photo" *ngIf="imageUrls.length > 0" />
-    <p *ngIf="imageUrls.length !== 0" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); margin: 0;">
+  <div class="d-flex flex-column align-items-center">
+    <div class="viewer d-flex flex-column align-items-center justify-content-center gap-2 position-relative" [ngStyle]="{'width': viewWidth, 'height': viewHeight}">
+      <img [src]="imageUrls[currentIndex]" (click)="showFullImage(imageUrls[currentIndex])" onmouseover="this.style.cursor='pointer'" alt="Photo" class="photo" *ngIf="imageUrls.length > 0" />
+      <span *ngIf="imageUrls.length === 0">No image</span>
+    </div>
+    <p *ngIf="imageUrls.length !== 0">
       {{ currentIndex + 1 }}/{{ imageUrls.length }}
     </p>
-    <span *ngIf="imageUrls.length === 0">No image</span>
   </div>
 
-  <button *ngIf="imageUrls.length > 1" [ngStyle]="{'font-size': arrowSize}" (click)="nextImage()">&#8594;</button>
-</div>
+  <button 
+    *ngIf="imageUrls.length > 1" 
+    [ngStyle]="{
+      'font-size': arrowSize, 
+      'background': 'linear-gradient(135deg, #1de9b6 0%, #00bcd4 100%)',
+      'color': '#fff',
+      'border': 'none',
+      'border-radius': '50%',
+      'width': '2.5em',
+      'height': '2.5em',
+      'display': 'flex',
+      'align-items': 'center',
+      'justify-content': 'center',
+      'box-shadow': '0 2px 8px rgba(0,188,212,0.18)',
+      'transition': 'transform 0.2s, box-shadow 0.2s',
+      'outline': 'none',
+      'cursor': 'pointer',
+      'padding': '0'
+    }"
+    (click)="nextImage()"
+    aria-label="Next image"
+    (mouseover)="isNextHovered = true"
+    (mouseout)="isNextHovered = false"
+    [style.transform]="isNextHovered ? 'scale(1.15)' : 'scale(1)'"
+    [style.boxShadow]="isNextHovered ? '0 4px 16px rgba(0,188,212,0.28)' : '0 2px 8px rgba(0,188,212,0.18)'"
+  >
+    <svg 
+      width="1.5em" 
+      height="1.5em" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+      style="display: block; margin: auto;"
+    >
+      <polyline points="9 6 15 12 9 18"></polyline>
+    </svg>
+  </button>
 
 <image-viewer></image-viewer>
