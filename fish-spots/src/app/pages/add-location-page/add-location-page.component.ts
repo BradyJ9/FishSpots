@@ -89,8 +89,7 @@ export class AddLocationPageComponent {
   }
 
   public insertLocationSubmit(): void {
-    //TODO: Implement image uploads
-    //TODO: Make this one request on the backend to support transactions
+    //TODO: Make this one request on the backend to support transactions...maybe as it is a little complex
     if (this.locImage) {
       from(this.imageBlobService.uploadFile(BlobContainers.LocationImages, this.locImage))
         .subscribe(imageUrl => {
@@ -176,7 +175,7 @@ export class AddLocationPageComponent {
       outingSummary.innerHTML =
         `
           <h3>${formatDate(data.date,'mediumDate', 'en-US')}</h3>
-          <h5>${formatDate(data.startTime,'shortTime', 'en-US')}-${formatDate(data.endTime,'shortTime', 'en-US')}</h5>
+          <h5>${data.startTime ? formatDate(data.startTime,'shortTime', 'en-US') : ''}-${data.endTime ? formatDate(data.endTime,'shortTime', 'en-US') : ''}</h5>
           <div><i class="fas fa-fish"></i> x${data.catches.length} </div>
           <p>${data.notes}</p>
         `;
@@ -185,7 +184,7 @@ export class AddLocationPageComponent {
       (document.getElementById('outing-summary') as HTMLDivElement).innerHTML =
       `
           <h3>${formatDate(data.date,'mediumDate', 'en-US')}</h3>
-          <h5>${formatDate(data.startTime,'shortTime', 'en-US')}-${formatDate(data.endTime,'shortTime', 'en-US')}</h5>
+          <h5>${data.startTime ? formatDate(data.startTime,'shortTime', 'en-US') : ''}-${data.endTime ? formatDate(data.endTime,'shortTime', 'en-US') : ''}</h5>
           <div><i class="fas fa-fish"></i> x${data.catches.length} </div>
           <p>${data.notes}</p>
       `;
@@ -194,8 +193,8 @@ export class AddLocationPageComponent {
       locationId:-1,
       username: data.username,
       outingDate: data.date,
-      startTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
-      endTime: formatDate(data.startTime,'mediumTime','en-US').slice(0,-3),
+      startTime: data.startTime ? formatDate(data.startTime,'mediumTime','en-US').slice(0,-3) : '',
+      endTime: data.endTime ? formatDate(data.endTime,'mediumTime','en-US').slice(0,-3): '',
       notes: data.notes,
       catches: data.catches,
       catchImages: data.catchImages

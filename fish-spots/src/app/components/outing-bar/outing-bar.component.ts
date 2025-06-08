@@ -50,7 +50,7 @@ export class OutingBarComponent {
       // Map catches to an array of observables, then combine them into one observable emitting an array of strings
       mergeMap(catches => {
         const imageObservables = catches
-          .map(c => c.imageUrl ? this.catchService.downloadCatchImageFromSasUrl(c.imageUrl) : '')
+          .map(c => c.imageUrl ? this.catchService.downloadCatchImageFromSasUrl(c.imageUrl) : of(''))
         return imageObservables.length ? forkJoin(imageObservables) : of([]);
       })
     );

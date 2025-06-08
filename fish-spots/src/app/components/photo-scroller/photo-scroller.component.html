@@ -42,8 +42,12 @@
 
   <div class="d-flex flex-column align-items-center">
     <div class="viewer d-flex flex-column align-items-center justify-content-center gap-2 position-relative" [ngStyle]="{'width': viewWidth, 'height': viewHeight}">
-      <img [src]="imageUrls[currentIndex]" (click)="showFullImage(imageUrls[currentIndex])" onmouseover="this.style.cursor='pointer'" alt="Photo" class="photo" *ngIf="imageUrls.length > 0" />
-      <span *ngIf="imageUrls.length === 0">No image</span>
+      <ng-container *ngIf="imageUrls.length > 0 && imageUrls[currentIndex]; else noImage">
+        <img [src]="imageUrls[currentIndex]" (click)="showFullImage(imageUrls[currentIndex])" onmouseover="this.style.cursor='pointer'" alt="Photo" class="photo"/>
+      </ng-container>
+      <ng-template #noImage>
+        <span>No image</span>
+      </ng-template>
     </div>
     <p *ngIf="imageUrls.length !== 0">
       {{ currentIndex + 1 }}/{{ imageUrls.length }}
