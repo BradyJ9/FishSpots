@@ -22,8 +22,6 @@ export class SidebarComponent implements OnInit {
 
   constructor(private catchService:CatchService){}
 
-    //TODO: Sort catches by recent (if they aren't already)
-    //We can do this through the backend SQL query
     ngOnInit(): void {
       this.catchService.getAllCatches().subscribe({
         next: (data: CatchDto[]) => {

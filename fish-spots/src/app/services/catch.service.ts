@@ -13,7 +13,7 @@ export class CatchService {
 
     private readonly catchUrl = 'Catch/';
 
-    //TODO: in the future this could get large, we'll need to re-evaluate how many we need at a time
+    //Limited to top 25 catches
     public getAllCatches():Observable<CatchDto[]>{
         return this.apiClient.get<{ catches: CatchDto[] }>(this.catchUrl).pipe(
               map(response => response.catches)
