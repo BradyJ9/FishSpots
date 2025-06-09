@@ -11,6 +11,8 @@ import { AddCatchBarComponent } from "../add-catch-bar/add-catch-bar.component";
 import { CommonModule } from "@angular/common";
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { OutingFormData } from "../../../model/dto/OutingFormData";
+import { CatchService } from "../../services/catch.service";
+import { firstValueFrom } from 'rxjs';
 
 @Component ({
     selector: 'add-outing-dialog',
@@ -26,7 +28,9 @@ export class AddOutingDialogComponent {
     public outingForm!: FormGroup;
     maxDate: Date = new Date();
 
-    constructor(private cdr: ChangeDetectorRef, private dialogRef: MatDialogRef<AddOutingDialogComponent>) {}
+    constructor(private cdr: ChangeDetectorRef, private dialogRef: MatDialogRef<AddOutingDialogComponent>,
+        private catchService:CatchService
+    ) {}
 
     private timeRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
         const group = control as FormGroup;
@@ -40,6 +44,7 @@ export class AddOutingDialogComponent {
     }
 
     public catchesToAdd: CatchDto[] = [];
+    public catchImages: (File | null)[] = [];
 
     ngOnInit() {
         this.outingForm = new FormGroup({
@@ -55,17 +60,22 @@ export class AddOutingDialogComponent {
         if (this.catchesToAdd.length < 10) {
             let newCatch: CatchDto = { species: '', catchWeight: 0, catchLength: 0 } as CatchDto; // Initialize with default values
             this.catchesToAdd.push(newCatch);
+            this.catchImages.push(null);
         }
         this.cdr.detectChanges();
     }
 
     public updateCatchDto = (newCatch : CatchDto, index: number) => {
-        console.log("updating catch: " + newCatch.species );
         this.catchesToAdd[index] = newCatch;
+    }
+
+    public updateCatchImage = (file: File, index: number) => {
+        this.catchImages[index] = file;
     }
 
     public removeCatchFromOutingForm = (index: number) => {
         this.catchesToAdd = this.catchesToAdd.filter((_, i) => i !== index);
+        this.catchImages = this.catchImages.filter((_, i) => i !== index);
         this.cdr.detectChanges();
     }
 
@@ -74,13 +84,14 @@ export class AddOutingDialogComponent {
             alert('All catches must have a species specified.');
             return;
         }
-
+        
         const formData: OutingFormData = {
             username: this.outingForm.controls['username'].value,
             date: this.outingForm.controls['date'].value,
             startTime: this.outingForm.controls['startTime'].value,
             endTime: this.outingForm.controls['endTime'].value,
             catches: this.catchesToAdd,
+            catchImages: this.catchImages,
             notes: this.outingForm.controls['notes'].value
         };
 

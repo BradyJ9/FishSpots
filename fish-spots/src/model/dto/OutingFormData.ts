@@ -6,5 +6,6 @@ export interface OutingFormData {
     startTime: string,
     endTime: string,
     catches: CatchDto[],
+    catchImages: (File|null)[],
     notes: string
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LocationDto } from '../../../model/dto/LocationDto';
 import { PhotoScrollerComponent } from "../../components/photo-scroller/photo-scroller.component";
@@ -13,6 +13,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LocationImageService } from '../../services/locationimage.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OutingFormData } from '../../../model/dto/OutingFormData';
+import { CatchService } from '../../services/catch.service';
 
 @Component({
   selector: 'app-location-page',
@@ -30,7 +31,7 @@ export class LocationPageComponent {
   public fetchImageUrls$!:Observable<string[]>;
   
   constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService,
-    private dialog: MatDialog, private locationImageService: LocationImageService) {}
+    private catchService: CatchService, private dialog: MatDialog, private locationImageService: LocationImageService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     const navState = history.state.locationData;
@@ -65,11 +66,11 @@ export class LocationPageComponent {
       width: '80vw',
       height: '90vh',
       maxWidth: 'none',
-      disableClose: false,
+      disableClose: true,
       autoFocus: true
     });
 
-    dialogRef.afterClosed().subscribe((formData: OutingFormData) => {
+    dialogRef.afterClosed().subscribe(async (formData: OutingFormData) => {
       if (formData !== null) {
         const outing: OutingDto = {
           locationId: this.location?.locationId ?? 0,
@@ -80,16 +81,21 @@ export class LocationPageComponent {
           endTime: formData.endTime
         };
 
+        await this.catchService.uploadCatchImagesAndAssignUrl(formData.catchImages, formData.catches);
+
         this.locationService.insertOutingByLocationId(this.location?.locationId ?? 0, outing, formData.catches).subscribe({
           next: () => {
-            this.outings$ = this.outingService.getOutingsByLocationId$(this.location?.locationId?.toString() ?? '');
+            setTimeout(() => {
+              this.outings$ = this.outingService.getOutingsByLocationId$(this.location?.locationId?.toString() ?? '');
+            }, 500); // 100ms delay
           },
           error: (err) => {
             console.error("Error adding outing:", err);
           }
         });
+        this.cdr.detectChanges();
       }
     })
-
+    this.cdr.detectChanges();
   }
 }

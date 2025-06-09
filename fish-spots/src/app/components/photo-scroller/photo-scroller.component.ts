@@ -1,17 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ImageViewerComponent } from "../image-viewer/image-viewer.component";
 
 @Component({
   selector: 'app-photo-scroller',
-  imports: [CommonModule],
+  imports: [CommonModule, ImageViewerComponent],
   templateUrl: './photo-scroller.component.html',
   styleUrl: './photo-scroller.component.css'
 })
 
 export class PhotoScrollerComponent {
-    currentIndex = 0;
+    @Output() currentIndexChange = new EventEmitter<number>();
+    currentIndex: number = 0;
     imageUrls: string[] = [];
+    isNextHovered: boolean = false;
+    isPrevHovered: boolean = false;
 
     @Input() viewHeight: string = '400px';
     @Input() viewWidth: string = '500px';
@@ -26,9 +30,23 @@ export class PhotoScrollerComponent {
 
     prevImage() {
       this.currentIndex = (this.currentIndex - 1 + this.imageUrls.length) % this.imageUrls.length;
+      this.currentIndexChange.emit(this.currentIndex);
     }
 
     nextImage() {
       this.currentIndex = (this.currentIndex + 1) % this.imageUrls.length;
+      this.currentIndexChange.emit(this.currentIndex);
+    }
+
+    public showFullImage(src:string):void{
+      console.log(src);
+      var modal = document.getElementById("imageModal");
+      if(modal != null){
+        modal.style.display = "block";
+        var image:HTMLImageElement = (document.getElementById("fullscreen-image") as HTMLImageElement);
+        image.src = src;
+      } else {
+        console.log('modal does not exist');
+      }
     }
 }  
