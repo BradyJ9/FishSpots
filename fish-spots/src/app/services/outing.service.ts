@@ -13,6 +13,12 @@ export class OutingService {
 
     private readonly outingUrl = 'Outing/';
 
+    public getOutingById(outingId:number): Observable<OutingDto> {
+        return this.apiClient.get<{outing:OutingDto}>(this.outingUrl + outingId).pipe(
+            map(response => response.outing)
+        )
+    }
+
     public getOutingsByLocationId$(locId: string | null): Observable<OutingDto[]> {
         if (locId === undefined || locId === null || locId === '') {
             return of([]);

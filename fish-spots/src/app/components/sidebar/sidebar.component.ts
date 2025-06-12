@@ -5,6 +5,8 @@ import { CatchService } from '../../services/catch.service';
 import { LocationDto } from '../../../model/dto/LocationDto';
 import { Observable } from 'rxjs';
 import { ImageViewerComponent } from "../image-viewer/image-viewer.component";
+import { OutingService } from '../../services/outing.service';
+import { OutingDto } from '../../../model/dto/OutingDto';
 
 @Component({
   selector: 'sidebar',
@@ -12,15 +14,17 @@ import { ImageViewerComponent } from "../image-viewer/image-viewer.component";
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
+
 export class SidebarComponent implements OnInit {
   isSidebarOpen = false;
   catches: CatchDto[] = [];
   imageMap: { [key: number]: string } = {};
   $catchLocations = new Map<number,Observable<LocationDto>>();
+  $catchOutings = new Map<number,Observable<OutingDto>>();
 
   @Input() displaySidebarUi: boolean = false;
 
-  constructor(private catchService:CatchService){}
+  constructor(private catchService:CatchService, private outingService:OutingService){}
 
     ngOnInit(): void {
       if (this.displaySidebarUi) {
@@ -37,6 +41,7 @@ export class SidebarComponent implements OnInit {
                   (catchSasUrl) => {
                     this.imageMap[cat.catchId!] = catchSasUrl;
                     this.$catchLocations.set(cat.catchId!,this.catchService.getCatchLocation(cat.catchId));
+                    this.$catchOutings.set(cat.catchId!,this.outingService.getOutingById(cat.outingId));
                   }
                 );
               }
