@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { Map, LatLng, marker, Marker, LayerGroup, layerGroup, Icon, MarkerOptions, popup } from 'leaflet';
 import { Observable } from 'rxjs';
 import { LocationDto } from '../../model/dto/LocationDto';
 import { LocationService } from './location.service';
 import { LocationImageService } from './locationimage.service';
+import { LocationPreviewComponent } from '../components/location-preview/location-preview.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ import { LocationImageService } from './locationimage.service';
 export class MarkerService {
   constructor(
     private router: Router, 
-    private locationService: LocationService, private locationImageService:LocationImageService) {
+    private locationService: LocationService, private locationImageService:LocationImageService,
+    private resolver: ComponentFactoryResolver,
+    private appRef: ApplicationRef,
+    private injector: Injector) {
     this.currMarker = layerGroup();
     this.locationMarkers = layerGroup();
   }
@@ -88,21 +92,27 @@ export class MarkerService {
     });
   }
 
-  private addLocationPopup(m: Marker,loc:LocationDto) {
-    var imageUrl:string = "";
-    //I feel like this is not proper use of an observable/subscribe
-    this.locationImageService.getImageUrlsByLocationId(loc.locationId).subscribe((urls:string[]) => {
-      imageUrl = urls[0];
-      m.bindPopup(
-        `
-        <div class="location-preview">
-          <img src=${imageUrl} width=40px>
-          <div><div/>
-          <button class="location-button" onclick="window.goToLocationPage({ locationId: ${loc.locationId} })">${loc.locationName}</button>
-          <div class="location-description">${loc.locationDescription}</div>
-          <div/>
-        `
-      );
+  private addLocationPopup(m:Marker,loc:LocationDto):void {
+    this.locationImageService.getImageUrlsByLocationId(loc.locationId).subscribe((urls: string[]) => {
+      const factory = this.resolver.resolveComponentFactory(LocationPreviewComponent);
+      const componentRef = factory.create(this.injector);
+
+      componentRef.instance.imageUrl = urls[0];
+      componentRef.instance.locationId = loc.locationId!;
+      componentRef.instance.locationName = loc.locationName;
+      componentRef.instance.locationDescription = loc.locationDescription;
+
+      this.appRef.attachView(componentRef.hostView);
+      componentRef.changeDetectorRef.detectChanges();
+
+      const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+
+      m.bindPopup(domElem);
+
+      m.on('popupclose', () => {
+        this.appRef.detachView(componentRef.hostView);
+        componentRef.destroy();
+      });
     });
   }
   

@@ -54,9 +54,7 @@ export class LocationPageComponent {
 
     this.fetchImageUrls$ = this.locationIdSubject.pipe(
       switchMap(locationId =>
-        this.locationImageService.getImageUrlsByLocationId(locationId).pipe(
-          tap(() => console.log('image urls fetched'))
-        )
+        this.locationImageService.getImageUrlsByLocationId(locationId).pipe()
       )
     );
   }

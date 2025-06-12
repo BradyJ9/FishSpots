@@ -12,7 +12,6 @@ import { CommonModule } from "@angular/common";
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { OutingFormData } from "../../../model/dto/OutingFormData";
 import { CatchService } from "../../services/catch.service";
-import { firstValueFrom } from 'rxjs';
 
 @Component ({
     selector: 'add-outing-dialog',
