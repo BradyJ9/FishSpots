@@ -72,7 +72,7 @@ export class AddLocationPageComponent {
   }
 
   public submissionIsValid():boolean {
-    return !(!this.locName || !this.locDesc || !this.locImage) 
+    return !(!this.locName)
       && this.nameIsValid()
       && this.descriptionIsValid()
       && this.imageValidSize();
