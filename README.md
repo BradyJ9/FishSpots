@@ -20,3 +20,8 @@ Miro board for tracking features: https://miro.com/app/board/uXjVI8MV2oE=/
     - Go to Attached Storage Accounts > Local Emulator > Blob Containers
     - You should see two containers with images in them.  The sql startup script/data has been changed to reference these file paths instead of hardcoded URLs
 - It should all be set up and good to go.  After uploading an image you can go view it in the containers
+
+
+### Domain ###
+Managed by CloudFlare
+[fishpots.us](https://fishpots.us)fishpots.us
