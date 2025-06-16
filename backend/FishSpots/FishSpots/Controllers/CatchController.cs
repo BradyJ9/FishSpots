@@ -10,11 +10,11 @@ namespace FishSpots.Controllers
     public class CatchController(ICatchLogic catchLogic, ILogger<CatchController> logger) : ControllerBase
     {
         [HttpGet(Name = "Catch")]
-        public async Task<IActionResult> GetAllCatches()
+        public async Task<IActionResult> GetAllCatches(bool withImagesOnly = false)
         {
             try
             {
-                var catches = await catchLogic.GetAllCatchesAsync();
+                var catches = await catchLogic.GetAllCatchesAsync(withImagesOnly);
                 return Ok(new { catches });
             }
             catch (Exception ex)

@@ -16,9 +16,10 @@ export class CatchService {
     private readonly catchUrl = 'Catch/';
 
     //Limited to top 25 catches
-    public getAllCatches():Observable<CatchDto[]>{
-        return this.apiClient.get<{ catches: CatchDto[] }>(this.catchUrl).pipe(
-              map(response => response.catches)
+    public getAllCatches(withImages:boolean = false):Observable<CatchDto[]>{
+        const url = this.catchUrl.replace(/\/$/, '') + `?withImagesOnly=${withImages}`;
+        return this.apiClient.get<{ catches: CatchDto[] }>(url).pipe(
+            map(response => response.catches)
         );
     }
 

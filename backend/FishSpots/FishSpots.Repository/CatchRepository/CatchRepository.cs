@@ -29,6 +29,19 @@ namespace FishSpots.Repository.CatchRepository
             return (await connection.QueryAsync<Catch>(sql)).ToList();
         }
 
+        public async Task<List<Catch>> GetAllCatchesWithImagesAsync()
+        {
+            using var connection = databaseFactory.CreateDbConnection();
+
+            var sql = "SELECT * FROM Catch c " +
+                "JOIN Outing o ON c.OutingID = o.OutingID " +
+                "WHERE c.ImageUrl IS NOT NULL AND c.ImageUrl != '' " +
+                "ORDER BY o.OutingDate DESC " +
+                "LIMIT 25";
+
+            return (await connection.QueryAsync<Catch>(sql)).ToList();
+        }
+
         public async Task<Catch?> GetCatchByIdAsync(int catchId)
         {
             using var connection = databaseFactory.CreateDbConnection();

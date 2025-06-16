@@ -5,7 +5,7 @@ namespace FishSpots.Logic.CatchLogic
     public interface ICatchLogic
     {
         Task DeleteCatchByIdAsync(int catchId);
-        Task<List<Catch>> GetAllCatchesAsync();
+        Task<List<Catch>> GetAllCatchesAsync(bool withImagesOnly);
         Task<List<Catch>> GetCatchesByOutingAsync(int outingId);
         Task<List<Catch>> GetCatchesBySpeciesAsync(string species);
         Task<Catch?> GetCatchByIdAsync(int catchId);

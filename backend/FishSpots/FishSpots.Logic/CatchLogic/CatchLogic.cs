@@ -16,8 +16,12 @@ namespace FishSpots.Logic.CatchLogic
             }
         }
 
-        public async Task<List<Catch>> GetAllCatchesAsync()
+        public async Task<List<Catch>> GetAllCatchesAsync(bool withImagesOnly)
         {
+            if (withImagesOnly)
+            {
+                return await catchRepository.GetAllCatchesWithImagesAsync();
+            }
             return await catchRepository.GetAllCatchesAsync();
         }
 

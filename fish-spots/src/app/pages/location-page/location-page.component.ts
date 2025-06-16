@@ -4,7 +4,7 @@ import { LocationDto } from '../../../model/dto/LocationDto';
 import { PhotoScrollerComponent } from "../../components/photo-scroller/photo-scroller.component";
 import { LocationService } from '../../services/location.service';
 import { CommonModule } from '@angular/common';
-import { Observable, ReplaySubject, switchMap, tap } from 'rxjs';
+import { Observable, of, ReplaySubject, switchMap } from 'rxjs';
 import { OutingDto } from '../../../model/dto/OutingDto';
 import { OutingService } from '../../services/outing.service';
 import { OutingBarComponent } from "../../components/outing-bar/outing-bar.component";
@@ -26,12 +26,13 @@ export class LocationPageComponent {
   location: LocationDto | null = null;
   title: string = "Loading";
   outings$!: Observable<OutingDto[]>;
+  isSubmitting: boolean = false;
 
   private locationIdSubject = new ReplaySubject<number|undefined>(1); // replays last value to new subscribers
   public fetchImageUrls$!:Observable<string[]>;
   
   constructor(private route: ActivatedRoute, private locationService: LocationService, private outingService: OutingService,
-    private catchService: CatchService, private dialog: MatDialog, private locationImageService: LocationImageService, private cdr: ChangeDetectorRef) {}
+    private catchService: CatchService, private dialog: MatDialog, private locationImageService: LocationImageService) {}
 
   ngOnInit(): void {
     const navState = history.state.locationData;
@@ -70,6 +71,8 @@ export class LocationPageComponent {
 
     dialogRef.afterClosed().subscribe(async (formData: OutingFormData) => {
       if (formData !== null) {
+        this.isSubmitting = true;
+
         const outing: OutingDto = {
           locationId: this.location?.locationId ?? 0,
           username: formData.username,
@@ -79,21 +82,30 @@ export class LocationPageComponent {
           endTime: formData.endTime
         };
 
-        await this.catchService.uploadCatchImagesAndAssignUrl(formData.catchImages, formData.catches);
+        try {
+          await this.catchService.uploadCatchImagesAndAssignUrl(formData.catchImages, formData.catches);
 
-        this.locationService.insertOutingByLocationId(this.location?.locationId ?? 0, outing, formData.catches).subscribe({
-          next: () => {
-            setTimeout(() => {
-              this.outings$ = this.outingService.getOutingsByLocationId$(this.location?.locationId?.toString() ?? '');
-            }, 500); // 100ms delay
+          this.locationService.insertOutingByLocationId(this.location?.locationId ?? 0, outing, formData.catches).pipe(
+          switchMap(() =>
+            this.outingService.getOutingsByLocationId$(this.location?.locationId?.toString() ?? '')
+          )
+          ).subscribe({
+          next: (outings) => {
+            this.outings$ = of(outings);
+            this.isSubmitting = false; // Hide loader
           },
           error: (err) => {
             console.error("Error adding outing:", err);
+            alert("Error adding outing: " + err);
+            this.isSubmitting = false; // Hide loader
           }
-        });
-        this.cdr.detectChanges();
+          });
+        } catch (err) {
+          console.error("Error uploading catch images:", err);
+          alert("Error uploading catch images: " + err);
+          this.isSubmitting = false; // Hide loader
+        }
       }
-    })
-    this.cdr.detectChanges();
+    });
   }
 }

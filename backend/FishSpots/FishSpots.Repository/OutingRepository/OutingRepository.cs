@@ -55,7 +55,7 @@ namespace FishSpots.Repository.OutingRepository
             using var connection = databaseFactory.CreateDbConnection();
 
             var sql = "SELECT * FROM Outing WHERE LocationID = @LocationId " +
-                "ORDER BY OutingDate DESC;";
+                           "ORDER BY OutingDate DESC, StartTime DESC;";
             return (await connection.QueryAsync<Outing>(sql, new
             {
                 LocationId = locationId

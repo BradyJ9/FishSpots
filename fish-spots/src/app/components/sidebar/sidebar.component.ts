@@ -28,7 +28,7 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit(): void {
       if (this.displaySidebarUi) {
-        this.catchService.getAllCatches().subscribe({
+        this.catchService.getAllCatches(true).subscribe({
           next: (data: CatchDto[]) => {
             this.catches = data;
 
