@@ -18,6 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Debug dir
+        run: |
+        pwd
+        ls -la
+        
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
@@ -25,6 +30,8 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: ./backend/FishSpots
+
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
