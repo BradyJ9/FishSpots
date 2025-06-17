@@ -1,7 +1,7 @@
 
 export const environment = {
       production: true,
-      apiUrl: 'https://api.yourdomain.com/api',
+      apiUrl: 'https://fish-spots-hrb5ahbzdqdqarfe.westus2-01.azurewebsites.net/api',
       blob: {
         accountName: 'your-prod-account-name',
         sasToken: '?sv=...', // Use SAS token or managed identity in production
