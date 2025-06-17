@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
+using Microsoft.Data.SqlClient;
 
 
 namespace FishSpots.Infrastructure
@@ -19,12 +20,15 @@ namespace FishSpots.Infrastructure
                 var conn = new NpgsqlConnection(connString);
                 conn.Open();
                 return conn;
+            } else if (_hostEnvironment.IsProduction()) // Staging?
+            {
+                var connString = _configuration.GetConnectionString("AzureServerSqlConnection");
+                var conn = new SqlConnection(connString);
+                conn.Open();
+                return conn;
             }
 
             throw new InvalidOperationException("Error identifying dev environment");
-            //TODO: Add in Azure SQL Server conn string and use here
-            //var connString = _configuration.GetConnectionString("AzureServerSqlConnection");
-            //return new SqlConnection();
         }
 
         public DatabaseProviders GetDbProvider()
