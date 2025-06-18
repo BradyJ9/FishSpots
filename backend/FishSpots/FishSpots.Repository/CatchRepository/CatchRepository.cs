@@ -3,13 +3,11 @@ using Dapper;
 using FishSpots.Domain.Models;
 using FishSpots.Infrastructure;
 using FishSpots.Repository.Helpers;
-using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
 
 namespace FishSpots.Repository.CatchRepository
 {
     public class CatchRepository(DatabaseFactory databaseFactory) : ICatchRepository
     {
-        readonly DatabaseProviders provider = databaseFactory.GetDbProvider();
         public async Task<int> DeleteCatchByIdAsync(int catchId)
         {
             using var connection = databaseFactory.CreateDbConnection();
