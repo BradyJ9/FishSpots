@@ -1,10 +1,8 @@
 using FishSpots.Infrastructure;
-using FishSpots.Logic.CatchImageLogic;
 using FishSpots.Logic.CatchLogic;
 using FishSpots.Logic.LocationImageLogic;
 using FishSpots.Logic.LocationLogic;
 using FishSpots.Logic.OutingLogic;
-using FishSpots.Repository.CatchImageRepository;
 using FishSpots.Repository.CatchRepository;
 using FishSpots.Repository.LocationImageRepository;
 using FishSpots.Repository.LocationRepository;
@@ -35,9 +33,6 @@ builder.Services.AddScoped<IOutingRepository, OutingRepository>();
 builder.Services.AddScoped<ICatchLogic, CatchLogic>();
 builder.Services.AddScoped<ICatchRepository, CatchRepository>();
 builder.Services.AddScoped<ILocationImageLogic, LocationImageLogic>();
-builder.Services.AddScoped<ILocationImageRepository, LocationImageRepository>();
-builder.Services.AddScoped<ICatchImageLogic, CatchImageLogic>();
-builder.Services.AddScoped<ICatchImageRepository, CatchImageRepository>();
 
 var app = builder.Build();
 
