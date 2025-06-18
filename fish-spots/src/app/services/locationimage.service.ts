@@ -22,9 +22,12 @@ export class LocationImageService {
         return this.apiClient.get<{ locationImages: { storagePath: string }[] }>(
             this.endpoint + locationId
         ).pipe(
-            map(response => response.locationImages.map(image => this.imageBlobService.downloadFile(image.storagePath))),
-            // forkJoin will wait for all downloadFile promises to resolve and emit an array of strings
-            // Use switchMap to switch from the array of promises to the Observable<string[]>
+            // Additional map() converts Promises to Observables for error propagation
+            map(response =>
+                response.locationImages.map(image =>
+                    from(this.imageBlobService.downloadFile(image.storagePath))  // <- Convert each Promise to Observable
+                )
+            ),
             switchMap(downloads => downloads.length ? forkJoin(downloads) : of([]))
         );
     }

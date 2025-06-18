@@ -93,26 +93,38 @@ export class MarkerService {
   }
 
   private addLocationPopup(m:Marker,loc:LocationDto):void {
-    this.locationImageService.getImageUrlsByLocationId(loc.locationId).subscribe((urls: string[]) => {
-      const factory = this.resolver.resolveComponentFactory(LocationPreviewComponent);
-      const componentRef = factory.create(this.injector);
+    const factory = this.resolver.resolveComponentFactory(LocationPreviewComponent);
+    const componentRef = factory.create(this.injector);
 
-      componentRef.instance.imageUrl = urls[0];
-      componentRef.instance.locationId = loc.locationId!;
-      componentRef.instance.locationName = loc.locationName;
-      componentRef.instance.locationDescription = loc.locationDescription;
-
-      this.appRef.attachView(componentRef.hostView);
-      componentRef.changeDetectorRef.detectChanges();
-
-      const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-
-      m.bindPopup(domElem);
-
-      m.on('popupclose', () => {
-        this.appRef.detachView(componentRef.hostView);
-        componentRef.destroy();
+    // TODO: Placeholder loading image?
+    componentRef.instance.imageUrl = "";
+    this.locationImageService.getImageUrlsByLocationId(loc.locationId)
+      .subscribe({
+        next: (urls: string[]) => {
+          if (urls && urls.length > 0) {
+            componentRef.instance.imageUrl = urls[0];
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching image URLs:', err);
+          // Fallback code goes here
+        }
       });
+
+    componentRef.instance.locationId = loc.locationId!;
+    componentRef.instance.locationName = loc.locationName;
+    componentRef.instance.locationDescription = loc.locationDescription;
+
+    this.appRef.attachView(componentRef.hostView);
+    componentRef.changeDetectorRef.detectChanges();
+
+    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+
+    m.bindPopup(domElem);
+
+    m.on('popupclose', () => {
+      this.appRef.detachView(componentRef.hostView);
+      componentRef.destroy();
     });
   }
   
