@@ -33,6 +33,7 @@ builder.Services.AddScoped<IOutingRepository, OutingRepository>();
 builder.Services.AddScoped<ICatchLogic, CatchLogic>();
 builder.Services.AddScoped<ICatchRepository, CatchRepository>();
 builder.Services.AddScoped<ILocationImageLogic, LocationImageLogic>();
+builder.Services.AddScoped<ILocationImageRepository, LocationImageRepository>();
 
 var app = builder.Build();
 
