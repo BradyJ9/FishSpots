@@ -20,11 +20,10 @@ namespace FishSpots.Repository.CatchRepository
         public async Task<List<Catch>> GetAllCatchesAsync()
         {
             using var connection = databaseFactory.CreateDbConnection();
-
             var sql = "SELECT * FROM Catch c " +
                 "JOIN Outing o ON c.OutingID = o.OutingID " +
-                "ORDER BY o.OutingDate DESC " +
-                "LIMIT 25";
+                "ORDER BY o.OutingDate DESC ";
+            sql = SqlGetHelper.GetWithLimitsSql(databaseFactory.GetDbProvider(),sql, 25);
 
             return (await connection.QueryAsync<Catch>(sql)).ToList();
         }
@@ -34,10 +33,10 @@ namespace FishSpots.Repository.CatchRepository
             using var connection = databaseFactory.CreateDbConnection();
 
             var sql = "SELECT * FROM Catch c " +
-                "JOIN Outing o ON c.OutingID = o.OutingID " +
-                "WHERE c.ImageUrl IS NOT NULL AND c.ImageUrl != '' " +
-                "ORDER BY o.OutingDate DESC " +
-                "LIMIT 25";
+                       "JOIN Outing o ON c.OutingID = o.OutingID " +
+                       "WHERE c.ImageUrl IS NOT NULL AND c.ImageUrl != '' " +
+                       "ORDER BY o.OutingDate DESC ";
+            sql = SqlGetHelper.GetWithLimitsSql(databaseFactory.GetDbProvider(), sql, 25);
 
             return (await connection.QueryAsync<Catch>(sql)).ToList();
         }

@@ -1,10 +1,8 @@
 using FishSpots.Infrastructure;
-using FishSpots.Logic.CatchImageLogic;
 using FishSpots.Logic.CatchLogic;
 using FishSpots.Logic.LocationImageLogic;
 using FishSpots.Logic.LocationLogic;
 using FishSpots.Logic.OutingLogic;
-using FishSpots.Repository.CatchImageRepository;
 using FishSpots.Repository.CatchRepository;
 using FishSpots.Repository.LocationImageRepository;
 using FishSpots.Repository.LocationRepository;
@@ -16,14 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
-        policy => policy.WithOrigins("http://localhost:4200")
+        policy => policy.WithOrigins("http://localhost:4200", "https://fishspots.us")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
-    
-    options.AddPolicy("AllowAngularApp",
-    policy => policy.WithOrigins("https://fishspots.us")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
 });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,8 +34,6 @@ builder.Services.AddScoped<ICatchLogic, CatchLogic>();
 builder.Services.AddScoped<ICatchRepository, CatchRepository>();
 builder.Services.AddScoped<ILocationImageLogic, LocationImageLogic>();
 builder.Services.AddScoped<ILocationImageRepository, LocationImageRepository>();
-builder.Services.AddScoped<ICatchImageLogic, CatchImageLogic>();
-builder.Services.AddScoped<ICatchImageRepository, CatchImageRepository>();
 
 var app = builder.Build();
 
