@@ -1,4 +1,6 @@
+using Azure.Identity;
 using FishSpots.Infrastructure;
+using FishSpots.Logic.BlobLogic;
 using FishSpots.Logic.CatchLogic;
 using FishSpots.Logic.LocationImageLogic;
 using FishSpots.Logic.LocationLogic;
@@ -34,6 +36,14 @@ builder.Services.AddScoped<ICatchLogic, CatchLogic>();
 builder.Services.AddScoped<ICatchRepository, CatchRepository>();
 builder.Services.AddScoped<ILocationImageLogic, LocationImageLogic>();
 builder.Services.AddScoped<ILocationImageRepository, LocationImageRepository>();
+builder.Services.AddScoped<IBlobLogic, BlobLogic>();
+
+
+// Add Azure Key Vault
+builder.Configuration.AddAzureKeyVault(
+    new Uri("https://fishspots-keyvault.vault.azure.net/"),
+    new DefaultAzureCredential(),
+    new Azure.Extensions.AspNetCore.Configuration.Secrets.AzureKeyVaultConfigurationOptions());
 
 var app = builder.Build();
 
@@ -42,7 +52,7 @@ app.UseCors("AllowAngularApp");
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
+app.UseSwagger();
     app.UseSwaggerUI();
 //}
 

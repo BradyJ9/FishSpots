@@ -2,6 +2,7 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
+using FishSpots.Logic.BlobLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,21 +10,19 @@ namespace FishSpots.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlobController(IConfiguration config) : ControllerBase
+    public class BlobController(IBlobLogic blobLogic, IConfiguration config) : ControllerBase
     {
         [HttpGet(Name = "Blob/SAS")]
         public async Task<IActionResult> GetSasString(string containerName, string blobName)
         {
             try
             {
-                var azureConnectionString =
-                    "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;";
+                var azureConnectionString = blobLogic.GetBlobConfigValue("AzureBlob:AzureConnectionString");
                 var blobServiceClient = new BlobServiceClient(azureConnectionString);
 
                 var properties = await blobServiceClient.GetPropertiesAsync();
                 properties.Value.Cors =
-                    new[]
-                    {
+                    [
                         new BlobCorsRule
                         {
                             MaxAgeInSeconds = 1000,
@@ -32,7 +31,7 @@ namespace FishSpots.Controllers
                             AllowedOrigins = "*",
                             ExposedHeaders = "*"
                         }
-                    };
+                    ];
                 await blobServiceClient.SetPropertiesAsync(properties);
 
                 var sasBuilder = new BlobSasBuilder
@@ -45,9 +44,9 @@ namespace FishSpots.Controllers
 
                 sasBuilder.SetPermissions(BlobContainerSasPermissions.Read | BlobContainerSasPermissions.Write | BlobContainerSasPermissions.Create);
 
-                string accountName = config["AzureBlob:AccountName"];
-                string accountKey = config["AzureBlob:AccountKey"];
-                string blobEndpoint = config["AzureBlob:BlobEndpoint"];
+                var accountName = config["AzureBlob:AccountName"];
+                var accountKey = blobLogic.GetBlobConfigValue("AzureBlob:AccountKey");
+                var blobEndpoint = config["AzureBlob:BlobEndpoint"];
 
                 var credential = new StorageSharedKeyCredential(accountName, accountKey);
                 var blobUri = new Uri($"{blobEndpoint}/{accountName}/{containerName}/{blobName}");
