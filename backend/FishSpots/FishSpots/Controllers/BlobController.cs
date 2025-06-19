@@ -18,6 +18,10 @@ namespace FishSpots.Controllers
             try
             {
                 var azureConnectionString = blobLogic.GetBlobConfigValue("AzureBlob:AzureConnectionString");
+                if (string.IsNullOrEmpty(azureConnectionString))
+                {
+                    throw new ArgumentNullException(nameof(azureConnectionString), "AzureConnectionString is null or empty.");
+                }
                 var blobServiceClient = new BlobServiceClient(azureConnectionString);
 
                 var properties = await blobServiceClient.GetPropertiesAsync();
@@ -45,9 +49,22 @@ namespace FishSpots.Controllers
                 sasBuilder.SetPermissions(BlobContainerSasPermissions.Read | BlobContainerSasPermissions.Write | BlobContainerSasPermissions.Create);
 
                 var accountName = config["AzureBlob:AccountName"];
-                var accountKey = blobLogic.GetBlobConfigValue("AzureBlob:AccountKey");
-                var blobEndpoint = config["AzureBlob:BlobEndpoint"];
+                if (string.IsNullOrEmpty(accountName))
+                {
+                    throw new ArgumentNullException(nameof(accountName), "AccountName is null or empty.");
+                }
 
+                var accountKey = blobLogic.GetBlobConfigValue("AzureBlob:AccountKey");
+                if (string.IsNullOrEmpty(accountKey))
+                {
+                    throw new ArgumentNullException(nameof(accountKey), "AccountKey is null or empty.");
+                }
+
+                var blobEndpoint = config["AzureBlob:BlobEndpoint"];
+                if (string.IsNullOrEmpty(blobEndpoint))
+                {
+                    throw new ArgumentNullException(nameof(blobEndpoint), "BlobEndpoint is null or empty.");
+                }
                 var credential = new StorageSharedKeyCredential(accountName, accountKey);
                 var blobUri = new Uri($"{blobEndpoint}/{accountName}/{containerName}/{blobName}");
 
