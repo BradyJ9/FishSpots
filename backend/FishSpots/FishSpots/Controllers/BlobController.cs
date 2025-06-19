@@ -66,7 +66,7 @@ namespace FishSpots.Controllers
                     throw new ArgumentNullException(nameof(blobEndpoint), "BlobEndpoint is null or empty.");
                 }
                 var credential = new StorageSharedKeyCredential(accountName, accountKey);
-                var blobUri = new Uri($"{blobEndpoint}/{accountName}/{containerName}/{blobName}");
+                var blobUri = new Uri($"{blobEndpoint}/{containerName}/{blobName}");
 
                 var sasToken = sasBuilder.ToSasQueryParameters(credential).ToString();
                 var fullUri = $"{blobUri}?{sasToken}";
