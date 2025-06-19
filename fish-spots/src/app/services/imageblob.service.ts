@@ -21,7 +21,6 @@ export class ImageBlobService {
             blobName: fileName
         });
         const response = await fetch(`${url}?${params.toString()}`);
-        console.log("respones: " + response);
         if (!response.ok) {
             throw new Error('Failed to fetch the SAS token at ' + url);
         }
@@ -45,7 +44,9 @@ export class ImageBlobService {
         var sasUrl = await this.getSasUrl(containerName, fileWithTimestamp.name);
         console.log("uploading file...");
         var blockBlobClient = new BlockBlobClient(sasUrl);
+        console.log("uploading 2");
         try {
+            console.log("uploading 3");
             await blockBlobClient.uploadData(fileWithTimestamp, {
                 blobHTTPHeaders: { blobContentType: fileWithTimestamp.type }
             });
