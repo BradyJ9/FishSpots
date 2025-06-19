@@ -16,18 +16,17 @@ export class ImageBlobService {
 
     private async getSasUrl(containerName: string, fileName: string): Promise<string> {
         var url = `${this.baseUrl}/${this.blobController}`;
-        console.log("url: " + url);
         const params = new URLSearchParams({
             containerName: containerName,
             blobName: fileName
         });
-        console.log("Params: " + params);
         const response = await fetch(`${url}?${params.toString()}`);
         console.log("respones: " + response);
         if (!response.ok) {
             throw new Error('Failed to fetch the SAS token at ' + url);
         }
         const { sasUrl } = await response.json();
+        console.log(sasUrl);
         return sasUrl;
     }
 
@@ -44,7 +43,7 @@ export class ImageBlobService {
         var fileWithTimestamp = this.getFileWithTimestampInName(file);
 
         var sasUrl = await this.getSasUrl(containerName, fileWithTimestamp.name);
-
+        console.log("uploading file...");
         var blockBlobClient = new BlockBlobClient(sasUrl);
         try {
             await blockBlobClient.uploadData(fileWithTimestamp, {
