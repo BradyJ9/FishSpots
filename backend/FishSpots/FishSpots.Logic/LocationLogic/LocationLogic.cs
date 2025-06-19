@@ -63,7 +63,7 @@ namespace FishSpots.Logic.LocationLogic
                     StartTime = string.IsNullOrWhiteSpace(outingInsert.Outing.StartTime) ? null : DateTime.Parse(outingInsert.Outing.StartTime).TimeOfDay,
                     EndTime = string.IsNullOrWhiteSpace(outingInsert.Outing.EndTime) ? null : DateTime.Parse(outingInsert.Outing.EndTime).TimeOfDay,
                 };
-                var outingId = await outingRepository.InsertOutingAsync(connection, outing);
+                var outingId = await outingRepository.InsertOutingAsync(connection, outing, transaction);
 
                 var catches = outingInsert.Catches?.Select(catchDto => new Catch
                 {
@@ -75,7 +75,7 @@ namespace FishSpots.Logic.LocationLogic
                     UpdatedAt = DateTime.UtcNow
                 }).ToList() ?? [];
 
-                await catchRepository.InsertCatchesIntoOutingAsync(connection, catches, outingId);
+                await catchRepository.InsertCatchesIntoOutingAsync(connection, catches, outingId, transaction);
 
                 transaction.Commit();
                 return outingId;

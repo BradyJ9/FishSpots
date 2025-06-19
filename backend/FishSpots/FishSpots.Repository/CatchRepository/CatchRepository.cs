@@ -140,7 +140,7 @@ namespace FishSpots.Repository.CatchRepository
             return await InsertCatchesIntoOutingAsync(connection, catches, outingId);
         }
 
-        public async Task<int> InsertCatchesIntoOutingAsync(IDbConnection connection, List<Catch> catches, int outingId)
+        public async Task<int> InsertCatchesIntoOutingAsync(IDbConnection connection, List<Catch> catches, int outingId, IDbTransaction? transaction = null)
         {
             var sql = "INSERT INTO Catch (OutingId, Species, CatchLength, CatchWeight, ImageUrl) " +
           "VALUES (@OutingId, @Species, @CatchLength, @CatchWeight, @ImageUrl)";
@@ -154,7 +154,8 @@ namespace FishSpots.Repository.CatchRepository
                     catchItem.CatchLength,
                     catchItem.CatchWeight,
                     catchItem.ImageUrl
-                });
+                },
+                transaction);
             }
 
             return catches.Count;

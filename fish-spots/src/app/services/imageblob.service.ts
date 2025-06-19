@@ -25,7 +25,6 @@ export class ImageBlobService {
             throw new Error('Failed to fetch the SAS token at ' + url);
         }
         const { sasUrl } = await response.json();
-        console.log(sasUrl);
         return sasUrl;
     }
 

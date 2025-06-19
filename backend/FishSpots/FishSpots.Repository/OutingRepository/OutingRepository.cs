@@ -69,7 +69,7 @@ namespace FishSpots.Repository.OutingRepository
             return await InsertOutingAsync(connection, outing);
         }
 
-        public async Task<int> InsertOutingAsync(IDbConnection connection, Outing outing)
+        public async Task<int> InsertOutingAsync(IDbConnection connection, Outing outing, IDbTransaction transaction = null)
         {
             var sql = SqlInsertHelper.GetInsertWithReturnSql(databaseFactory.GetDbProvider(),
                 "Outing",
@@ -77,7 +77,7 @@ namespace FishSpots.Repository.OutingRepository
                 "@LocationId, @Username, @OutingDate, @Notes, @StartTime, @EndTime",
                 "OutingId");
 
-            return await connection.QuerySingleAsync<int>(sql, outing);
+            return await connection.QuerySingleAsync<int>(sql, outing, transaction);
         }
 
         public async Task<int> UpdateOutingByIdAsync(Outing outing, int outingId)

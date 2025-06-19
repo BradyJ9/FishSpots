@@ -14,7 +14,7 @@ namespace FishSpots.Repository.CatchRepository
         Task<int> UpdateCatchByIdAsync(Catch cat, int catchId);
         Task<int> InsertCatchAsync(Catch cat);
         Task<int> InsertCatchesIntoOutingAsync(List<Catch> catches, int outingId);
-        Task<int> InsertCatchesIntoOutingAsync(IDbConnection connection, List<Catch> catches, int outingId);
+        Task<int> InsertCatchesIntoOutingAsync(IDbConnection connection, List<Catch> catches, int outingId, IDbTransaction? transaction);
         Task<List<Catch>> GetAllCatchesWithImagesAsync();
     }
 }
