@@ -16,11 +16,14 @@ export class ImageBlobService {
 
     private async getSasUrl(containerName: string, fileName: string): Promise<string> {
         var url = `${this.baseUrl}/${this.blobController}`;
+        console.log("url: " + url);
         const params = new URLSearchParams({
             containerName: containerName,
             blobName: fileName
         });
+        console.log("Params: " + params);
         const response = await fetch(`${url}?${params.toString()}`);
+        console.log("respones: " + response);
         if (!response.ok) {
             throw new Error('Failed to fetch the SAS token at ' + url);
         }
