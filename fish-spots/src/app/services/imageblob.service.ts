@@ -42,11 +42,8 @@ export class ImageBlobService {
         var fileWithTimestamp = this.getFileWithTimestampInName(file);
 
         var sasUrl = await this.getSasUrl(containerName, fileWithTimestamp.name);
-        console.log("uploading file...");
         var blockBlobClient = new BlockBlobClient(sasUrl);
-        console.log("uploading 2");
         try {
-            console.log("uploading 3");
             await blockBlobClient.uploadData(fileWithTimestamp, {
                 blobHTTPHeaders: { blobContentType: fileWithTimestamp.type }
             });
