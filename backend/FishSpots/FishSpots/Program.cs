@@ -40,10 +40,13 @@ builder.Services.AddScoped<IBlobLogic, BlobLogic>();
 
 
 // Add Azure Key Vault
-builder.Configuration.AddAzureKeyVault(
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(
     new Uri("https://fishspots-keyvault.vault.azure.net/"),
     new DefaultAzureCredential(),
     new Azure.Extensions.AspNetCore.Configuration.Secrets.AzureKeyVaultConfigurationOptions());
+}
 
 var app = builder.Build();
 
