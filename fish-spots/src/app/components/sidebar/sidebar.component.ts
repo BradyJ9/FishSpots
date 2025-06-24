@@ -103,7 +103,7 @@ export class SidebarComponent implements OnInit {
     if(src){
       var modal = document.getElementById("imageModal");
       if(modal != null){
-        modal.style.display = "block";
+        modal.style.display = "flex";
         var image:HTMLImageElement = (document.getElementById("fullscreen-image") as HTMLImageElement);
         image.src = src;
       } else {
