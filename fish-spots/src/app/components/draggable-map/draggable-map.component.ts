@@ -66,7 +66,8 @@ export class DraggableMapComponent implements OnInit, OnDestroy {
   private initMap(): void {
     this.map = L.map('map', {
       center: [ this.mapCenterLat, this.mapCenterLng ],
-      zoom: 7
+      zoom: 7,
+      worldCopyJump: true
     });
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
