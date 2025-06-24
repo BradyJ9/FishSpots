@@ -40,10 +40,10 @@ export class SidebarComponent implements OnInit {
                 this.catchService.downloadCatchImageFromSasUrl(cat.imageUrl ?? '').subscribe(
                   (catchSasUrl) => {
                     this.imageMap[cat.catchId!] = catchSasUrl;
-                    this.$catchLocations.set(cat.catchId!,this.catchService.getCatchLocation(cat.catchId));
-                    this.$catchOutings.set(cat.catchId!,this.outingService.getOutingById(cat.outingId));
                   }
                 );
+                this.$catchLocations.set(cat.catchId!,this.catchService.getCatchLocation(cat.catchId));
+                this.$catchOutings.set(cat.catchId!,this.outingService.getOutingById(cat.outingId));
               }
             });
           },
@@ -100,13 +100,15 @@ export class SidebarComponent implements OnInit {
   }
 
   public showFullImage(src:string):void{
-    var modal = document.getElementById("imageModal");
-    if(modal != null){
-      modal.style.display = "block";
-      var image:HTMLImageElement = (document.getElementById("fullscreen-image") as HTMLImageElement);
-      image.src = src;
-    } else {
-      console.log('modal does not exist');
+    if(src){
+      var modal = document.getElementById("imageModal");
+      if(modal != null){
+        modal.style.display = "block";
+        var image:HTMLImageElement = (document.getElementById("fullscreen-image") as HTMLImageElement);
+        image.src = src;
+      } else {
+        console.log('modal does not exist');
+      }
     }
   }
 }
