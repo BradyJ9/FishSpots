@@ -7,6 +7,7 @@
       <label for="locName">Location Name</label><br>
       <input type="text" id="locName" name="locName" required [(ngModel)]="locName" autofocus><br>
       <h5 class="formError" [hidden]="nameIsValid()">*Maximum length for location name is 100 characters.</h5>
+      <h5 class="formError" [hidden]="locName.length">*Location name is required for form submission.</h5>
 
       <label for="locDesc">Description</label><br>
       <textarea id="locDesc" name="locDesc" required [(ngModel)]="locDesc"></textarea><br>
