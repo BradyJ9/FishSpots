@@ -122,10 +122,15 @@ export class MarkerService {
 
     m.bindPopup(domElem);
 
-    m.on('popupclose', () => {
-      this.appRef.detachView(componentRef.hostView);
-      componentRef.destroy();
-    });
+    /*NOTE: I removed this code because it made the popups unusable after they were closed.
+      If you closed a popup in any way, then reopened it, the button would not work.
+      However, I imagine we should have some kind of destroy protocol for resources' sake. 
+      Maybe not though. */
+
+    // m.on('popupclose', () => {
+    //   this.appRef.detachView(componentRef.hostView);
+    //   componentRef.destroy();
+    // });
   }
   
   private addPreviewPopup(m: Marker, map: Map): void {
