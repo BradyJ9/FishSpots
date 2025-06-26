@@ -13,6 +13,6 @@ export class ImageViewerComponent {
     if(modal != null)
       modal.style.display = "none";
     else
-      console.log("modal not found");
+      console.error("Image modal not found.");
   }
 }

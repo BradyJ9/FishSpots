@@ -82,7 +82,6 @@ export class AddLocationPageComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.locImage = input.files[0];
-      console.log('Selected file:', this.locImage);
     } else {
       this.locImage = null;
     }
@@ -169,8 +168,6 @@ export class AddLocationPageComponent {
       const form = document.getElementById('outing-info') as HTMLDivElement;
       const outingSummary = document.createElement("div");
       outingSummary.id = "outing-summary";
-
-      console.log(data.date)
       
       outingSummary.innerHTML =
         `

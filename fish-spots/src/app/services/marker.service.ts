@@ -96,7 +96,6 @@ export class MarkerService {
     const factory = this.resolver.resolveComponentFactory(LocationPreviewComponent);
     const componentRef = factory.create(this.injector);
 
-    // TODO: Placeholder loading image?
     componentRef.instance.imageUrl = "";
     this.locationImageService.getImageUrlsByLocationId(loc.locationId)
       .subscribe({

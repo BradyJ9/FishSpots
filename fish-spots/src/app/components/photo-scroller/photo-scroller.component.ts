@@ -46,7 +46,7 @@ export class PhotoScrollerComponent {
           var image:HTMLImageElement = (document.getElementById("fullscreen-image") as HTMLImageElement);
           image.src = src;
         } else {
-          console.log('modal does not exist');
+          console.error('Image modal does not exist.');
         }
       }
     }

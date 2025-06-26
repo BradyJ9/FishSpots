@@ -38,8 +38,6 @@ export class MiniMapComponent implements OnInit, OnDestroy {
       this.newLng = parseFloat(params["lng"]);
     });
     this.initMap();
-    //TODO: Plot existing?
-    // this.markerService.plotAllLocations(this.map);
     this.markerService.addPreviewMarker(this.map,new L.LatLng(this.newLat,this.newLng));
   }
 
