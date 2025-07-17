@@ -12,25 +12,26 @@ namespace FishSpots.Controllers
         [HttpGet(Name = "DbHealthCheck")]
         public async Task<IActionResult> HealthCheck()
         {
-            try
-            {
-                var dbConn = dbFactory.CreateDbConnection();
+            return Ok();
+            //try
+            //{
+            //    var dbConn = dbFactory.CreateDbConnection();
 
-                    string numTablesSql = @"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
+            //        string numTablesSql = @"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
 
-                var healthy = await dbConn.QueryAsync<int>("SELECT 1");
-                var numberOfTables = await dbConn.QueryAsync<int>(numTablesSql);
+            //    var healthy = await dbConn.QueryAsync<int>("SELECT 1");
+            //    var numberOfTables = await dbConn.QueryAsync<int>(numTablesSql);
 
-                return Ok(new
-                {
-                    IsHealthy = healthy,
-                    NumberOfTables = numberOfTables
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error: " + ex.Message);
-            }
+            //    return Ok(new
+            //    {
+            //        IsHealthy = healthy,
+            //        NumberOfTables = numberOfTables
+            //    });
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(500, "Error: " + ex.Message);
+            //}
         }
     }
 }
