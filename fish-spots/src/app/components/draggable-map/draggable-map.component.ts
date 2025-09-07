@@ -3,6 +3,8 @@ import * as L from 'leaflet';
 import { MarkerService } from '../../services/marker.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ActivatedRoute } from '@angular/router';
+import { HealthCheckService } from '../../services/healthcheck.service';
+import { LoadingDialogComponent } from '../loading-dialog/loading-dialog.component';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -24,7 +26,7 @@ L.Marker.prototype.options.icon = iconDefault;
   selector: 'draggable-map',
   templateUrl: './draggable-map.component.html',
   styleUrls: ['./draggable-map.component.css'],
-  imports: [NavbarComponent]
+  imports: [NavbarComponent,LoadingDialogComponent]
 })
 export class DraggableMapComponent implements OnInit, OnDestroy {
 
@@ -32,7 +34,7 @@ export class DraggableMapComponent implements OnInit, OnDestroy {
   private mapCenterLat: number = 39.8282;
   private mapCenterLng: number = -111.5795;
 
-  constructor(private markerService: MarkerService, private route: ActivatedRoute) {
+  constructor(private markerService: MarkerService, private route: ActivatedRoute, private healthCheckService:HealthCheckService) {
     let queryParams = this.route.snapshot.queryParams;
     if (queryParams["lat"] && queryParams["lng"]) {
       this.mapCenterLat = queryParams["lat"];
@@ -47,7 +49,7 @@ export class DraggableMapComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.markerService.plotAllLocations(this.map);  
+    this.markerService.plotAllLocations(this.map);
   }
 
   ngOnDestroy(): void {
@@ -78,5 +80,6 @@ export class DraggableMapComponent implements OnInit, OnDestroy {
 
     tiles.addTo(this.map);
   }
+  
 }
 

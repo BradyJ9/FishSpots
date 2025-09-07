@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environments';
 import { Observable } from 'rxjs';
@@ -16,6 +16,11 @@ export class ApiClientService {
 
     get<T>(endpoint: string): Observable<T> {
         return this.httpClient.get<T>(`${this.baseUrl}/${endpoint}`)
+    }
+
+    // Used for health checking, allows us to monitor HTTP status codes
+    getResponse(endpoint:string): Observable<HttpResponse<any>> {
+        return this.httpClient.get<HttpResponse<any>>(`${this.baseUrl}/${endpoint}`, {observe:'response'});
     }
 
     post<T>(endpoint: string, data: any): Observable<T> {
