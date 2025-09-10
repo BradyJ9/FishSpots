@@ -28,7 +28,7 @@ export class LoadingDialogComponent {
     }
 
     private checkForBackend():void{
-        this.pollSub = interval(2000).pipe(
+        this.pollSub = interval(5000).pipe(
         switchMap(() =>
             this.healthCheckService.getHealthCheck().pipe(
             catchError(() => of(null))
